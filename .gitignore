@@ -1,21 +1,37 @@
-# Virtual environment
-project1venv/
-.project1venv/
-
-# All data files (raw + processed + interim)
-data/
-
-# Model artefacts (joblib, pt, calibrators, etc.)
-models/
-
-# Python bytecode / cache
+# Python / venv / bytecode
 __pycache__/
 *.py[cod]
+*.pyo
+*.pyd
+*.so
+*.dll
 
-# Logs
-*.log
+# Virtual environments
+.project1venv/
+venv/
+.env/
+.env*/
 
-# OS / editor noise
+# OS cruft
 .DS_Store
 Thumbs.db
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Logs / reports
+reports/
+*.log
+
+# IDE / tooling
 .vscode/
+.idea/
+
+# Model artifacts and large data
+models/
+data/raw/
+data/interim/
+
+# But keep processed dataset paths if you want them tracked:
+# If you DO want to version-control processed parquet, comment out the next line.
+# data/processed/
