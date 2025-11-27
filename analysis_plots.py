@@ -23,7 +23,6 @@ You can comment out any models you don’t have.
 """
 
 from pathlib import Path
-import os
 
 import joblib
 import numpy as np
