@@ -1,0 +1,21 @@
+# Virtual environment
+project1venv/
+.project1venv/
+
+# All data files (raw + processed + interim)
+data/
+
+# Model artefacts (joblib, pt, calibrators, etc.)
+models/
+
+# Python bytecode / cache
+__pycache__/
+*.py[cod]
+
+# Logs
+*.log
+
+# OS / editor noise
+.DS_Store
+Thumbs.db
+.vscode/

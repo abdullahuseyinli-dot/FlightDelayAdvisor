@@ -1,0 +1,395 @@
+================================================================================
+MODEL EVALUATION SUMMARY
+================================================================================
+--------------------------------------------------------------------------------
+Context   : delay15 – LogReg (uncalibrated)
+Split     : test
+Threshold : 0.500
+ROC-AUC   : 0.6573
+PR-AUC    : 0.3270
+Brier     : 0.2185
+Accuracy  : 0.6522
+Precision : 0.3134
+Recall    : 0.5478
+F1 (pos)  : 0.3987
+--------------------------------------------------------------------------------
+Context   : delay15 – LogReg (calibrated, t=0.5)
+Split     : test
+Threshold : 0.500
+ROC-AUC   : 0.6573
+PR-AUC    : 0.3262
+Brier     : 0.1623
+Accuracy  : 0.7895
+Precision : 0.3256
+Recall    : 0.0001
+F1 (pos)  : 0.0001
+--------------------------------------------------------------------------------
+Context   : delay15 – LogReg (calibrated, t* from val)
+Split     : test
+Threshold : 0.160
+ROC-AUC   : 0.6573
+PR-AUC    : 0.3262
+Brier     : 0.1623
+Accuracy  : 0.6672
+Precision : 0.3199
+Recall    : 0.5163
+F1 (pos)  : 0.3951
+--------------------------------------------------------------------------------
+Context   : delay15 – LGBM (uncalibrated)
+Split     : test
+Threshold : 0.500
+ROC-AUC   : 0.6820
+PR-AUC    : 0.3762
+Brier     : 0.2118
+Accuracy  : 0.6728
+Precision : 0.3355
+Recall    : 0.5654
+F1 (pos)  : 0.4211
+--------------------------------------------------------------------------------
+Context   : delay15 – LGBM (calibrated, t=0.5)
+Split     : test
+Threshold : 0.500
+ROC-AUC   : 0.6822
+PR-AUC    : 0.3730
+Brier     : 0.1582
+Accuracy  : 0.7915
+Precision : 0.6553
+Recall    : 0.0203
+F1 (pos)  : 0.0393
+--------------------------------------------------------------------------------
+Context   : delay15 – LGBM (calibrated, t* from val)
+Split     : test
+Threshold : 0.170
+ROC-AUC   : 0.6822
+PR-AUC    : 0.3730
+Brier     : 0.1582
+Accuracy  : 0.7166
+Precision : 0.3651
+Recall    : 0.4691
+F1 (pos)  : 0.4106
+--------------------------------------------------------------------------------
+Context   : delay15 – CatBoost (uncalibrated)
+Split     : test
+Threshold : 0.500
+ROC-AUC   : 0.6830
+PR-AUC    : 0.3776
+Brier     : 0.2112
+Accuracy  : 0.6733
+Precision : 0.3357
+Recall    : 0.5640
+F1 (pos)  : 0.4209
+--------------------------------------------------------------------------------
+Context   : delay15 – CatBoost (calibrated, t=0.5)
+Split     : test
+Threshold : 0.500
+ROC-AUC   : 0.6830
+PR-AUC    : 0.3742
+Brier     : 0.1581
+Accuracy  : 0.7916
+Precision : 0.6617
+Recall    : 0.0203
+F1 (pos)  : 0.0393
+--------------------------------------------------------------------------------
+Context   : delay15 – CatBoost (calibrated, t* from val)
+Split     : test
+Threshold : 0.170
+ROC-AUC   : 0.6830
+PR-AUC    : 0.3742
+Brier     : 0.1581
+Accuracy  : 0.7197
+Precision : 0.3679
+Recall    : 0.4620
+F1 (pos)  : 0.4096
+--------------------------------------------------------------------------------
+Context   : delay15 – TorchNN (calibrated, t=0.5)
+Split     : test
+Threshold : 0.500
+ROC-AUC   : 0.5182
+PR-AUC    : 0.2173
+Brier     : 0.1696
+Accuracy  : 0.7895
+Precision : 0.0000
+Recall    : 0.0000
+F1 (pos)  : 0.0000
+--------------------------------------------------------------------------------
+Context   : delay15 – TorchNN (calibrated, t* from val)
+Split     : test
+Threshold : 0.130
+ROC-AUC   : 0.5182
+PR-AUC    : 0.2173
+Brier     : 0.1696
+Accuracy  : 0.3130
+Precision : 0.2185
+Recall    : 0.8788
+F1 (pos)  : 0.3500
+--------------------------------------------------------------------------------
+Context   : delay15 – Ensemble (CatBoost*0.70 + LogReg*0.30)
+Split     : test
+Threshold : 0.500
+ROC-AUC   : 0.6795
+PR-AUC    : 0.3705
+Brier     : 0.1590
+Accuracy  : 0.7904
+Precision : 0.6955
+Recall    : 0.0071
+F1 (pos)  : 0.0141
+--------------------------------------------------------------------------------
+Context   : delay15 – Ablation (calendar_only)
+Split     : test
+Threshold : 0.500
+ROC-AUC   : 0.6332
+PR-AUC    : 0.2962
+Brier     : 0.2394
+Accuracy  : 0.5524
+Precision : 0.2732
+Recall    : 0.6787
+F1 (pos)  : 0.3896
+--------------------------------------------------------------------------------
+Context   : delay15 – Ablation (route_airline_congestion_only)
+Split     : test
+Threshold : 0.500
+ROC-AUC   : 0.5383
+PR-AUC    : 0.2301
+Brier     : 0.2472
+Accuracy  : 0.5600
+Precision : 0.2323
+Recall    : 0.4733
+F1 (pos)  : 0.3117
+--------------------------------------------------------------------------------
+Context   : delay15 – Ablation (weather_only)
+Split     : test
+Threshold : 0.500
+ROC-AUC   : 0.5951
+PR-AUC    : 0.2817
+Brier     : 0.2420
+Accuracy  : 0.6114
+Precision : 0.2706
+Recall    : 0.4992
+F1 (pos)  : 0.3510
+--------------------------------------------------------------------------------
+Context   : delay15 – Ablation (all_features)
+Split     : test
+Threshold : 0.500
+ROC-AUC   : 0.6488
+PR-AUC    : 0.3201
+Brier     : 0.2180
+Accuracy  : 0.6525
+Precision : 0.3095
+Recall    : 0.5285
+F1 (pos)  : 0.3904
+--------------------------------------------------------------------------------
+Context   : delay15 – Ablation (no_weather)
+Split     : test
+Threshold : 0.500
+ROC-AUC   : 0.6187
+PR-AUC    : 0.2811
+Brier     : 0.2325
+Accuracy  : 0.6062
+Precision : 0.2816
+Recall    : 0.5614
+F1 (pos)  : 0.3751
+--------------------------------------------------------------------------------
+Context   : cancel – LogReg (uncalibrated)
+Split     : test
+Threshold : 0.500
+ROC-AUC   : 0.7005
+PR-AUC    : 0.0482
+Brier     : 0.1249
+Accuracy  : 0.8479
+Precision : 0.0488
+Recall    : 0.4116
+F1 (pos)  : 0.0872
+Top 9% bucket positive rate : 0.0576
+--------------------------------------------------------------------------------
+Context   : cancel – LogReg (calibrated, t=0.5)
+Split     : test
+Threshold : 0.500
+ROC-AUC   : 0.6986
+PR-AUC    : 0.0471
+Brier     : 0.0173
+Accuracy  : 0.9824
+Precision : 0.0000
+Recall    : 0.0000
+F1 (pos)  : 0.0000
+Top 9% bucket positive rate : 0.0571
+--------------------------------------------------------------------------------
+Context   : cancel – LogReg (calibrated, t* from val)
+Split     : test
+Threshold : 0.050
+ROC-AUC   : 0.6986
+PR-AUC    : 0.0471
+Brier     : 0.0173
+Accuracy  : 0.9357
+Precision : 0.0719
+Recall    : 0.2220
+F1 (pos)  : 0.1086
+Top 9% bucket positive rate : 0.0571
+--------------------------------------------------------------------------------
+Context   : cancel – LGBM (uncalibrated)
+Split     : test
+Threshold : 0.500
+ROC-AUC   : 0.6937
+PR-AUC    : 0.1077
+Brier     : 0.1087
+Accuracy  : 0.8619
+Precision : 0.0571
+Recall    : 0.4397
+F1 (pos)  : 0.1011
+Top 9% bucket positive rate : 0.0688
+--------------------------------------------------------------------------------
+Context   : cancel – LGBM (calibrated, t=0.5)
+Split     : test
+Threshold : 0.500
+ROC-AUC   : 0.6913
+PR-AUC    : 0.1010
+Brier     : 0.0168
+Accuracy  : 0.9824
+Precision : 0.6277
+Recall    : 0.0107
+F1 (pos)  : 0.0210
+Top 9% bucket positive rate : 0.0673
+--------------------------------------------------------------------------------
+Context   : cancel – LGBM (calibrated, t* from val)
+Split     : test
+Threshold : 0.060
+ROC-AUC   : 0.6913
+PR-AUC    : 0.1010
+Brier     : 0.0168
+Accuracy  : 0.9620
+Precision : 0.1395
+Recall    : 0.2234
+F1 (pos)  : 0.1717
+Top 9% bucket positive rate : 0.0673
+--------------------------------------------------------------------------------
+Context   : cancel – CatBoost (uncalibrated)
+Split     : test
+Threshold : 0.500
+ROC-AUC   : 0.6872
+PR-AUC    : 0.0979
+Brier     : 0.0866
+Accuracy  : 0.8967
+Precision : 0.0683
+Recall    : 0.3839
+F1 (pos)  : 0.1160
+Top 9% bucket positive rate : 0.0679
+--------------------------------------------------------------------------------
+Context   : cancel – CatBoost (calibrated, t=0.5)
+Split     : test
+Threshold : 0.500
+ROC-AUC   : 0.6910
+PR-AUC    : 0.0936
+Brier     : 0.0168
+Accuracy  : 0.9824
+Precision : 0.5389
+Recall    : 0.0088
+F1 (pos)  : 0.0172
+Top 9% bucket positive rate : 0.0594
+--------------------------------------------------------------------------------
+Context   : cancel – CatBoost (calibrated, t* from val)
+Split     : test
+Threshold : 0.060
+ROC-AUC   : 0.6910
+PR-AUC    : 0.0936
+Brier     : 0.0168
+Accuracy  : 0.9533
+Precision : 0.1187
+Recall    : 0.2564
+F1 (pos)  : 0.1623
+Top 9% bucket positive rate : 0.0594
+--------------------------------------------------------------------------------
+Context   : cancel – TorchNN (calibrated, t=0.5)
+Split     : test
+Threshold : 0.500
+ROC-AUC   : 0.5689
+PR-AUC    : 0.0277
+Brier     : 0.0174
+Accuracy  : 0.9824
+Precision : 0.0000
+Recall    : 0.0000
+F1 (pos)  : 0.0000
+Top 9% bucket positive rate : 0.0400
+--------------------------------------------------------------------------------
+Context   : cancel – TorchNN (calibrated, t* from val)
+Split     : test
+Threshold : 0.040
+ROC-AUC   : 0.5689
+PR-AUC    : 0.0277
+Brier     : 0.0174
+Accuracy  : 0.9278
+Precision : 0.0508
+Recall    : 0.1747
+F1 (pos)  : 0.0787
+Top 9% bucket positive rate : 0.0400
+--------------------------------------------------------------------------------
+Context   : cancel – Ensemble (CatBoost*0.70 + LogReg*0.30)
+Split     : test
+Threshold : 0.500
+ROC-AUC   : 0.7069
+PR-AUC    : 0.0965
+Brier     : 0.0169
+Accuracy  : 0.9824
+Precision : 0.6091
+Recall    : 0.0030
+F1 (pos)  : 0.0060
+Top 9% bucket positive rate : 0.0682
+--------------------------------------------------------------------------------
+Context   : cancel – Ablation (calendar_only)
+Split     : test
+Threshold : 0.500
+ROC-AUC   : 0.5727
+PR-AUC    : 0.0264
+Brier     : 0.0273
+Accuracy  : 0.9697
+Precision : 0.0441
+Recall    : 0.0347
+F1 (pos)  : 0.0389
+Top 9% bucket positive rate : 0.0325
+--------------------------------------------------------------------------------
+Context   : cancel – Ablation (route_airline_congestion_only)
+Split     : test
+Threshold : 0.500
+ROC-AUC   : 0.5545
+PR-AUC    : 0.0218
+Brier     : 0.1771
+Accuracy  : 0.7253
+Precision : 0.0222
+Recall    : 0.3377
+F1 (pos)  : 0.0416
+Top 9% bucket positive rate : 0.0258
+--------------------------------------------------------------------------------
+Context   : cancel – Ablation (weather_only)
+Split     : test
+Threshold : 0.500
+ROC-AUC   : 0.7017
+PR-AUC    : 0.0630
+Brier     : 0.1858
+Accuracy  : 0.7706
+Precision : 0.0403
+Recall    : 0.5258
+F1 (pos)  : 0.0749
+Top 9% bucket positive rate : 0.0606
+--------------------------------------------------------------------------------
+Context   : cancel – Ablation (all_features)
+Split     : test
+Threshold : 0.500
+ROC-AUC   : 0.6706
+PR-AUC    : 0.0430
+Brier     : 0.1103
+Accuracy  : 0.8557
+Precision : 0.0443
+Recall    : 0.3490
+F1 (pos)  : 0.0787
+Top 9% bucket positive rate : 0.0507
+--------------------------------------------------------------------------------
+Context   : cancel – Ablation (no_weather)
+Split     : test
+Threshold : 0.500
+ROC-AUC   : 0.5878
+PR-AUC    : 0.0247
+Brier     : 0.1580
+Accuracy  : 0.7687
+Precision : 0.0262
+Recall    : 0.3349
+F1 (pos)  : 0.0486
+Top 9% bucket positive rate : 0.0307
+--------------------------------------------------------------------------------
