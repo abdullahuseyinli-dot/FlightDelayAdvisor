@@ -494,7 +494,6 @@ def explain_risk_factors(
     """Return a list of short, human-readable reasons for the risk level."""
     reasons = []
 
-    year = travel_date.year
     month = travel_date.month
     dow_py = travel_date.weekday()
     day_of_week = dow_py + 1

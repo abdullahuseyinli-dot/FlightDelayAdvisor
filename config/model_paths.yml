@@ -1,0 +1,3 @@
+data_path: data/processed/bts_delay_2010_2024_balanced_research_weather.parquet
+delay_model_path: models/catboost_delay15_calibrated.joblib
+cancel_model_path: models/lgbm_cancel_calibrated.joblib

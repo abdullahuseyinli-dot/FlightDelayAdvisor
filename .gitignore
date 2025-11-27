@@ -42,11 +42,9 @@ data/interim/
 data/processed/
 models/
 
-# -------------------------
 # Logs / reports / coverage
-# -------------------------
-# Ignore whole reports dir by default...
-reports/
+# Ignore everything inside reports by default...
+reports/*
 *.log
 htmlcov/
 coverage.*
@@ -56,6 +54,7 @@ coverage.*
 !reports/metrics_summary.txt
 !reports/figures/
 !reports/figures/*.png
+
 
 # -------------------------
 # Ruff / pytest caches
