@@ -1,4 +1,12 @@
+
+---
+
+## Updated `.gitignore`
+
+```gitignore
+# -------------------------
 # Python / venv / bytecode
+# -------------------------
 __pycache__/
 *.py[cod]
 *.pyo
@@ -12,26 +20,45 @@ venv/
 .env/
 .env*/
 
-# OS cruft
+# -------------------------
+# OS / editor cruft
+# -------------------------
 .DS_Store
 Thumbs.db
-
-# Jupyter
-.ipynb_checkpoints/
-
-# Logs / reports
-reports/
-*.log
-
-# IDE / tooling
 .vscode/
 .idea/
 
-# Model artifacts and large data
-models/
-data/raw/
-data/interim/
+# -------------------------
+# Jupyter
+# -------------------------
+.ipynb_checkpoints/
 
-# But keep processed dataset paths if you want them tracked:
-# If you DO want to version-control processed parquet, comment out the next line.
-# data/processed/
+# -------------------------
+# Data & models (large artefacts)
+# -------------------------
+data/raw/
+data/external/
+data/interim/
+data/processed/
+models/
+
+# -------------------------
+# Logs / reports / coverage
+# -------------------------
+# Ignore whole reports dir by default...
+reports/
+*.log
+htmlcov/
+coverage.*
+.coverage*
+
+# ...but keep key small artefacts that are useful in the repo:
+!reports/metrics_summary.txt
+!reports/figures/
+!reports/figures/*.png
+
+# -------------------------
+# Ruff / pytest caches
+# -------------------------
+.ruff_cache/
+.pytest_cache/

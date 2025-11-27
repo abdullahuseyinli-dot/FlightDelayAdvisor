@@ -1,10 +1,25 @@
 # src/generate_plots_only.py
+from __future__ import annotations
+
 from pathlib import Path
+import sys
+import warnings
 
 import joblib
 import pandas as pd
 
-from train_models import (
+# --------------------------------------------------------------------
+# Ensure we can import both train_models (from src) and app (from root)
+# --------------------------------------------------------------------
+REPO_ROOT = Path(__file__).resolve().parents[1]
+SRC_DIR = REPO_ROOT / "src"
+
+if str(SRC_DIR) not in sys.path:
+    sys.path.insert(0, str(SRC_DIR))
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
+
+from train_models import (  # type: ignore  # noqa: E402
     DATA_PATH,
     MODELS_DIR,
     make_time_splits,
@@ -12,6 +27,13 @@ from train_models import (
     find_best_threshold,
     create_diagnostic_plots_for_catboost,
 )
+
+warnings.filterwarnings(
+    "ignore",
+    message="X does not have valid feature names, but LGBMClassifier was fitted with feature names",
+    category=UserWarning,
+)
+
 
 if __name__ == "__main__":
     print(f"[INFO] Loading dataset from {DATA_PATH}")
@@ -55,7 +77,6 @@ if __name__ == "__main__":
     )
 
     # 4) Extract underlying CatBoost model (if available)
-    #    In modern sklearn, CalibratedClassifierCV exposes original estimator as `.estimator`.
     base_model = None
     if hasattr(calibrator, "estimator"):
         base_model = calibrator.estimator
@@ -63,12 +84,15 @@ if __name__ == "__main__":
         base_model = calibrator.base_estimator
 
     if base_model is None:
-        print("[WARN] Could not find underlying CatBoost estimator on calibrated model. "
-              "Feature-importance plot will be skipped, other plots will still be generated.")
+        print(
+            "[WARN] Could not find underlying CatBoost estimator on calibrated model. "
+            "Feature-importance plot will be skipped; other plots will still be generated."
+        )
 
     # 5) Generate diagnostic plots only
     create_diagnostic_plots_for_catboost(
         task_name="cancel",
+        X_test=X_test_c,              # <-- NEW: pass test features
         y_test=y_test_c,
         y_proba_test_cal=y_proba_test_cal,
         best_threshold=best_t,
@@ -77,4 +101,3 @@ if __name__ == "__main__":
     )
 
     print("\n[INFO] Finished regenerating CatBoost cancellation diagnostics.")
-

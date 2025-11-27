@@ -48,7 +48,7 @@ another student can reproduce and extend the experiments easily.
 """
 
 from pathlib import Path
-from typing import Callable, Dict, Tuple, List
+from typing import Callable, Dict, List
 
 import joblib
 import numpy as np
@@ -60,7 +60,6 @@ from lightgbm import LGBMClassifier
 
 from sklearn.calibration import CalibratedClassifierCV, calibration_curve
 from sklearn.compose import ColumnTransformer
-from sklearn.inspection import PartialDependenceDisplay
 from sklearn.isotonic import IsotonicRegression
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import (
@@ -83,6 +82,7 @@ from sklearn.preprocessing import OneHotEncoder, StandardScaler
 # NEW: optional SHAP for global explainability (guarded import)
 try:
     import shap  # type: ignore
+
     SHAP_AVAILABLE = True
 except Exception:
     SHAP_AVAILABLE = False
@@ -333,9 +333,7 @@ def evaluate_probs(
         rate = top_decile_positive_rate(y_true, y_proba, quantile=top_quantile)
         if not np.isnan(rate):
             top_pct = int((1.0 - top_quantile) * 100)
-            print(
-                f"Top {top_pct}% bucket positive rate: {rate:.4f}"
-            )
+            print(f"Top {top_pct}% bucket positive rate: {rate:.4f}")
             metrics_row["top_bucket_rate"] = float(rate)
 
     METRIC_ROWS.append(metrics_row)
@@ -652,9 +650,7 @@ def create_diagnostic_plots_for_catboost(
             try:
                 n_sample = min(MAX_DIAG_SAMPLES, len(X_test))
                 if n_sample >= 1000:
-                    X_sample = X_test.sample(
-                        n=n_sample, random_state=RANDOM_STATE
-                    )
+                    X_sample = X_test.sample(n=n_sample, random_state=RANDOM_STATE)
                 else:
                     X_sample = X_test.copy()
 
@@ -670,9 +666,7 @@ def create_diagnostic_plots_for_catboost(
                     max_display=25,
                 )
                 plt.tight_layout()
-                plt.savefig(
-                    FIGURES_DIR / f"{prefix}_shap_summary_bar.png", dpi=150
-                )
+                plt.savefig(FIGURES_DIR / f"{prefix}_shap_summary_bar.png", dpi=150)
                 plt.close()
 
                 shap.summary_plot(
@@ -848,9 +842,7 @@ def evaluate_drift_by_year(
             brier = brier_score_loss(y_true, y_proba)
         except Exception:
             brier = np.nan
-        rows.append(
-            {"Year": int(year), "AUC": float(auc), "Brier": float(brier)}
-        )
+        rows.append({"Year": int(year), "AUC": float(auc), "Brier": float(brier)})
 
     if not rows:
         print(f"[DRIFT] No per-year metrics for {task_name} ({split_label}).")
@@ -1216,7 +1208,14 @@ def tune_catboost_hyperparams(
 # Training functions: Logistic, LightGBM, CatBoost
 # -------------------------------------------------------------------
 def train_logistic_baseline(
-    X_train, y_train, X_val, y_val, X_test, y_test, task_name: str, print_top_bucket=False
+    X_train,
+    y_train,
+    X_val,
+    y_val,
+    X_test,
+    y_test,
+    task_name: str,
+    print_top_bucket=False,
 ):
     """
     Baseline model: Logistic Regression with one-hot encoding.
@@ -1244,7 +1243,9 @@ def train_logistic_baseline(
     )
 
     # Calibrate on validation set
-    print(f"[CALIB] Calibrating Logistic Regression for {task_name} using isotonic regression...")
+    print(
+        f"[CALIB] Calibrating Logistic Regression for {task_name} using isotonic regression..."
+    )
     calibrator = CalibratedClassifierCV(pipe, cv="prefit", method="isotonic")
     calibrator.fit(X_val, y_val)
 
@@ -1295,7 +1296,14 @@ def train_logistic_baseline(
 
 
 def train_lightgbm(
-    X_train, y_train, X_val, y_val, X_test, y_test, task_name: str, print_top_bucket=False
+    X_train,
+    y_train,
+    X_val,
+    y_val,
+    X_test,
+    y_test,
+    task_name: str,
+    print_top_bucket=False,
 ):
     """
     Additional model: LightGBM with one-hot encoding and small GridSearch.
@@ -1371,7 +1379,14 @@ def train_lightgbm(
 
 
 def train_catboost(
-    X_train, y_train, X_val, y_val, X_test, y_test, task_name: str, print_top_bucket=False
+    X_train,
+    y_train,
+    X_val,
+    y_val,
+    X_test,
+    y_test,
+    task_name: str,
+    print_top_bucket=False,
 ):
     """
     Main tree model: CatBoostClassifier (GPU-ready) with hyper‑parameter tuning
@@ -1382,9 +1397,7 @@ def train_catboost(
 
     print(f"\n[TRAIN] CatBoost for {task_name}")
 
-    cat_feature_indices = [
-        X_train.columns.get_loc(col) for col in CATEGORICAL_FEATURES
-    ]
+    cat_feature_indices = [X_train.columns.get_loc(col) for col in CATEGORICAL_FEATURES]
 
     class_weights = compute_class_weights(y_train)
     print(f"[INFO]  Class weights for {task_name}: {class_weights}")
@@ -1578,13 +1591,18 @@ class TabularDataset(Dataset):
 
 
 class TabularNN(nn.Module):
-    def __init__(self, num_numeric: int, embedding_sizes, hidden_dims=(256, 128), dropout=0.2):
+    def __init__(
+        self, num_numeric: int, embedding_sizes, hidden_dims=(256, 128), dropout=0.2
+    ):
         """
         embedding_sizes: list of (num_embeddings, emb_dim) for each categorical feature.
         """
         super().__init__()
         self.embeds = nn.ModuleList(
-            [nn.Embedding(num_embeddings, emb_dim) for num_embeddings, emb_dim in embedding_sizes]
+            [
+                nn.Embedding(num_embeddings, emb_dim)
+                for num_embeddings, emb_dim in embedding_sizes
+            ]
         )
         emb_total_dim = sum(emb_dim for _, emb_dim in embedding_sizes)
         input_dim = num_numeric + emb_total_dim
@@ -1658,15 +1676,21 @@ def train_torch_tabular_nn(
     else:
         X_train_sub, y_train_sub = X_train, y_train
 
-    train_ds = TabularDataset(X_train_sub, y_train_sub, NUMERIC_FEATURES, CATEGORICAL_FEATURES)
+    train_ds = TabularDataset(
+        X_train_sub, y_train_sub, NUMERIC_FEATURES, CATEGORICAL_FEATURES
+    )
     val_ds = TabularDataset(X_val, y_val, NUMERIC_FEATURES, CATEGORICAL_FEATURES)
     test_ds = TabularDataset(X_test, y_test, NUMERIC_FEATURES, CATEGORICAL_FEATURES)
 
-    train_loader = DataLoader(train_ds, batch_size=batch_size, shuffle=True, num_workers=0)
+    train_loader = DataLoader(
+        train_ds, batch_size=batch_size, shuffle=True, num_workers=0
+    )
     val_loader = DataLoader(val_ds, batch_size=4096, shuffle=False, num_workers=0)
     test_loader = DataLoader(test_ds, batch_size=4096, shuffle=False, num_workers=0)
 
-    model = TabularNN(num_numeric=len(NUMERIC_FEATURES), embedding_sizes=embedding_sizes).to(device)
+    model = TabularNN(
+        num_numeric=len(NUMERIC_FEATURES), embedding_sizes=embedding_sizes
+    ).to(device)
 
     # Class imbalance handling
     y_train_np = y_train_sub.to_numpy()
@@ -1721,7 +1745,9 @@ def train_torch_tabular_nn(
         except ValueError:
             val_auc = np.nan
 
-        print(f"[TORCH] {task_name} epoch {epoch}: loss={epoch_loss:.4f}, val AUC={val_auc:.4f}")
+        print(
+            f"[TORCH] {task_name} epoch {epoch}: loss={epoch_loss:.4f}, val AUC={val_auc:.4f}"
+        )
 
         if val_auc > best_val_auc:
             best_val_auc = val_auc
@@ -1729,7 +1755,9 @@ def train_torch_tabular_nn(
 
     if best_state is not None:
         model.load_state_dict(best_state)
-        print(f"[TORCH] Loaded best model for {task_name} (val AUC={best_val_auc:.4f}).")
+        print(
+            f"[TORCH] Loaded best model for {task_name} (val AUC={best_val_auc:.4f})."
+        )
 
     # Predictions for calibration and test
     val_probs_raw, val_targets = predict_proba_loader(model, val_loader)
@@ -1818,11 +1846,10 @@ def run_feature_group_ablation(
 
     # Same temporal split as the main models
     train_mask = df_task["Year"].between(2010, 2018)
-    val_mask = df_task["Year"].between(2019, 2021)
+    df_task["Year"].between(2019, 2021)
     test_mask = df_task["Year"].between(2022, 2024)
 
     X_train, y_train = X[train_mask], y[train_mask]
-    X_val, y_val = X[val_mask], y[val_mask]
     X_test, y_test = X[test_mask], y[test_mask]
 
     # Optional downsampling for speed
@@ -1849,7 +1876,9 @@ def run_feature_group_ablation(
         num_cols = [c for c in feature_list if c in NUMERIC_FEATURES]
         cat_cols = [c for c in feature_list if c in CATEGORICAL_FEATURES]
 
-        print(f"[ABLATION]  Config={cfg_name}, num={len(num_cols)}, cat={len(cat_cols)}")
+        print(
+            f"[ABLATION]  Config={cfg_name}, num={len(num_cols)}, cat={len(cat_cols)}"
+        )
 
         numeric_transformer = StandardScaler()
         categorical_transformer = OneHotEncoder(handle_unknown="ignore")
@@ -1922,11 +1951,19 @@ def write_ascii_metrics_report(rows, out_path: Path):
         rec = row.get("recall_pos")
         f1 = row.get("f1_pos")
 
-        lines.append(f"ROC-AUC   : {roc_auc:.4f}" if roc_auc is not None else "ROC-AUC   : N/A")
-        lines.append(f"PR-AUC    : {pr_auc:.4f}" if pr_auc is not None else "PR-AUC    : N/A")
-        lines.append(f"Brier     : {brier:.4f}" if brier is not None else "Brier     : N/A")
+        lines.append(
+            f"ROC-AUC   : {roc_auc:.4f}" if roc_auc is not None else "ROC-AUC   : N/A"
+        )
+        lines.append(
+            f"PR-AUC    : {pr_auc:.4f}" if pr_auc is not None else "PR-AUC    : N/A"
+        )
+        lines.append(
+            f"Brier     : {brier:.4f}" if brier is not None else "Brier     : N/A"
+        )
         lines.append(f"Accuracy  : {acc:.4f}" if acc is not None else "Accuracy  : N/A")
-        lines.append(f"Precision : {prec:.4f}" if prec is not None else "Precision : N/A")
+        lines.append(
+            f"Precision : {prec:.4f}" if prec is not None else "Precision : N/A"
+        )
         lines.append(f"Recall    : {rec:.4f}" if rec is not None else "Recall    : N/A")
         lines.append(f"F1 (pos)  : {f1:.4f}" if f1 is not None else "F1 (pos)  : N/A")
 
@@ -1935,13 +1972,9 @@ def write_ascii_metrics_report(rows, out_path: Path):
             top_q = row.get("top_bucket_quantile")
             top_pct = int((1.0 - top_q) * 100)
             if top_rate is not None:
-                lines.append(
-                    f"Top {top_pct}% bucket positive rate : {top_rate:.4f}"
-                )
+                lines.append(f"Top {top_pct}% bucket positive rate : {top_rate:.4f}")
             else:
-                lines.append(
-                    f"Top {top_pct}% bucket positive rate : N/A"
-                )
+                lines.append(f"Top {top_pct}% bucket positive rate : N/A")
 
     lines.append("-" * 80)
     text = "\n".join(lines)

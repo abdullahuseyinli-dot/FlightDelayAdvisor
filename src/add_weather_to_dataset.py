@@ -1,6 +1,6 @@
 from pathlib import Path
 
-import numpy as np
+
 import pandas as pd
 
 DATA_IN = Path("data/processed/bts_delay_2010_2024_balanced_research.parquet")
@@ -19,9 +19,9 @@ def make_bad_weather_flag(temp_df, prefix: str) -> pd.DataFrame:
     wspd = temp_df[f"{prefix}_wspd"]
 
     bad = (
-        (prcp >= 1.0)    # rain/snow >= 1mm
-        | (snow > 0.0)   # any snow
-        | (wspd >= 30.0) # strong wind
+        (prcp >= 1.0)  # rain/snow >= 1mm
+        | (snow > 0.0)  # any snow
+        | (wspd >= 30.0)  # strong wind
     )
 
     return bad.astype("int8")
@@ -42,7 +42,9 @@ def main():
     # Restrict to flights where both Origin and Dest are in the weather airports
     mask = df["Origin"].isin(weather_airports) & df["Dest"].isin(weather_airports)
     df = df[mask].copy()
-    print(f"[INFO] After restricting to flights between weather airports: {df.shape[0]:,} rows")
+    print(
+        f"[INFO] After restricting to flights between weather airports: {df.shape[0]:,} rows"
+    )
 
     # Ensure 'time' is date-only for join
     wx["time"] = pd.to_datetime(wx["time"]).dt.date

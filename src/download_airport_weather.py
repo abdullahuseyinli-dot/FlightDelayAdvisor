@@ -56,11 +56,19 @@ def main():
             continue
 
         chosen_rows.append(
-            {"iata": code, "name": name, "lat": float(lat), "lon": float(lon), "country": country}
+            {
+                "iata": code,
+                "name": name,
+                "lat": float(lat),
+                "lon": float(lon),
+                "country": country,
+            }
         )
 
     if not chosen_rows:
-        raise RuntimeError("No US airports with valid metadata found among top N airports.")
+        raise RuntimeError(
+            "No US airports with valid metadata found among top N airports."
+        )
 
     airports_df = pd.DataFrame(chosen_rows).sort_values("iata")
     print(f"[INFO] Will fetch weather for {len(airports_df)} airports.")
@@ -114,4 +122,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
