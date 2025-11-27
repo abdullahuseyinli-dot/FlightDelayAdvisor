@@ -1,0 +1,8 @@
+altair==5.5.0
+catboost==1.2.8
+joblib==1.5.2
+lightgbm==4.6.0
+numpy==2.3.5
+pandas==2.3.3
+scikit-learn==1.7.2
+streamlit==1.51.0
