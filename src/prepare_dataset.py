@@ -236,7 +236,12 @@ def clean_month(zip_path: Path) -> pd.DataFrame:
     # Try several common raw column names and map them into
     # OriginState / DestState for the processed dataset.
     origin_state_series = None
-    for cand in ["OriginState", "ORIGIN_STATE_ABR", "OriginStateName", "ORIGIN_STATE_NM"]:
+    for cand in [
+        "OriginState",
+        "ORIGIN_STATE_ABR",
+        "OriginStateName",
+        "ORIGIN_STATE_NM",
+    ]:
         if cand in df.columns:
             origin_state_series = df[cand]
             break
@@ -261,7 +266,9 @@ def clean_month(zip_path: Path) -> pd.DataFrame:
     return df
 
 
-def build_yearly_sample(start_year: int, end_year: int, rows_per_year: int) -> pd.DataFrame:
+def build_yearly_sample(
+    start_year: int, end_year: int, rows_per_year: int
+) -> pd.DataFrame:
     """
     Clean and sample approximately rows_per_year flights per year.
 
@@ -382,24 +389,24 @@ def add_aggregates(df: pd.DataFrame) -> pd.DataFrame:
     global_cancel_rate = df_stats["Cancelled"].mean()
     global_slot_mean = slot_stats["OriginSlotFlights"].mean()
 
-    df["RouteDelayRate"] = df["RouteDelayRate"].fillna(global_delay_rate).astype(
-        "float32"
+    df["RouteDelayRate"] = (
+        df["RouteDelayRate"].fillna(global_delay_rate).astype("float32")
     )
-    df["RouteCancelRate"] = df["RouteCancelRate"].fillna(global_cancel_rate).astype(
-        "float32"
+    df["RouteCancelRate"] = (
+        df["RouteCancelRate"].fillna(global_cancel_rate).astype("float32")
     )
     df["RouteFlights"] = df["RouteFlights"].fillna(0).astype("int32")
 
-    df["AirlineDelayRate"] = df["AirlineDelayRate"].fillna(global_delay_rate).astype(
-        "float32"
+    df["AirlineDelayRate"] = (
+        df["AirlineDelayRate"].fillna(global_delay_rate).astype("float32")
     )
-    df["AirlineCancelRate"] = df["AirlineCancelRate"].fillna(global_cancel_rate).astype(
-        "float32"
+    df["AirlineCancelRate"] = (
+        df["AirlineCancelRate"].fillna(global_cancel_rate).astype("float32")
     )
     df["AirlineFlights"] = df["AirlineFlights"].fillna(0).astype("int32")
 
-    df["OriginSlotFlights"] = df["OriginSlotFlights"].fillna(global_slot_mean).astype(
-        "float32"
+    df["OriginSlotFlights"] = (
+        df["OriginSlotFlights"].fillna(global_slot_mean).astype("float32")
     )
 
     return df
