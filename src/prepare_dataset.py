@@ -15,22 +15,31 @@ This script deliberately:
     - Produces a compact, balanced dataset suitable for downstream
       heavy modelling & diagnostics in train_models.py.
 
+New in this version:
+    A) Airline‑hub flags:
+       - IsAirlineHubAtOrigin, IsAirlineHubAtDest based on 2010–2018 data.
+    B) Fine‑grained holiday features:
+       - IsHoliday, IsDayBeforeHoliday, IsDayAfterHoliday.
+    C) Daily congestion features:
+       - OriginDailyFlights, OriginDailyFlightsAirline.
+
 Output
 ------
     data/processed/bts_delay_2010_2024_balanced_research.parquet
 
-A follow‑up script (add_weather_to_dataset.py, not shown here) enriches
-this dataset with historical weather features and writes:
+A follow‑up script (add_weather_to_dataset.py) enriches this dataset with
+historical weather features and writes:
 
     data/processed/bts_delay_2010_2024_balanced_research_weather.parquet
 """
 
-import zipfile
 from io import BytesIO
 from pathlib import Path
+import zipfile
 
 import numpy as np
 import pandas as pd
+from pandas.tseries.holiday import USFederalHolidayCalendar
 
 # -------------------------------------------------------------------
 # Paths & constants
@@ -43,8 +52,10 @@ PROCESSED_DIR.mkdir(parents=True, exist_ok=True)
 START_YEAR = 2010
 END_YEAR = 2024
 
-# Target sample size per year (balanced across years)
-ROWS_PER_YEAR = 500_000  # 500k per year ~ 7.5M rows total
+# Target sample size per year (balanced across years).
+# You are currently using ~1M/year → ~15M before weather join.
+# You can reduce this if runtime/memory becomes an issue.
+ROWS_PER_YEAR = 1_000_000
 
 # Training years for aggregate statistics (avoid leakage)
 AGG_STATS_START_YEAR = 2010
@@ -52,6 +63,10 @@ AGG_STATS_END_YEAR = 2018
 
 # Global random seed base (for reproducible sampling)
 RANDOM_SEED_BASE = 42
+
+# Airline‑hub thresholds
+HUB_SHARE_THRESHOLD = 0.25  # 25% of airport departures
+HUB_MIN_FLIGHTS = 10_000    # minimum flights at that airport for that airline
 
 # Columns we need from BTS On-Time Performance data
 # (state columns will be added dynamically if present in the raw files)
@@ -85,6 +100,37 @@ def extract_csv_from_zip(zip_path: Path) -> BytesIO:
     return BytesIO(raw_bytes)
 
 
+def add_holiday_flags(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Add fine-grained US holiday features based on FlightDate:
+
+        - IsHoliday
+        - IsDayBeforeHoliday
+        - IsDayAfterHoliday
+
+    Uses pandas' USFederalHolidayCalendar.
+    """
+    if df["FlightDate"].isna().all():
+        df["IsHoliday"] = 0
+        df["IsDayBeforeHoliday"] = 0
+        df["IsDayAfterHoliday"] = 0
+        return df
+
+    cal = USFederalHolidayCalendar()
+    start = df["FlightDate"].min() - pd.Timedelta(days=2)
+    end = df["FlightDate"].max() + pd.Timedelta(days=2)
+    holidays = cal.holidays(start=start, end=end)
+
+    holidays_minus_1 = holidays - pd.Timedelta(days=1)
+    holidays_plus_1 = holidays + pd.Timedelta(days=1)
+
+    df["IsHoliday"] = df["FlightDate"].isin(holidays).astype("int8")
+    df["IsDayBeforeHoliday"] = df["FlightDate"].isin(holidays_minus_1).astype("int8")
+    df["IsDayAfterHoliday"] = df["FlightDate"].isin(holidays_plus_1).astype("int8")
+
+    return df
+
+
 def clean_month(zip_path: Path) -> pd.DataFrame:
     """
     Load and clean data for one month from a BTS zip file.
@@ -94,6 +140,7 @@ def clean_month(zip_path: Path) -> pd.DataFrame:
     - Adds time-based and route features but NO aggregates yet.
     - Detects state columns (if present) and standardises them to
       OriginState and DestState for downstream use.
+    - Adds fine-grained holiday features.
     """
     csv_file = extract_csv_from_zip(zip_path)
 
@@ -158,6 +205,9 @@ def clean_month(zip_path: Path) -> pd.DataFrame:
     df["FlightDate"] = pd.to_datetime(df["FlightDate"], errors="coerce")
     df = df.dropna(subset=["FlightDate"])
 
+    # --- Fine-grained holiday features ---
+    df = add_holiday_flags(df)
+
     # --- Time-based features ---
 
     # Departure hour from CRSDepTime (hhmm -> 0..23)
@@ -202,7 +252,7 @@ def clean_month(zip_path: Path) -> pd.DataFrame:
 
     df["Season"] = df["Month"].apply(month_to_season).astype("category")
 
-    # Holiday season (rough proxy: Nov–Jan)
+    # Holiday season (rough proxy: Nov–Jan) – keep for continuity
     df["IsHolidaySeason"] = df["Month"].isin([11, 12, 1]).astype("int8")
 
     # Cyclical encoding for hour-of-day
@@ -291,7 +341,7 @@ def build_yearly_sample(
             print(f"[INFO]  Cleaning {zip_path.name}")
             try:
                 df_month = clean_month(zip_path)
-            except Exception as e:
+            except Exception as e:  # noqa: BLE001
                 print(f"[ERROR] Failed {zip_path.name}: {e}")
                 continue
 
@@ -328,6 +378,10 @@ def add_aggregates(df: pd.DataFrame) -> pd.DataFrame:
     Add route/airline reliability and congestion features using ONLY
     the training years (AGG_STATS_START_YEAR–AGG_STATS_END_YEAR)
     to avoid using future information in aggregates.
+
+    New in this version:
+      - Airline hub flags: IsAirlineHubAtOrigin / IsAirlineHubAtDest
+      - Daily congestion: OriginDailyFlights / OriginDailyFlightsAirline
     """
     stats_train_mask = df["Year"].between(AGG_STATS_START_YEAR, AGG_STATS_END_YEAR)
     df_stats = df[stats_train_mask].copy()
@@ -367,7 +421,67 @@ def add_aggregates(df: pd.DataFrame) -> pd.DataFrame:
         .reset_index(name="OriginSlotFlights")
     )
 
+    # --- Daily congestion (Origin) ---
+    # Total departures by (Origin, FlightDate)
+    origin_daily = (
+        df_stats.groupby(["Origin", "FlightDate"])
+        .size()
+        .reset_index(name="OriginDailyFlights")
+    )
+
+    # Total departures by (Origin, Reporting_Airline, FlightDate)
+    origin_daily_airline = (
+        df_stats.groupby(["Origin", "Reporting_Airline", "FlightDate"])
+        .size()
+        .reset_index(name="OriginDailyFlightsAirline")
+    )
+
+    # --- Airline hub features (Origin) ---
+    airport_totals = (
+        df_stats.groupby("Origin")
+        .size()
+        .reset_index(name="OriginTotalFlights")
+    )
+
+    airline_origin = (
+        df_stats.groupby(["Origin", "Reporting_Airline"])
+        .size()
+        .reset_index(name="OriginAirlineFlights")
+    )
+    airline_origin = airline_origin.merge(airport_totals, on="Origin", how="left")
+    airline_origin["AirlineOriginShare"] = (
+        airline_origin["OriginAirlineFlights"]
+        / airline_origin["OriginTotalFlights"].clip(lower=1)
+    )
+    airline_origin["IsAirlineHubAtOrigin"] = (
+        (airline_origin["AirlineOriginShare"] >= HUB_SHARE_THRESHOLD)
+        & (airline_origin["OriginAirlineFlights"] >= HUB_MIN_FLIGHTS)
+    ).astype("int8")
+
+    # --- Airline hub features (Dest) ---
+    dest_totals = (
+        df_stats.groupby("Dest")
+        .size()
+        .reset_index(name="DestTotalFlights")
+    )
+    airline_dest = (
+        df_stats.groupby(["Dest", "Reporting_Airline"])
+        .size()
+        .reset_index(name="DestAirlineFlights")
+    )
+    airline_dest = airline_dest.merge(dest_totals, on="Dest", how="left")
+    airline_dest["AirlineDestShare"] = (
+        airline_dest["DestAirlineFlights"]
+        / airline_dest["DestTotalFlights"].clip(lower=1)
+    )
+    airline_dest["IsAirlineHubAtDest"] = (
+        (airline_dest["AirlineDestShare"] >= HUB_SHARE_THRESHOLD)
+        & (airline_dest["DestAirlineFlights"] >= HUB_MIN_FLIGHTS)
+    ).astype("int8")
+
+    # ------------------------------------------------------------------
     # Merge back into full dataset
+    # ------------------------------------------------------------------
     df = df.merge(
         route_stats,
         on=["Reporting_Airline", "Origin", "Dest"],
@@ -383,8 +497,30 @@ def add_aggregates(df: pd.DataFrame) -> pd.DataFrame:
         on=["Origin", "Month", "DayOfWeek", "DepHour"],
         how="left",
     )
+    df = df.merge(
+        origin_daily,
+        on=["Origin", "FlightDate"],
+        how="left",
+    )
+    df = df.merge(
+        origin_daily_airline,
+        on=["Origin", "Reporting_Airline", "FlightDate"],
+        how="left",
+    )
+    df = df.merge(
+        airline_origin[["Origin", "Reporting_Airline", "IsAirlineHubAtOrigin"]],
+        on=["Origin", "Reporting_Airline"],
+        how="left",
+    )
+    df = df.merge(
+        airline_dest[["Dest", "Reporting_Airline", "IsAirlineHubAtDest"]],
+        on=["Dest", "Reporting_Airline"],
+        how="left",
+    )
 
+    # ------------------------------------------------------------------
     # Fill missing aggregates with global defaults
+    # ------------------------------------------------------------------
     global_delay_rate = df_stats["ArrDel15"].mean()
     global_cancel_rate = df_stats["Cancelled"].mean()
     global_slot_mean = slot_stats["OriginSlotFlights"].mean()
@@ -409,6 +545,25 @@ def add_aggregates(df: pd.DataFrame) -> pd.DataFrame:
         df["OriginSlotFlights"].fillna(global_slot_mean).astype("float32")
     )
 
+    # Daily congestion defaults
+    global_origin_daily = origin_daily["OriginDailyFlights"].mean()
+    global_origin_daily_airline = origin_daily_airline[
+        "OriginDailyFlightsAirline"
+    ].mean()
+
+    df["OriginDailyFlights"] = (
+        df["OriginDailyFlights"].fillna(global_origin_daily).astype("float32")
+    )
+    df["OriginDailyFlightsAirline"] = (
+        df["OriginDailyFlightsAirline"]
+        .fillna(global_origin_daily_airline)
+        .astype("float32")
+    )
+
+    # Hub flags: treat missing as non-hub
+    df["IsAirlineHubAtOrigin"] = df["IsAirlineHubAtOrigin"].fillna(0).astype("int8")
+    df["IsAirlineHubAtDest"] = df["IsAirlineHubAtDest"].fillna(0).astype("int8")
+
     return df
 
 
@@ -425,3 +580,4 @@ if __name__ == "__main__":
     print(f"[OK] Saved processed dataset to {out_path}")
     print("\n[INFO] Dataset info:")
     print(df.info(memory_usage="deep"))
+

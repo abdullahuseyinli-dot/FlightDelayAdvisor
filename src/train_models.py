@@ -128,7 +128,11 @@ METRIC_ROWS: List[Dict] = []
 # -------------------------------------------------------------------
 # Features (MUST match prepare_dataset + add_weather_to_dataset + app)
 # -------------------------------------------------------------------
+# -------------------------------------------------------------------
+# Features (MUST match prepare_dataset + add_weather_to_dataset + app)
+# -------------------------------------------------------------------
 NUMERIC_FEATURES = [
+    # Calendar / time
     "Year",
     "Month",
     "DayOfWeek",
@@ -137,16 +141,29 @@ NUMERIC_FEATURES = [
     "DepHour",
     "IsWeekend",
     "IsHolidaySeason",
+    "IsHoliday",
+    "IsDayBeforeHoliday",
+    "IsDayAfterHoliday",
+    # Distance / basic route
     "Distance",
+    # Historical reliability aggregates (2010–2018)
     "RouteDelayRate",
     "RouteCancelRate",
     "RouteFlights",
     "AirlineDelayRate",
     "AirlineCancelRate",
     "AirlineFlights",
+    # Congestion features
     "OriginSlotFlights",
+    "OriginDailyFlights",
+    "OriginDailyFlightsAirline",
+    # Hub flags (stored as 0/1 but treated as numeric)
+    "IsAirlineHubAtOrigin",
+    "IsAirlineHubAtDest",
+    # Cyclical encodings
     "DepHour_sin",
     "DepHour_cos",
+    # Weather (added by add_weather_to_dataset.py)
     "Origin_tavg",
     "Origin_prcp",
     "Origin_snow",
@@ -166,6 +183,8 @@ CATEGORICAL_FEATURES = [
     "Route",
     "Season",
     "DistanceBand",
+    "OriginState",
+    "DestState",
 ]
 
 FEATURE_COLS = NUMERIC_FEATURES + CATEGORICAL_FEATURES
@@ -180,6 +199,9 @@ FEATURE_GROUPS: Dict[str, List[str]] = {
         "DayOfYear",
         "IsWeekend",
         "IsHolidaySeason",
+        "IsHoliday",
+        "IsDayBeforeHoliday",
+        "IsDayAfterHoliday",
         "DepHour",
         "DepHour_sin",
         "DepHour_cos",
@@ -193,6 +215,10 @@ FEATURE_GROUPS: Dict[str, List[str]] = {
         "AirlineCancelRate",
         "AirlineFlights",
         "OriginSlotFlights",
+        "OriginDailyFlights",
+        "OriginDailyFlightsAirline",
+        "IsAirlineHubAtOrigin",
+        "IsAirlineHubAtDest",
         "Origin",
         "Dest",
         "Route",
@@ -213,6 +239,7 @@ FEATURE_GROUPS: Dict[str, List[str]] = {
     ],
     # full list is implicit in FEATURE_COLS
 }
+
 
 
 # -------------------------------------------------------------------
