@@ -104,9 +104,9 @@ F1 (pos)  : 0.4170
 Context   : delay15 – TorchNN (calibrated, t=0.5)
 Split     : test
 Threshold : 0.500
-ROC-AUC   : 0.5279
-PR-AUC    : 0.2226
-Brier     : 0.1706
+ROC-AUC   : 0.5184
+PR-AUC    : 0.2186
+Brier     : 0.1709
 Accuracy  : 0.7879
 Precision : 0.0000
 Recall    : 0.0000
@@ -115,13 +115,13 @@ F1 (pos)  : 0.0000
 Context   : delay15 – TorchNN (calibrated, t* from val)
 Split     : test
 Threshold : 0.130
-ROC-AUC   : 0.5279
-PR-AUC    : 0.2226
-Brier     : 0.1706
-Accuracy  : 0.3362
-Precision : 0.2221
-Recall    : 0.8510
-F1 (pos)  : 0.3523
+ROC-AUC   : 0.5184
+PR-AUC    : 0.2186
+Brier     : 0.1709
+Accuracy  : 0.3139
+Precision : 0.2202
+Recall    : 0.8790
+F1 (pos)  : 0.3522
 --------------------------------------------------------------------------------
 Context   : delay15 – Ensemble (CatBoost*0.70 + LogReg*0.30)
 Split     : test
@@ -300,26 +300,26 @@ Top 9% bucket positive rate : 0.0650
 Context   : cancel – TorchNN (calibrated, t=0.5)
 Split     : test
 Threshold : 0.500
-ROC-AUC   : 0.5633
-PR-AUC    : 0.0263
+ROC-AUC   : 0.5621
+PR-AUC    : 0.0276
 Brier     : 0.0179
 Accuracy  : 0.9819
 Precision : 0.0000
 Recall    : 0.0000
 F1 (pos)  : 0.0000
-Top 9% bucket positive rate : 0.0341
+Top 9% bucket positive rate : 0.0181
 --------------------------------------------------------------------------------
 Context   : cancel – TorchNN (calibrated, t* from val)
 Split     : test
-Threshold : 0.040
-ROC-AUC   : 0.5633
-PR-AUC    : 0.0263
+Threshold : 0.030
+ROC-AUC   : 0.5621
+PR-AUC    : 0.0276
 Brier     : 0.0179
-Accuracy  : 0.8701
-Precision : 0.0341
-Recall    : 0.2263
-F1 (pos)  : 0.0593
-Top 9% bucket positive rate : 0.0341
+Accuracy  : 0.8913
+Precision : 0.0396
+Recall    : 0.2155
+F1 (pos)  : 0.0669
+Top 9% bucket positive rate : 0.0181
 --------------------------------------------------------------------------------
 Context   : cancel – Ensemble (CatBoost*0.70 + LogReg*0.30)
 Split     : test

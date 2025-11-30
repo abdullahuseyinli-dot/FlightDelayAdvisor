@@ -18,11 +18,17 @@ DATA_PATH = Path(
 MODELS_DIR = Path("models")
 DELAY_MODEL_PATH = MODELS_DIR / "catboost_delay15_calibrated.joblib"
 # use the new best cancellation model from training (LGBM, calibrated)
-# if you train/save an uncalibrated model, just point this to that file instead
 CANCEL_MODEL_PATH = MODELS_DIR / "lgbm_cancel_calibrated.joblib"
 
-# These must match train_models.py
+# Aggregation period for stats (match training script)
+AGG_STATS_START_YEAR = 2010
+AGG_STATS_END_YEAR = 2018
+
+# -------------------------------------------------------------------
+# Features (MUST match train_models.py)
+# -------------------------------------------------------------------
 NUMERIC_FEATURES = [
+    # Calendar / time
     "Year",
     "Month",
     "DayOfWeek",
@@ -31,16 +37,29 @@ NUMERIC_FEATURES = [
     "DepHour",
     "IsWeekend",
     "IsHolidaySeason",
+    "IsHoliday",
+    "IsDayBeforeHoliday",
+    "IsDayAfterHoliday",
+    # Distance / basic route
     "Distance",
+    # Historical reliability aggregates (2010–2018)
     "RouteDelayRate",
     "RouteCancelRate",
     "RouteFlights",
     "AirlineDelayRate",
     "AirlineCancelRate",
     "AirlineFlights",
+    # Congestion features
     "OriginSlotFlights",
+    "OriginDailyFlights",
+    "OriginDailyFlightsAirline",
+    # Hub flags
+    "IsAirlineHubAtOrigin",
+    "IsAirlineHubAtDest",
+    # Cyclical encodings
     "DepHour_sin",
     "DepHour_cos",
+    # Weather (added by add_weather_to_dataset.py)
     "Origin_tavg",
     "Origin_prcp",
     "Origin_snow",
@@ -60,6 +79,8 @@ CATEGORICAL_FEATURES = [
     "Route",
     "Season",
     "DistanceBand",
+    "OriginState",
+    "DestState",
 ]
 
 FEATURE_COLS = NUMERIC_FEATURES + CATEGORICAL_FEATURES
@@ -121,6 +142,60 @@ def pick_first_existing(columns, candidates):
     return None
 
 
+# ---- Holiday helpers ------------------------------------------------
+def _nth_weekday_of_month(year: int, month: int, weekday: int, n: int) -> date:
+    """
+    weekday: Monday=0 .. Sunday=6
+    n: 1=first, 2=second, ...
+    """
+    d = date(year, month, 1)
+    while d.weekday() != weekday:
+        d += timedelta(days=1)
+    for _ in range(n - 1):
+        d += timedelta(days=7)
+    return d
+
+
+def _last_weekday_of_month(year: int, month: int, weekday: int) -> date:
+    """Last given weekday (0=Mon..6=Sun) in a month."""
+    if month == 12:
+        d = date(year + 1, 1, 1) - timedelta(days=1)
+    else:
+        d = date(year, month + 1, 1) - timedelta(days=1)
+    while d.weekday() != weekday:
+        d -= timedelta(days=1)
+    return d
+
+
+def get_us_federal_holidays(year: int):
+    """
+    Simple US federal holiday calendar (not perfect but good enough
+    for 'IsHoliday / before / after' features).
+    """
+    holidays = set()
+
+    # Fixed-date holidays
+    holidays.add(date(year, 1, 1))   # New Year
+    holidays.add(date(year, 7, 4))   # Independence Day
+    holidays.add(date(year, 11, 11)) # Veterans Day
+    holidays.add(date(year, 12, 25)) # Christmas
+
+    # MLK Day: 3rd Monday of Jan
+    holidays.add(_nth_weekday_of_month(year, 1, 0, 3))
+    # Presidents' Day: 3rd Monday of Feb
+    holidays.add(_nth_weekday_of_month(year, 2, 0, 3))
+    # Memorial Day: last Monday of May
+    holidays.add(_last_weekday_of_month(year, 5, 0))
+    # Labor Day: 1st Monday of September
+    holidays.add(_nth_weekday_of_month(year, 9, 0, 1))
+    # Columbus Day: 2nd Monday of October
+    holidays.add(_nth_weekday_of_month(year, 10, 0, 2))
+    # Thanksgiving: 4th Thursday of November
+    holidays.add(_nth_weekday_of_month(year, 11, 3, 4))
+
+    return holidays
+
+
 # -------------------------------------------------------------------
 # Cached loading of data & models
 # -------------------------------------------------------------------
@@ -131,19 +206,30 @@ def load_metadata():
     - lists of airlines & airports
     - route-level and airline-level stats
     - congestion stats
+    - daily congestion stats (OriginDailyFlights, OriginDailyFlightsAirline)
+    - airline hub flags (IsAirlineHubAtOrigin/Dest)
     - typical distance per route
     - monthly climatological weather per airport (Origin/Dest)
     - global defaults for fallback
     """
     df = pd.read_parquet(DATA_PATH)
 
+    # Use full data for choices
     airlines = sorted(df["Reporting_Airline"].dropna().unique().tolist())
     origins = sorted(df["Origin"].dropna().unique().tolist())
     dests = sorted(df["Dest"].dropna().unique().tolist())
 
+    # Subset for aggregate stats (match training script: 2010–2018)
+    stats_mask = (df["Year"] >= AGG_STATS_START_YEAR) & (
+        df["Year"] <= AGG_STATS_END_YEAR
+    )
+    df_stats = df[stats_mask].copy()
+    if df_stats.empty:
+        df_stats = df.copy()
+
     # Route-level reliability (per airline + route)
     route_meta = (
-        df.groupby(["Reporting_Airline", "Origin", "Dest"])
+        df_stats.groupby(["Reporting_Airline", "Origin", "Dest"])
         .agg(
             RouteDelayRate=("RouteDelayRate", "mean"),
             RouteCancelRate=("RouteCancelRate", "mean"),
@@ -154,7 +240,7 @@ def load_metadata():
 
     # Airline-level reliability
     airline_meta = (
-        df.groupby("Reporting_Airline")
+        df_stats.groupby("Reporting_Airline")
         .agg(
             AirlineDelayRate=("AirlineDelayRate", "mean"),
             AirlineCancelRate=("AirlineCancelRate", "mean"),
@@ -165,12 +251,98 @@ def load_metadata():
 
     # Congestion: avg flights per (Origin, Month, DOW, DepHour)
     slot_meta = (
-        df.groupby(["Origin", "Month", "DayOfWeek", "DepHour"])
+        df_stats.groupby(["Origin", "Month", "DayOfWeek", "DepHour"])
         .agg(OriginSlotFlights=("OriginSlotFlights", "mean"))
         .reset_index()
     )
 
-    # Route‑pair meta across all airlines
+    # --- New congestion features: daily flights --------------------
+    # Daily total departures at each origin
+    daily_origin = (
+        df_stats.groupby(["Origin", "FlightDate"])["Cancelled"]
+        .size()
+        .reset_index(name="DailyFlightsOrigin")
+    )
+    # Attach calendar info
+    calendar_cols = (
+        df_stats[["FlightDate", "Month", "DayOfWeek"]].drop_duplicates()
+    )
+    daily_origin = daily_origin.merge(calendar_cols, on="FlightDate", how="left")
+    daily_origin_meta = (
+        daily_origin.groupby(["Origin", "Month", "DayOfWeek"])
+        .agg(OriginDailyFlights=("DailyFlightsOrigin", "mean"))
+        .reset_index()
+    )
+
+    # Daily airline-specific departures at each origin
+    daily_origin_airline = (
+        df_stats.groupby(["Origin", "Reporting_Airline", "FlightDate"])["Cancelled"]
+        .size()
+        .reset_index(name="DailyFlightsOriginAirline")
+    )
+    daily_origin_airline = daily_origin_airline.merge(
+        calendar_cols, on="FlightDate", how="left"
+    )
+    daily_origin_airline_meta = (
+        daily_origin_airline.groupby(
+            ["Origin", "Reporting_Airline", "Month", "DayOfWeek"]
+        )
+        .agg(OriginDailyFlightsAirline=("DailyFlightsOriginAirline", "mean"))
+        .reset_index()
+    )
+
+    # --- Airline-hub flags (A) ------------------------------------
+    # Origin hubs
+    origin_totals = (
+        df_stats.groupby("Origin")["Cancelled"]
+        .size()
+        .reset_index(name="TotalOriginFlights")
+    )
+    origin_airline_totals = (
+        df_stats.groupby(["Origin", "Reporting_Airline"])["Cancelled"]
+        .size()
+        .reset_index(name="OriginAirlineFlights")
+    )
+    hub_origin = origin_airline_totals.merge(
+        origin_totals, on="Origin", how="left"
+    )
+    hub_origin["OriginAirlineShare"] = (
+        hub_origin["OriginAirlineFlights"] / hub_origin["TotalOriginFlights"]
+    )
+    hub_origin["IsAirlineHubAtOrigin"] = (
+        (hub_origin["OriginAirlineShare"] >= 0.25)
+        & (hub_origin["OriginAirlineFlights"] >= 10_000)
+    ).astype("int8")
+    hub_origin_meta = hub_origin[
+        ["Origin", "Reporting_Airline", "IsAirlineHubAtOrigin"]
+    ]
+
+    # Destination hubs
+    dest_totals = (
+        df_stats.groupby("Dest")["Cancelled"]
+        .size()
+        .reset_index(name="TotalDestFlights")
+    )
+    dest_airline_totals = (
+        df_stats.groupby(["Dest", "Reporting_Airline"])["Cancelled"]
+        .size()
+        .reset_index(name="DestAirlineFlights")
+    )
+    hub_dest = dest_airline_totals.merge(
+        dest_totals, on="Dest", how="left"
+    )
+    hub_dest["DestAirlineShare"] = (
+        hub_dest["DestAirlineFlights"] / hub_dest["TotalDestFlights"]
+    )
+    hub_dest["IsAirlineHubAtDest"] = (
+        (hub_dest["DestAirlineShare"] >= 0.25)
+        & (hub_dest["DestAirlineFlights"] >= 10_000)
+    ).astype("int8")
+    hub_dest_meta = hub_dest[
+        ["Dest", "Reporting_Airline", "IsAirlineHubAtDest"]
+    ]
+
+    # Route‑pair meta across all airlines (all years, for suggestions)
     route_pair_meta = (
         df.groupby(["Origin", "Dest"])
         .agg(
@@ -218,11 +390,24 @@ def load_metadata():
     global_slot_mean = float(df["OriginSlotFlights"].mean())
     global_distance_mean = float(df["Distance"].mean())
 
+    global_daily_flights_mean = (
+        float(daily_origin_meta["OriginDailyFlights"].mean())
+        if not daily_origin_meta.empty
+        else 0.0
+    )
+    global_daily_flights_airline_mean = (
+        float(daily_origin_airline_meta["OriginDailyFlightsAirline"].mean())
+        if not daily_origin_airline_meta.empty
+        else 0.0
+    )
+
     defaults = {
         "global_delay_rate": global_delay_rate,
         "global_cancel_rate": global_cancel_rate,
         "global_slot_mean": global_slot_mean,
         "global_distance_mean": global_distance_mean,
+        "OriginDailyFlights_mean": global_daily_flights_mean,
+        "OriginDailyFlightsAirline_mean": global_daily_flights_airline_mean,
         # weather defaults
         "Origin_tavg_mean": float(df["Origin_tavg"].mean()),
         "Origin_prcp_mean": float(df["Origin_prcp"].mean()),
@@ -244,6 +429,10 @@ def load_metadata():
         route_meta,
         airline_meta,
         slot_meta,
+        daily_origin_meta,
+        daily_origin_airline_meta,
+        hub_origin_meta,
+        hub_dest_meta,
         route_pair_meta,
         route_distance_meta,
         origin_weather_meta,
@@ -312,15 +501,83 @@ def get_slot_stats(origin, month, dow, dep_hour, slot_meta, defaults):
     return defaults["global_slot_mean"]
 
 
+def get_daily_origin_flights(
+    origin, month, dow, daily_origin_meta, defaults
+) -> float:
+    mask = (
+        (daily_origin_meta["Origin"] == origin)
+        & (daily_origin_meta["Month"] == month)
+        & (daily_origin_meta["DayOfWeek"] == dow)
+    )
+    if mask.any():
+        return float(
+            daily_origin_meta.loc[mask, "OriginDailyFlights"].iloc[0]
+        )
+    return defaults.get("OriginDailyFlights_mean", 0.0)
+
+
+def get_daily_origin_airline_flights(
+    origin, airline, month, dow, daily_origin_airline_meta, defaults
+) -> float:
+    mask = (
+        (daily_origin_airline_meta["Origin"] == origin)
+        & (daily_origin_airline_meta["Reporting_Airline"] == airline)
+        & (daily_origin_airline_meta["Month"] == month)
+        & (daily_origin_airline_meta["DayOfWeek"] == dow)
+    )
+    if mask.any():
+        return float(
+            daily_origin_airline_meta.loc[
+                mask, "OriginDailyFlightsAirline"
+            ].iloc[0]
+        )
+    return defaults.get("OriginDailyFlightsAirline_mean", 0.0)
+
+
+def get_hub_flags(
+    airline,
+    origin,
+    dest,
+    hub_origin_meta,
+    hub_dest_meta,
+) -> tuple[float, float]:
+    is_origin_hub = 0.0
+    is_dest_hub = 0.0
+
+    mask_o = (
+        (hub_origin_meta["Origin"] == origin)
+        & (hub_origin_meta["Reporting_Airline"] == airline)
+    )
+    if mask_o.any():
+        is_origin_hub = float(
+            hub_origin_meta.loc[mask_o, "IsAirlineHubAtOrigin"].iloc[0]
+        )
+
+    mask_d = (
+        (hub_dest_meta["Dest"] == dest)
+        & (hub_dest_meta["Reporting_Airline"] == airline)
+    )
+    if mask_d.any():
+        is_dest_hub = float(
+            hub_dest_meta.loc[mask_d, "IsAirlineHubAtDest"].iloc[0]
+        )
+
+    return is_origin_hub, is_dest_hub
+
+
 def get_route_distance_default(origin, dest, route_distance_meta, defaults):
-    mask = (route_distance_meta["Origin"] == origin) & (route_distance_meta["Dest"] == dest)
+    mask = (route_distance_meta["Origin"] == origin) & (
+        route_distance_meta["Dest"] == dest
+    )
     if mask.any():
         return float(route_distance_meta.loc[mask].iloc[0]["Distance"])
     return defaults["global_distance_mean"]
 
 
 def get_origin_weather(origin, month, origin_weather_meta, defaults):
-    mask = (origin_weather_meta["Origin"] == origin) & (origin_weather_meta["Month"] == month)
+    mask = (origin_weather_meta["Origin"] == origin) & (
+        origin_weather_meta["Month"] == month
+    )
     if mask.any():
         row = origin_weather_meta.loc[mask].iloc[0]
         return (
@@ -340,7 +597,9 @@ def get_origin_weather(origin, month, origin_weather_meta, defaults):
 
 
 def get_dest_weather(dest, month, dest_weather_meta, defaults):
-    mask = (dest_weather_meta["Dest"] == dest) & (dest_weather_meta["Month"] == month)
+    mask = (dest_weather_meta["Dest"] == dest) & (
+        dest_weather_meta["Month"] == month
+    )
     if mask.any():
         row = dest_weather_meta.loc[mask].iloc[0]
         return (
@@ -372,13 +631,19 @@ def build_feature_row(
     route_meta: pd.DataFrame,
     airline_meta: pd.DataFrame,
     slot_meta: pd.DataFrame,
+    daily_origin_meta: pd.DataFrame,
+    daily_origin_airline_meta: pd.DataFrame,
+    hub_origin_meta: pd.DataFrame,
+    hub_dest_meta: pd.DataFrame,
     origin_weather_meta: pd.DataFrame,
     dest_weather_meta: pd.DataFrame,
     defaults: dict,
+    airport_to_state: dict,
 ) -> pd.DataFrame:
     """
     Build a single-row DataFrame with exactly the same columns
-    as used during training (including weather features).
+    as used during training (including new hub, holiday and
+    daily congestion features).
     """
     year = travel_date.year
     month = travel_date.month
@@ -391,6 +656,12 @@ def build_feature_row(
 
     is_weekend = 1 if day_of_week in (6, 7) else 0
     is_holiday_season = 1 if month in (11, 12, 1) else 0
+
+    # Holiday flags (B)
+    holidays = get_us_federal_holidays(year)
+    is_holiday = 1 if travel_date in holidays else 0
+    is_day_before_holiday = 1 if (travel_date + timedelta(days=1)) in holidays else 0
+    is_day_after_holiday = 1 if (travel_date - timedelta(days=1)) in holidays else 0
 
     season = month_to_season(month)
     route = f"{origin}_{dest}"
@@ -411,6 +682,24 @@ def build_feature_row(
         origin, month, day_of_week, dep_hour, slot_meta, defaults
     )
 
+    # New daily congestion features (C)
+    origin_daily_flights = get_daily_origin_flights(
+        origin, month, day_of_week, daily_origin_meta, defaults
+    )
+    origin_daily_flights_airline = get_daily_origin_airline_flights(
+        origin,
+        airline,
+        month,
+        day_of_week,
+        daily_origin_airline_meta,
+        defaults,
+    )
+
+    # Hub flags (A)
+    is_hub_origin, is_hub_dest = get_hub_flags(
+        airline, origin, dest, hub_origin_meta, hub_dest_meta
+    )
+
     # Climatological weather for this airport/month
     (
         origin_tavg,
@@ -427,6 +716,10 @@ def build_feature_row(
         dest_bad,
     ) = get_dest_weather(dest, month, dest_weather_meta, defaults)
 
+    # State information (for OriginState / DestState categoricals)
+    origin_state = airport_to_state.get(origin, "Unknown")
+    dest_state = airport_to_state.get(dest, "Unknown")
+
     data = {
         # Numeric
         "Year": [year],
@@ -437,6 +730,9 @@ def build_feature_row(
         "DepHour": [dep_hour],
         "IsWeekend": [is_weekend],
         "IsHolidaySeason": [is_holiday_season],
+        "IsHoliday": [is_holiday],
+        "IsDayBeforeHoliday": [is_day_before_holiday],
+        "IsDayAfterHoliday": [is_day_after_holiday],
         "Distance": [float(distance)],
         "RouteDelayRate": [route_delay_rate],
         "RouteCancelRate": [route_cancel_rate],
@@ -445,6 +741,10 @@ def build_feature_row(
         "AirlineCancelRate": [airline_cancel_rate],
         "AirlineFlights": [airline_flights],
         "OriginSlotFlights": [origin_slot_flights],
+        "OriginDailyFlights": [origin_daily_flights],
+        "OriginDailyFlightsAirline": [origin_daily_flights_airline],
+        "IsAirlineHubAtOrigin": [is_hub_origin],
+        "IsAirlineHubAtDest": [is_hub_dest],
         "DepHour_sin": [dep_sin],
         "DepHour_cos": [dep_cos],
         "Origin_tavg": [origin_tavg],
@@ -464,6 +764,8 @@ def build_feature_row(
         "Route": [route],
         "Season": [season],
         "DistanceBand": [dist_band],
+        "OriginState": [origin_state],
+        "DestState": [dest_state],
     }
 
     X = pd.DataFrame(data, columns=FEATURE_COLS)
@@ -614,11 +916,16 @@ def suggest_safer_hours(
     route_meta: pd.DataFrame,
     airline_meta: pd.DataFrame,
     slot_meta: pd.DataFrame,
+    daily_origin_meta: pd.DataFrame,
+    daily_origin_airline_meta: pd.DataFrame,
+    hub_origin_meta: pd.DataFrame,
+    hub_dest_meta: pd.DataFrame,
     origin_weather_meta: pd.DataFrame,
     dest_weather_meta: pd.DataFrame,
     defaults: dict,
     delay_model,
     current_hour: int,
+    airport_to_state: dict,
     max_suggestions: int = 3,
 ):
     """Return a list of (hour, delay_proba) that look safer than the current one."""
@@ -634,9 +941,14 @@ def suggest_safer_hours(
             route_meta,
             airline_meta,
             slot_meta,
+            daily_origin_meta,
+            daily_origin_airline_meta,
+            hub_origin_meta,
+            hub_dest_meta,
             origin_weather_meta,
             dest_weather_meta,
             defaults,
+            airport_to_state,
         )
         proba_delay = float(delay_model.predict_proba(X_row)[0, 1])
         records.append((h, proba_delay))
@@ -657,11 +969,16 @@ def suggest_safer_airlines(
     route_meta: pd.DataFrame,
     airline_meta: pd.DataFrame,
     slot_meta: pd.DataFrame,
+    daily_origin_meta: pd.DataFrame,
+    daily_origin_airline_meta: pd.DataFrame,
+    hub_origin_meta: pd.DataFrame,
+    hub_dest_meta: pd.DataFrame,
     origin_weather_meta: pd.DataFrame,
     dest_weather_meta: pd.DataFrame,
     defaults: dict,
     delay_model,
     current_airline: str,
+    airport_to_state: dict,
     max_suggestions: int = 3,
 ):
     """Suggest alternative airlines on the same route with lower predicted delay risk."""
@@ -692,9 +1009,14 @@ def suggest_safer_airlines(
             route_meta,
             airline_meta,
             slot_meta,
+            daily_origin_meta,
+            daily_origin_airline_meta,
+            hub_origin_meta,
+            hub_dest_meta,
             origin_weather_meta,
             dest_weather_meta,
             defaults,
+            airport_to_state,
         )
         proba_delay = float(delay_model.predict_proba(X_row)[0, 1])
         suggestions.append((code, proba_delay, route_flights))
@@ -896,6 +1218,10 @@ def main():
             route_meta,
             airline_meta,
             slot_meta,
+            daily_origin_meta,
+            daily_origin_airline_meta,
+            hub_origin_meta,
+            hub_dest_meta,
             route_pair_meta,
             route_distance_meta,
             origin_weather_meta,
@@ -904,7 +1230,7 @@ def main():
         ) = load_metadata()
         delay_model, cancel_model = load_models()
 
-    # --- derive state information for the state-based tab ---
+    # --- derive state information for the state-based tab & features ---
     origin_state_col = pick_first_existing(
         df.columns,
         [
@@ -1061,9 +1387,14 @@ def main():
                         route_meta,
                         airline_meta,
                         slot_meta,
+                        daily_origin_meta,
+                        daily_origin_airline_meta,
+                        hub_origin_meta,
+                        hub_dest_meta,
                         origin_weather_meta,
                         dest_weather_meta,
                         defaults,
+                        airport_to_state,
                     )
 
                     proba_delay = float(delay_model.predict_proba(X_input)[0, 1])
@@ -1130,9 +1461,14 @@ def main():
                             route_meta,
                             airline_meta,
                             slot_meta,
+                            daily_origin_meta,
+                            daily_origin_airline_meta,
+                            hub_origin_meta,
+                            hub_dest_meta,
                             origin_weather_meta,
                             dest_weather_meta,
                             defaults,
+                            airport_to_state,
                         )
                         proba_delay_rt = float(
                             delay_model.predict_proba(X_return)[0, 1]
@@ -1345,11 +1681,16 @@ def main():
                         route_meta,
                         airline_meta,
                         slot_meta,
+                        daily_origin_meta,
+                        daily_origin_airline_meta,
+                        hub_origin_meta,
+                        hub_dest_meta,
                         origin_weather_meta,
                         dest_weather_meta,
                         defaults,
                         delay_model,
                         dep_hour,
+                        airport_to_state,
                     )
                     safer_airlines = suggest_safer_airlines(
                         travel_date,
@@ -1360,11 +1701,16 @@ def main():
                         route_meta,
                         airline_meta,
                         slot_meta,
+                        daily_origin_meta,
+                        daily_origin_airline_meta,
+                        hub_origin_meta,
+                        hub_dest_meta,
                         origin_weather_meta,
                         dest_weather_meta,
                         defaults,
                         delay_model,
                         airline,
+                        airport_to_state,
                     )
 
                     if safer_hours or safer_airlines:
@@ -2053,9 +2399,9 @@ def main():
                 if "selected_airports" in locals() and selected_airports:
                     stats_sorted = stats_a.sort_values(plot_col, ascending=ascending)
                 else:
-                    stats_sorted = stats_a.sort_values(plot_col, ascending=ascending).head(
-                        top_n
-                    )
+                    stats_sorted = stats_a.sort_values(
+                        plot_col, ascending=ascending
+                    ).head(top_n)
 
                 if focus_airport != "None":
                     if role == "Origin":
