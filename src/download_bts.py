@@ -62,5 +62,5 @@ def download_range(start_year: int, end_year: int) -> None:
 
 
 if __name__ == "__main__":
-    # This will ONLY attempt 2010–2025 and then exit
+    
     download_range(start_year=START_YEAR, end_year=END_YEAR)

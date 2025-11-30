@@ -1,0 +1,35 @@
+========================================================================
+REAL-WORLD BACKTEST SUMMARY - FlightDelayAdvisor on 2025 BTS data
+========================================================================
+Source data:
+  - Processed BTS 2025 dataset from data/processed/bts_2025_backtest_base.parquet
+  - Features built using 2010-2024 metadata (route/airline stats, congestion,
+    hubs and weather) via app.py's load_metadata / build_feature_row.
+
+Delay >= 15 min model (deployed delay model)
+  Samples (non-cancelled 2025 flights with ArrDel15) : 196,693
+  Base delay rate                                   : 0.2287
+  ROC-AUC                                           : 0.6469
+  PR-AUC                                            : 0.3460
+  Brier score                                       : 0.1703
+  Top 10% bucket positive rate        : 0.4190
+  Share of all delays in top bucket                 : 0.1937
+
+Cancellation model (deployed cancel model)
+  Samples (2025 flights with Cancelled in {0,1})   : 200,000
+  Base cancellation rate                            : 0.0165
+  ROC-AUC                                           : 0.6543
+  PR-AUC                                            : 0.0368
+  Brier score                                       : 0.0165
+  Top 10% bucket positive rate       : 0.0435
+  Share of all cancellations in top bucket          : 0.2634
+
+Notes:
+  - This backtest reflects genuinely out-of-time generalisation.
+  - Features for 2025 flights are constructed using only 2010-2024
+    historical patterns and climatology (no 2025 leakage) via the
+    same metadata + feature builder used in the Streamlit app.
+  - Concentration metrics (top bucket) focus on the top 10%
+    highest-risk flights, matching the top-bucket logic used in train_models.py.
+  - For detailed classification reports and risk stratification tables,
+    see backtest_2025_log.txt.
