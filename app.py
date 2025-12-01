@@ -22,9 +22,9 @@ DATA_PATH = Path(
 
 
 # Google Drive file IDs for the parquet datasets.
-GDRIVE_FILE_ID_FULL = "1PFxYfpn2pT-kg_JvCVjgy5Q1qSNZdxbm"    # full (not used by app)
-GDRIVE_FILE_ID_WEATHER = "1k7PoZiz03sJkfrukM7h4KQoX4dCIpVTd"  # <-- NEW SAMPLE FILE
-
+# Google Drive file IDs for the parquet datasets.
+GDRIVE_FILE_ID_FULL = "1PFxYfpn2pT-kg_JvCVjgy5Q1qSNZdxbm"      # full (optional, not used)
+GDRIVE_FILE_ID_WEATHER = "1zYCfrenfIMVyUZ8sFK89M68NOHNfUGe5"    # <-- NEW 1M SAMPLE
 
 
 MODELS_DIR = Path("models")
