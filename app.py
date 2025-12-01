@@ -8,6 +8,8 @@ import numpy as np
 import pandas as pd
 import streamlit as st
 import altair as alt
+import requests
+
 
 # -------------------------------------------------------------------
 # Paths (consistent with training)
@@ -15,6 +17,15 @@ import altair as alt
 DATA_PATH = Path(
     "data/processed/bts_delay_2010_2024_balanced_research_weather.parquet"
 )
+
+# Google Drive file IDs for the large parquet datasets stored externally.
+# These allow the app to download the data when running on Streamlit Cloud,
+# where the files are not part of the Git repository because of their size.
+GDRIVE_FILE_ID_FULL = "1PFxYfpn2pT-kg_JvCVjgy5Q1qSNZdxbm"
+GDRIVE_FILE_ID_WEATHER = "1LazvqVb9VMWy7petXI-NKSrr-zBDuE_u"
+
+MODELS_DIR = Path("models")
+
 MODELS_DIR = Path("models")
 DELAY_MODEL_PATH = MODELS_DIR / "catboost_delay15_calibrated.joblib"
 # use the new best cancellation model from training (LGBM, calibrated)
@@ -199,6 +210,46 @@ def get_us_federal_holidays(year: int):
 # -------------------------------------------------------------------
 # Cached loading of data & models
 # -------------------------------------------------------------------
+
+def _download_file_from_google_drive(file_id: str, destination: Path) -> None:
+    """
+    Download a (possibly large) file from Google Drive into ``destination``.
+
+    The file IDs are defined at the top of this module. This allows the app
+    to run on Streamlit Cloud without checking the large parquet file into
+    the Git repository.
+    """
+    destination.parent.mkdir(parents=True, exist_ok=True)
+
+    url = "https://docs.google.com/uc?export=download"
+    session = requests.Session()
+
+    # Initial request
+    response = session.get(url, params={"id": file_id}, stream=True)
+
+    # For large files Google Drive adds a confirmation token that we need
+    # to send again; see e.g. https://stackoverflow.com/a/39225272
+    token = None
+    for key, value in response.cookies.items():
+        if key.startswith("download_warning"):
+            token = value
+            break
+
+    if token is not None:
+        response = session.get(
+            url,
+            params={"id": file_id, "confirm": token},
+            stream=True,
+        )
+
+    # Raise a helpful error if something went wrong (404, permissions, ...)
+    response.raise_for_status()
+
+    with open(destination, "wb") as f:
+        for chunk in response.iter_content(32768):
+            if chunk:  # filter out keep-alive chunks
+                f.write(chunk)
+
 @st.cache_data(show_spinner=True)
 def load_metadata():
     """
@@ -212,6 +263,9 @@ def load_metadata():
     - monthly climatological weather per airport (Origin/Dest)
     - global defaults for fallback
     """
+    if not DATA_PATH.exists():
+        _download_file_from_google_drive(GDRIVE_FILE_ID_WEATHER, DATA_PATH)
+
     df = pd.read_parquet(DATA_PATH)
 
     # Use full data for choices
