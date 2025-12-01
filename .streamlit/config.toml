@@ -1,0 +1,2 @@
+[server]
+maxUploadSize = 500  # or a value over 360
