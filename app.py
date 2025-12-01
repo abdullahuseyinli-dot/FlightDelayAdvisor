@@ -15,14 +15,18 @@ import requests
 # Paths (consistent with training)
 # -------------------------------------------------------------------
 DATA_PATH = Path(
-    "data/processed/bts_delay_2010_2024_balanced_research_weather.parquet"
+    "data/processed/bts_delay_2010_2024_balanced_research_weather_sample.parquet"
 )
 
 # Google Drive file IDs for the large parquet datasets stored externally.
 # These allow the app to download the data when running on Streamlit Cloud,
 # where the files are not part of the Git repository because of their size.
-GDRIVE_FILE_ID_FULL = "1PFxYfpn2pT-kg_JvCVjgy5Q1qSNZdxbm"
-GDRIVE_FILE_ID_WEATHER = "1LazvqVb9VMWy7petXI-NKSrr-zBDuE_u"
+# Google Drive file IDs for the large parquet datasets stored externally.
+# These allow the app to download the data when running on Streamlit/Render,
+# where the files are not part of the Git repository because of their size.
+GDRIVE_FILE_ID_FULL = "1PFxYfpn2pT-kg_JvCVjgy5Q1qSNZdxbm"    # keep if you still want it
+GDRIVE_FILE_ID_WEATHER = "16AChZHT3eRqI8HNugR0jKPSyDH9abPh3"  # <-- NEW SAMPLE FILE
+
 
 MODELS_DIR = Path("models")
 
