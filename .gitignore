@@ -54,6 +54,7 @@ coverage.*
 !reports/metrics_summary.txt
 !reports/figures/
 !reports/figures/*.png
+!reports/backtest_2025_log.txt
 
 
 # -------------------------
