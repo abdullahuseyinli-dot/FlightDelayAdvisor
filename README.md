@@ -47,7 +47,7 @@ and exposes them through an interactive **Streamlit app** for “what-if” anal
 │   ├── metrics_summary.txt      # Consolidated metrics from train_models.py (multiple models + ablations)
 │   └── figures/                 # Diagnostic plots (ROC, PR, calibration, CM, feature importance)
 │
-├── notebooks/                   # Optional: EDA / calibration / ablation notebooks   [not required]
+├── notebooks/                   # EDA / calibration / ablation notebooks  
 │
 ├── requirements.txt             # Project dependencies for the .project1venv
 ├── README.md                    # This file
