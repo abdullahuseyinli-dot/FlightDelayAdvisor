@@ -292,7 +292,7 @@ def build_feature_matrix_for_2025(
         ) from exc
 
     # Old app: 12 return values
-    # New app: 16 return values (with daily_* and hub_* metadata).
+    # The application returns 16 values, including daily and hub metadata.
     if n_meta == 12:
         (
             df_hist,

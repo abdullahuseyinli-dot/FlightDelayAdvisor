@@ -22,7 +22,7 @@ def main():
     print(f"[INFO] Loading processed BTS dataset from {DATA_PATH}")
     df = pd.read_parquet(DATA_PATH)
 
-    # All airports present in your sample
+    # All airports represented in the sampled dataset.
     all_airports = pd.concat([df["Origin"], df["Dest"]]).dropna()
     airport_counts = all_airports.value_counts()
     print(f"[INFO] There are {len(airport_counts)} airports with flights in the sample")

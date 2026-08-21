@@ -1,19 +1,8 @@
-"""
-End‑to‑end regression tests for the FlightDelayAdvisor project.
+"""Artifact-backed regression tests for the application pipeline.
 
-These tests are designed to be:
+Run these checks after materializing the Git LFS dataset and model files:
 
-- **Research‑grade**: they check not only that the code runs, but that the
-  models have non‑trivial predictive signal on the historical data.
-- **Robust**: they skip gracefully if the large parquet file is not present.
-- **Aligned with the app**: they use the same feature builder and model loader
-  as the Streamlit UI (src/app.py).
-
-Run with:
-
-    (.project1venv) PS> pip install pytest
-    (.project1venv) PS> python -m pytest -q
-
+    python -m pytest -q -m integration
 """
 
 from __future__ import annotations
@@ -35,7 +24,7 @@ SRC_DIR = REPO_ROOT / "src"
 if str(SRC_DIR) not in sys.path:
     sys.path.insert(0, str(SRC_DIR))
 
-# Now import from your app
+# Import the production feature builder and artifact loaders.
 from app import (  # type: ignore
     DATA_PATH as REL_DATA_PATH,
     FEATURE_COLS,
@@ -46,6 +35,24 @@ from app import (  # type: ignore
 
 # Resolve data path relative to the repo root
 DATA_PATH = (REPO_ROOT / REL_DATA_PATH).resolve()
+
+
+def _is_materialized_lfs_file(path: Path) -> bool:
+    if not path.is_file():
+        return False
+    with path.open("rb") as handle:
+        return not handle.read(80).startswith(
+            b"version https://git-lfs.github.com/spec/v1"
+        )
+
+
+pytestmark = (
+    pytest.mark.integration,
+    pytest.mark.skipif(
+        not _is_materialized_lfs_file(DATA_PATH),
+        reason="Run 'git lfs pull' before artifact-backed regression tests.",
+    ),
+)
 
 # --------------------------------------------------------------------
 # Basic existence / integrity tests
@@ -286,8 +293,8 @@ def test_delay_model_has_predictive_signal():
     proba = delay_model.predict_proba(X)[:, 1]
     auc = roc_auc_score(y, proba)
 
-    # Your metrics_summary.txt shows ROC‑AUC around 0.68 on test, so 0.60
-    # is a safe lower bound while still catching serious regressions.
+    # The recorded test ROC-AUC is approximately 0.68. A 0.60 floor allows for
+    # sampling variation while still catching serious regressions.
     assert auc > 0.60, f"Delay model AUC too low: {auc:.3f}"
 
 
@@ -351,7 +358,7 @@ def test_cancel_model_has_predictive_signal():
     proba = cancel_model.predict_proba(X)[:, 1]
     auc = roc_auc_score(y, proba)
 
-    # From your metrics summary, AUC ~0.69 – we use a conservative lower bound.
+    # The recorded AUC is approximately 0.69, so use a conservative lower bound.
     assert auc > 0.60, f"Cancellation model AUC too low: {auc:.3f}"
 
 

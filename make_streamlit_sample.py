@@ -1,7 +1,7 @@
 import pandas as pd
 from pathlib import Path
 
-# 1. Point this to your FULL weather dataset (wherever you have it locally)
+# Configure the full local weather dataset used to build the Streamlit sample.
 SRC_PATH = Path("data/processed/bts_delay_2010_2024_balanced_research_weather.parquet")
 
 # 2. Path for the SMALL version that only the app will use

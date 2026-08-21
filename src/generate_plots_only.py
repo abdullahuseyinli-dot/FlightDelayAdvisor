@@ -92,7 +92,7 @@ if __name__ == "__main__":
     # 5) Generate diagnostic plots only
     create_diagnostic_plots_for_catboost(
         task_name="cancel",
-        X_test=X_test_c,              # <-- NEW: pass test features
+        X_test=X_test_c,
         y_test=y_test_c,
         y_proba_test_cal=y_proba_test_cal,
         best_threshold=best_t,

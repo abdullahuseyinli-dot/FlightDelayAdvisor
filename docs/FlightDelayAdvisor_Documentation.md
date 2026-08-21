@@ -409,7 +409,7 @@ This section is for anyone running or deploying the app.
  
 4.1 Prerequisites
 
-- Python 3.10+ (or the version used in your project)
+- Python 3.10 or newer
 
 - Git
 
@@ -453,8 +453,6 @@ The backtest writes a concise summary to reports/backtest_2025_metrics.txt, incl
 
 5. Using the app
 
-[Screenshot placeholder – Full home screen showing tabs]
-
 5.1 Landing page
 
 On launch, the app displays:
@@ -469,8 +467,6 @@ The app loads metadata and models once and reuses them across interactions.
 
 
 6. Single flight risk estimate
-
-[Screenshot placeholder – Single flight tab with input form and results panel]
 
 The Single flight tab is the primary entry point for end users. It provides a personalised risk assessment and alternatives for a specific itinerary.
 
@@ -581,12 +577,8 @@ Finally, the app offers:
 
 - Alternative airlines on the same route and hour with lower predicted delay risk.
 
-[Screenshot placeholder – Example of “Why this risk level” reasons and model‑based alternatives]
-
 
 7. High‑risk hours (historical)
-
-[Screenshot placeholder – High‑risk hours tab with line chart and heatmap]
 
 The High‑risk hours tab is designed for exploration rather than single‑flight prediction.
 
@@ -644,8 +636,6 @@ The Explore & compare tab has three subtabs: Airlines, Airports, and States.
 
 8.1 Airlines subtab – compare carriers on a route
 
-[Screenshot placeholder – Airline comparison bar charts and scatter plot]
-
 Inputs:
 
 - Origin and destination airports.
@@ -672,8 +662,6 @@ Outputs:
 
 8.2 Airports subtab – compare origins or destinations
 
-[Screenshot placeholder – Airport ranking bar chart]
-
 Options:
 
 - Choose whether to treat airports as origins or destinations.
@@ -695,8 +683,6 @@ Outputs:
 - This helps users and analysts identify structurally risky or reliable airports.
 
 8.3 States subtab – state‑level recommendations
-
-[Screenshot placeholder – State‑based recommendations text and list]
 
 Inputs:
 

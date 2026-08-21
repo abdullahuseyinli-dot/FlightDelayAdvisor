@@ -13,7 +13,7 @@ CatBoost, Tabular Neural Net), this script adds:
     - Class-weighting and negative subsampling for cancellations
     - Probability calibration via isotonic regression
     - Rich scalar metrics + ASCII summary
-    - Research-grade diagnostic plots (ROC, PR, calibration, etc.)
+    - Evaluation diagnostics (ROC, PR, calibration, and related plots)
     - Fairness-style group diagnostics (per-airline performance)
     - Temporal robustness / drift analysis (metrics by year)
     - Optional bootstrap significance testing between models
@@ -79,7 +79,7 @@ from sklearn.model_selection import GridSearchCV, train_test_split
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import OneHotEncoder, StandardScaler
 
-# NEW: optional SHAP for global explainability (guarded import)
+# Optional SHAP dependency for global explainability.
 try:
     import shap  # type: ignore
 
@@ -1589,7 +1589,7 @@ def evaluate_two_model_ensemble(
 
 
 # -------------------------------------------------------------------
-# NEW: PyTorch tabular NN (embeddings + MLP) for delay / cancellation
+# PyTorch tabular network (embeddings and MLP) for both targets.
 # -------------------------------------------------------------------
 class TabularDataset(Dataset):
     def __init__(self, X: pd.DataFrame, y: pd.Series, numeric_cols, cat_cols):

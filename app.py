@@ -1,4 +1,5 @@
-# src/app.py
+"""Interactive flight delay and cancellation risk application."""
+
 import math
 from datetime import date, timedelta
 from pathlib import Path
@@ -14,7 +15,6 @@ import requests
 # -------------------------------------------------------------------
 # Paths (consistent with training)
 # -------------------------------------------------------------------
-from pathlib import Path
 
 DATA_PATH = Path(
     "data/processed/bts_delay_2010_2024_balanced_research_weather_sample.parquet"
@@ -22,16 +22,13 @@ DATA_PATH = Path(
 
 
 # Google Drive file IDs for the parquet datasets.
-# Google Drive file IDs for the parquet datasets.
 GDRIVE_FILE_ID_FULL = "1PFxYfpn2pT-kg_JvCVjgy5Q1qSNZdxbm"      # full (optional, not used)
-GDRIVE_FILE_ID_WEATHER = "1zYCfrenfIMVyUZ8sFK89M68NOHNfUGe5"    # <-- NEW 1M SAMPLE
+GDRIVE_FILE_ID_WEATHER = "1zYCfrenfIMVyUZ8sFK89M68NOHNfUGe5"    # one-million-row sample
 
-
-MODELS_DIR = Path("models")
 
 MODELS_DIR = Path("models")
 DELAY_MODEL_PATH = MODELS_DIR / "catboost_delay15_calibrated.joblib"
-# use the new best cancellation model from training (LGBM, calibrated)
+# Deployed calibrated LightGBM cancellation model.
 CANCEL_MODEL_PATH = MODELS_DIR / "lgbm_cancel_calibrated.joblib"
 
 # Aggregation period for stats (match training script)
@@ -313,7 +310,7 @@ def load_metadata():
         .reset_index()
     )
 
-    # --- New congestion features: daily flights --------------------
+    # --- Daily-flight congestion features --------------------------
     # Daily total departures at each origin
     daily_origin = (
         df_stats.groupby(["Origin", "FlightDate"])["Cancelled"]
@@ -739,7 +736,7 @@ def build_feature_row(
         origin, month, day_of_week, dep_hour, slot_meta, defaults
     )
 
-    # New daily congestion features (C)
+    # Daily congestion features (C)
     origin_daily_flights = get_daily_origin_flights(
         origin, month, day_of_week, daily_origin_meta, defaults
     )
