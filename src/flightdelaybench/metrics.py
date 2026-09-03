@@ -125,4 +125,3 @@ def multiclass_brier(y_true: ArrayLike, probabilities: ArrayLike) -> float:
         raise ValueError("class labels are outside the probability matrix")
     observed = np.eye(p.shape[1], dtype=np.float64)[y]
     return float(np.mean(np.sum(np.square(p - observed), axis=1)))
-

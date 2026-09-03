@@ -54,4 +54,3 @@ class StudyProtocol:
 
 
 DEFAULT_PROTOCOL = StudyProtocol()
-

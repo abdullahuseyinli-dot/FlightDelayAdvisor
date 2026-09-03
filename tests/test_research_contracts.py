@@ -99,4 +99,3 @@ def test_paired_cluster_bootstrap_is_reproducible_and_directional() -> None:
     assert first == second
     assert first.estimate == pytest.approx(-0.1)
     assert first.upper < 0.0
-

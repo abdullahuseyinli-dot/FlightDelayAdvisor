@@ -73,6 +73,8 @@ Issues = "https://github.com/abdullahuseyinli-dot/FlightDelayAdvisor/issues"
 
 [project.scripts]
 flightdelaybench = "flightdelaybench.cli:main"
+flightdelaybench-acquire-bts = "flightdelaybench.acquisition:main"
+flightdelaybench-normalize-bts = "flightdelaybench.bts:main"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/flightdelaybench"]
@@ -102,5 +104,5 @@ strict = true
 packages = ["flightdelaybench"]
 
 [[tool.mypy.overrides]]
-module = ["pandas", "pandas.*", "sklearn", "sklearn.*"]
+module = ["pandas", "pandas.*", "pyarrow", "pyarrow.*", "sklearn", "sklearn.*"]
 ignore_missing_imports = true
