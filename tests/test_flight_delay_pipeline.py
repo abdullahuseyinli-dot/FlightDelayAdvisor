@@ -21,10 +21,13 @@ from sklearn.metrics import roc_auc_score
 # --------------------------------------------------------------------
 REPO_ROOT = Path(__file__).resolve().parents[1]
 SRC_DIR = REPO_ROOT / "src"
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
 if str(SRC_DIR) not in sys.path:
     sys.path.insert(0, str(SRC_DIR))
 
 # Import the production feature builder and artifact loaders.
+pytest.importorskip("streamlit", reason="install the app extra for legacy integration tests")
 from app import (  # type: ignore
     DATA_PATH as REL_DATA_PATH,
     FEATURE_COLS,

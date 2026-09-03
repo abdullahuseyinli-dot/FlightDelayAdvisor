@@ -21,6 +21,8 @@ env/
 .coverage
 .coverage.*
 htmlcov/
+build/
+dist/
 .ipynb_checkpoints/
 
 # Editors and operating systems
@@ -31,10 +33,16 @@ Thumbs.db
 
 # Local pipeline inputs and intermediate outputs
 data/raw/
+data/raw_bts/
 data/external/
 data/interim/
+data/derived/
 data/processed/*
 !data/processed/bts_delay_2010_2024_balanced_research_weather.parquet
+
+# Research run workspaces (curated manifests/results are tracked separately)
+runs/
+!runs/README.md
 
 # Keep only the deployed model artifacts in version control
 models/*
@@ -45,3 +53,6 @@ models/*
 *.log
 reports/local/
 reports/tmp/
+
+# Download staging files must never be mistaken for raw evidence
+*.part

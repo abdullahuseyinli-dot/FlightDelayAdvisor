@@ -1,0 +1,106 @@
+[build-system]
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"
+
+[project]
+name = "flightdelaybench"
+version = "0.1.0.dev0"
+description = "Point-in-time benchmarks for flight disruption prediction under weather and regime shift"
+readme = "README.md"
+requires-python = ">=3.11,<3.13"
+license = { file = "LICENSE" }
+authors = [
+  { name = "Abdulla Huseyinli" },
+]
+keywords = [
+  "flight delay",
+  "calibration",
+  "dataset shift",
+  "temporal validation",
+  "machine learning",
+]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+dependencies = [
+  "joblib>=1.4,<2",
+  "numpy>=1.26,<3",
+  "pandas>=2.2,<3",
+  "pyarrow>=15,<26",
+  "PyYAML>=6,<7",
+  "requests>=2.32,<3",
+  "scikit-learn>=1.5,<2",
+]
+
+[project.optional-dependencies]
+models = [
+  "catboost>=1.2.8,<2",
+  "lightgbm>=4.6,<5",
+  "optuna>=4.5,<5",
+]
+weather = [
+  "airportsdata>=20250523",
+  "fsspec>=2025.3",
+  "s3fs>=2025.3",
+  "xarray>=2025.1",
+  "zarr>=2.18,<4",
+]
+plots = [
+  "matplotlib>=3.9,<4",
+  "seaborn>=0.13,<1",
+]
+app = [
+  "altair>=5.5,<7",
+  "streamlit>=1.51,<2",
+]
+dev = [
+  "build>=1.2,<2",
+  "mypy>=1.15,<2",
+  "pytest>=8.3,<10",
+  "pytest-cov>=6,<8",
+  "ruff>=0.11,<1",
+  "types-PyYAML>=6.0",
+  "types-requests>=2.32",
+]
+
+[project.urls]
+Repository = "https://github.com/abdullahuseyinli-dot/FlightDelayAdvisor"
+Issues = "https://github.com/abdullahuseyinli-dot/FlightDelayAdvisor/issues"
+
+[project.scripts]
+flightdelaybench = "flightdelaybench.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/flightdelaybench"]
+
+[tool.pytest.ini_options]
+addopts = "-ra"
+testpaths = ["tests"]
+pythonpath = ["."]
+markers = [
+  "integration: requires materialized Git LFS data and model artifacts",
+  "slow: performs substantial data processing or model evaluation",
+  "confirmation: may access locked confirmation outcomes",
+]
+
+[tool.ruff]
+target-version = "py311"
+line-length = 100
+extend-exclude = ["annomi_counselling_dialogue_analysis.ipynb"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "RUF"]
+ignore = ["E501"]
+
+[tool.mypy]
+python_version = "3.11"
+strict = true
+packages = ["flightdelaybench"]
+
+[[tool.mypy.overrides]]
+module = ["pandas", "pandas.*", "sklearn", "sklearn.*"]
+ignore_missing_imports = true

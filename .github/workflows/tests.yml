@@ -18,11 +18,13 @@ jobs:
         with:
           python-version: "3.11"
           cache: pip
-      - name: Install lightweight test dependencies
-        run: python -m pip install pandas pytest
+      - name: Install package and test dependencies
+        run: python -m pip install -e ".[dev]"
       - name: Compile Python sources
         run: python -m compileall -q app.py src tools tests
-      - name: Test 2025 schema preparation
-        run: python -m pytest -q tests/test_prepare_2025.py
+      - name: Lint research package and tests
+        run: python -m ruff check src/flightdelaybench tests/test_research_contracts.py
+      - name: Test source-only repository
+        run: python -m pytest -q -m "not integration and not confirmation"
       - name: Validate repository evidence
         run: python tools/validate_repository.py

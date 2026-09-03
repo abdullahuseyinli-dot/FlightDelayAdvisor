@@ -48,6 +48,16 @@ FORBIDDEN_PUBLIC_MARKERS = (
     "c:" + chr(92) + "users",
     "[screenshot " + "placeholder",
 )
+IGNORED_DIRECTORIES = {
+    ".git",
+    ".mypy_cache",
+    ".pytest_cache",
+    ".ruff_cache",
+    ".venv",
+    "build",
+    "dist",
+    "htmlcov",
+}
 
 
 def require(condition: bool, message: str) -> None:
@@ -84,7 +94,11 @@ def validate_markdown_links() -> None:
 
 def validate_public_text() -> None:
     for path in ROOT.rglob("*"):
-        if not path.is_file() or ".git" in path.parts or path.suffix.lower() not in TEXT_SUFFIXES:
+        if (
+            not path.is_file()
+            or any(part in IGNORED_DIRECTORIES for part in path.parts)
+            or path.suffix.lower() not in TEXT_SUFFIXES
+        ):
             continue
         try:
             text = path.read_text(encoding="utf-8").lower()

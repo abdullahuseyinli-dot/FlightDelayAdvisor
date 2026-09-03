@@ -1,0 +1,55 @@
+[identity]
+study = "FlightDelayBench"
+protocol_version = "1.0.0-draft"
+status = "DEVELOPMENT"
+title = "Point-in-Time Multi-Horizon Flight Disruption Prediction Under Weather and Regime Shift"
+
+[data]
+source = "US DOT Bureau of Transportation Statistics Reporting Carrier On-Time Performance"
+historical_start_year = 2010
+historical_end_year = 2024
+warmup_year = 2010
+development_start_year = 2011
+development_end_year = 2023
+selection_year = 2024
+retrospective_year = 2025
+confirmation_year = 2026
+confirmation_month_start = 1
+confirmation_month_end = 6
+
+[splits]
+rolling_evaluation_years = [2019, 2020, 2021, 2022, 2023]
+minimum_training_year = 2011
+cluster_key = "FlightDate"
+
+[tasks.delay]
+label = "ArrDel15"
+population = "non-cancelled, non-diverted flights with an observed arrival-delay label"
+
+[tasks.cancellation]
+label = "Cancelled"
+population = "non-diverted scheduled flights with a binary cancellation label"
+
+[tasks.joint]
+label = "disruption_state"
+classes = ["on_time", "delayed", "cancelled"]
+population = "non-diverted scheduled flights with an observed outcome state"
+
+[evaluation]
+primary_metrics = ["log_loss", "brier", "brier_skill"]
+secondary_metrics = ["roc_auc", "average_precision", "ece_equal_mass", "calibration_intercept", "calibration_slope", "top_decile_lift"]
+bootstrap_repetitions = 2000
+bootstrap_seed = 20260903
+probability_clip = 0.000001
+
+[horizons]
+primary = "schedule_climatology"
+weather_forecast_hours = [24, 6, 1]
+oracle_realised_weather = "diagnostic_only"
+
+[confirmation_gate]
+opened = false
+opened_at = ""
+lock_manifest = "manifests/confirmation_lock_v1.json"
+rule = "Do not download, read, summarise, or score 2026 labels before the lock manifest validates."
+
