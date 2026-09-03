@@ -54,6 +54,11 @@ before predicting 2026; it may not change the method based on 2025 results.
 - Cancellation, among non-diverted scheduled flights.
 - Joint disruption state: on time, delayed, or cancelled.
 
+Rows with a binary cancellation label but no arrival-delay outcome are retained for
+the cancellation task and explicitly marked ineligible for the delay and joint
+tasks. They are never imputed as on time. The legacy archive contains 34 such rows:
+32 in 2018, one in 2020, and one in 2021.
+
 The conditional delay and cancellation probabilities must not be presented as
 independent mutually exclusive probabilities. Joint analyses use either a multinomial
 model or a hurdle construction whose probabilities sum to one.
@@ -112,3 +117,8 @@ airline safety, complete schedule-snapshot fidelity, demographic fairness, or
 generalisation outside the observed US reporting network. The historical dataset is
 sampled and airport-restricted; every report must state the exact cohort.
 
+The 2010--2024 input is an approximately month-balanced legacy sample, whereas the
+2025 retrospective cohort is the complete eligible BTS census within the same
+100-airport restriction. Census results are primary for the 2025 deployment-like
+audit; matched-sampling and reweighting analyses must be reported as robustness
+checks so cohort construction is not mistaken for temporal drift.

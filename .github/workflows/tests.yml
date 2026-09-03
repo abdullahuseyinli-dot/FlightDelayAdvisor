@@ -23,7 +23,10 @@ jobs:
       - name: Compile Python sources
         run: python -m compileall -q app.py src tools tests
       - name: Lint research package and tests
-        run: python -m ruff check src/flightdelaybench tests/test_research_contracts.py
+        run: >-
+          python -m ruff check src/flightdelaybench
+          tests/test_acquisition.py tests/test_bts.py
+          tests/test_point_in_time.py tests/test_research_contracts.py
       - name: Test source-only repository
         run: python -m pytest -q -m "not integration and not confirmation"
       - name: Validate repository evidence

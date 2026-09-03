@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "attempted_builder_version": 1,
+  "attempted_variant": "all_history_v1",
+  "status": "FAILED_GATE_RETAINED",
+  "recorded_at_utc": "2026-09-03T16:13:27.969375+00:00",
+  "failure_year": 2018,
+  "exception": "ValueError: 32 non-cancelled rows lack ArrDel15",
+  "interpretation": "The first builder treated every non-cancelled legacy row as delay-label eligible. The gate exposed 32 unknown arrival outcomes in 2018; a complete scan subsequently found 34 such rows across 2010-2024 (32 in 2018, 1 in 2020, 1 in 2021). No outcome was imputed.",
+  "resolution": "Builder version 2 retains these rows for cancellation analysis, marks delay and joint labels ineligible, assigns disruption_state=-1, and excludes them from outcome-rate numerators and denominators.",
+  "manifest_sha256": "632e61096b5b56a106637e93618c4a94af94b49b24aa4d275e96c639ee23049d",
+  "source": {
+    "path": "data/processed/bts_delay_2010_2024_balanced_research_weather.parquet",
+    "sha256": "69b61f2c58ad664a62359053aea8aa65f6b5b9ed0a16ace52820a1b9470fcc26"
+  },
+  "retained_partial_outputs": [
+    {"year": 2011, "rows": 839581, "bytes": 33126941, "path": "data/derived/point_in_time/all_history_v1/year=2011.parquet", "sha256": "5c3f7a4babaff9d1e6d22a77a3732b95464fcecaeb0228169af09be71876184e"},
+    {"year": 2012, "rows": 836011, "bytes": 34016645, "path": "data/derived/point_in_time/all_history_v1/year=2012.parquet", "sha256": "695bbc63d82ede5b798a95b90b85f1c12feeeffae94cc90a3353fe3462474b80"},
+    {"year": 2013, "rows": 825981, "bytes": 33894672, "path": "data/derived/point_in_time/all_history_v1/year=2013.parquet", "sha256": "c3f07c43a3a4e4d543f9effdfac92ad21011def0174b055a4ad382304dd8ce03"},
+    {"year": 2014, "rows": 833805, "bytes": 34325074, "path": "data/derived/point_in_time/all_history_v1/year=2014.parquet", "sha256": "71f4f100d6cc8a7765fc53b29c3d89fc0d87b86ea4022724c030ddec0cf97afd"},
+    {"year": 2015, "rows": 840849, "bytes": 34666650, "path": "data/derived/point_in_time/all_history_v1/year=2015.parquet", "sha256": "018b4a8a5d31e673b3c006334c44fc6457563e3c30bc15c21b8765393cc12afb"},
+    {"year": 2016, "rows": 861358, "bytes": 35705801, "path": "data/derived/point_in_time/all_history_v1/year=2016.parquet", "sha256": "79128d7b4e6c5d5588d5c841393976d08a2c7952adaf949cf7b15a2dd90904bd"},
+    {"year": 2017, "rows": 869037, "bytes": 36413457, "path": "data/derived/point_in_time/all_history_v1/year=2017.parquet", "sha256": "87310b35e202aaab7f695a37e6a5a36218780fabda4b06b31c2b0d7c60b2a5fb"}
+  ]
+}

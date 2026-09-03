@@ -75,6 +75,8 @@ Issues = "https://github.com/abdullahuseyinli-dot/FlightDelayAdvisor/issues"
 flightdelaybench = "flightdelaybench.cli:main"
 flightdelaybench-acquire-bts = "flightdelaybench.acquisition:main"
 flightdelaybench-normalize-bts = "flightdelaybench.bts:main"
+flightdelaybench-build-features = "flightdelaybench.point_in_time:main"
+flightdelaybench-validate-features = "flightdelaybench.feature_validation:main"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/flightdelaybench"]

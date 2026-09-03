@@ -68,6 +68,12 @@ FEATURE_REGISTRY: tuple[FeatureSpec, ...] = (
         "Strictly earlier-year cancellation rate",
     ),
     FeatureSpec(
+        "prior_global_count",
+        _SCHEDULE,
+        "prior BTS schedules",
+        "Effective earlier-year global support",
+    ),
+    FeatureSpec(
         "prior_route_delay_rate",
         _SCHEDULE,
         "prior BTS outcomes",
@@ -81,6 +87,12 @@ FEATURE_REGISTRY: tuple[FeatureSpec, ...] = (
     ),
     FeatureSpec(
         "prior_route_count", _SCHEDULE, "prior BTS schedules", "Earlier-year route support"
+    ),
+    FeatureSpec(
+        "prior_route_delay_support",
+        _SCHEDULE,
+        "prior BTS outcomes",
+        "Earlier-year route support with observed delay outcomes",
     ),
     FeatureSpec(
         "prior_airline_delay_rate",
@@ -98,6 +110,12 @@ FEATURE_REGISTRY: tuple[FeatureSpec, ...] = (
         "prior_airline_count", _SCHEDULE, "prior BTS schedules", "Earlier-year carrier support"
     ),
     FeatureSpec(
+        "prior_airline_delay_support",
+        _SCHEDULE,
+        "prior BTS outcomes",
+        "Earlier-year carrier support with observed delay outcomes",
+    ),
+    FeatureSpec(
         "prior_origin_delay_rate",
         _SCHEDULE,
         "prior BTS outcomes",
@@ -111,6 +129,12 @@ FEATURE_REGISTRY: tuple[FeatureSpec, ...] = (
     ),
     FeatureSpec(
         "prior_origin_count", _SCHEDULE, "prior BTS schedules", "Earlier-year origin support"
+    ),
+    FeatureSpec(
+        "prior_origin_delay_support",
+        _SCHEDULE,
+        "prior BTS outcomes",
+        "Earlier-year origin support with observed delay outcomes",
     ),
     FeatureSpec(
         "prior_dest_delay_rate",
@@ -128,6 +152,12 @@ FEATURE_REGISTRY: tuple[FeatureSpec, ...] = (
         "prior_dest_count", _SCHEDULE, "prior BTS schedules", "Earlier-year destination support"
     ),
     FeatureSpec(
+        "prior_dest_delay_support",
+        _SCHEDULE,
+        "prior BTS outcomes",
+        "Earlier-year destination support with observed delay outcomes",
+    ),
+    FeatureSpec(
         "prior_slot_delay_rate",
         _SCHEDULE,
         "prior BTS outcomes",
@@ -140,6 +170,12 @@ FEATURE_REGISTRY: tuple[FeatureSpec, ...] = (
         "Smoothed origin/month/day/hour cancellation rate",
     ),
     FeatureSpec("prior_slot_count", _SCHEDULE, "prior BTS schedules", "Earlier-year slot support"),
+    FeatureSpec(
+        "prior_slot_delay_support",
+        _SCHEDULE,
+        "prior BTS outcomes",
+        "Earlier-year slot support with observed delay outcomes",
+    ),
     FeatureSpec(
         "clim_origin_tavg",
         _SCHEDULE,
@@ -187,6 +223,54 @@ FEATURE_REGISTRY: tuple[FeatureSpec, ...] = (
         _SCHEDULE,
         "prior weather",
         "Earlier-year destination monthly wind climatology",
+    ),
+    FeatureSpec(
+        "clim_origin_tavg_missing",
+        _SCHEDULE,
+        "derived prior weather",
+        "Origin airport-month temperature climatology required fallback",
+    ),
+    FeatureSpec(
+        "clim_origin_prcp_missing",
+        _SCHEDULE,
+        "derived prior weather",
+        "Origin airport-month precipitation climatology required fallback",
+    ),
+    FeatureSpec(
+        "clim_origin_snow_missing",
+        _SCHEDULE,
+        "derived prior weather",
+        "Origin airport-month snow climatology required fallback",
+    ),
+    FeatureSpec(
+        "clim_origin_wspd_missing",
+        _SCHEDULE,
+        "derived prior weather",
+        "Origin airport-month wind climatology required fallback",
+    ),
+    FeatureSpec(
+        "clim_dest_tavg_missing",
+        _SCHEDULE,
+        "derived prior weather",
+        "Destination airport-month temperature climatology required fallback",
+    ),
+    FeatureSpec(
+        "clim_dest_prcp_missing",
+        _SCHEDULE,
+        "derived prior weather",
+        "Destination airport-month precipitation climatology required fallback",
+    ),
+    FeatureSpec(
+        "clim_dest_snow_missing",
+        _SCHEDULE,
+        "derived prior weather",
+        "Destination airport-month snow climatology required fallback",
+    ),
+    FeatureSpec(
+        "clim_dest_wspd_missing",
+        _SCHEDULE,
+        "derived prior weather",
+        "Destination airport-month wind climatology required fallback",
     ),
     FeatureSpec(
         "forecast24_origin_t2m",
@@ -352,6 +436,9 @@ FORBIDDEN_PREDICTORS = frozenset(
     {
         "ArrDel15",
         "Cancelled",
+        "delay_label_observed",
+        "joint_label_observed",
+        "disruption_state",
         "CancellationCode",
         "ArrDelay",
         "ArrDelayMinutes",

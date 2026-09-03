@@ -47,9 +47,17 @@ primary = "schedule_climatology"
 weather_forecast_hours = [24, 6, 1]
 oracle_realised_weather = "diagnostic_only"
 
+[features]
+builder_version = 2
+variants = ["all_history", "exponential_decay_2y"]
+empirical_bayes_smoothing_route = 200.0
+empirical_bayes_smoothing_airline = 1000.0
+empirical_bayes_smoothing_airport = 1000.0
+empirical_bayes_smoothing_slot = 300.0
+missing_arrival_outcome = "retain_for_cancellation_mark_ineligible_for_delay_and_joint"
+
 [confirmation_gate]
 opened = false
 opened_at = ""
 lock_manifest = "manifests/confirmation_lock_v1.json"
 rule = "Do not download, read, summarise, or score 2026 labels before the lock manifest validates."
-
