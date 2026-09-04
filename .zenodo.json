@@ -1,0 +1,34 @@
+{
+  "title": "FlightDelayAdvisor: Flight Disruption, Weather and Airport-Network Benchmarks",
+  "upload_type": "software",
+  "description": "WITHDRAWN LOCAL RELEASE CANDIDATE, pending cutoff correction. FLARE-24 and BC-POT-R study three-state US domestic flight disruption prediction and airport-boundary context. A subsequent audit found that legacy prior-operating-day histories did not establish availability at each flight-specific T-24 cutoff; the old packaged smoke also reversed cancellation and conditional-delay arguments. Historical code, scores, negative results and evidence are retained for retrospective analysis, not as validated operational forecast performance. The corrected research path requires observation/source/label availability evidence and new matched temporal experiments. Corrected predictive performance has not been established.",
+  "creators": [
+    {
+      "name": "Huseyinli, Abdulla"
+    }
+  ],
+  "access_right": "open",
+  "license": "MIT",
+  "version": "0.1.0-rc.1",
+  "keywords": [
+    "flight delay prediction",
+    "flight cancellation",
+    "temporal distribution shift",
+    "probability calibration",
+    "archived weather forecasts",
+    "reproducible machine learning",
+    "proper scoring rules",
+    "latent aircraft rotations",
+    "airport resource networks",
+    "small-airport boundary context",
+    "negative results"
+  ],
+  "related_identifiers": [
+    {
+      "identifier": "https://github.com/abdullahuseyinli-dot/FlightDelayAdvisor",
+      "relation": "isSupplementTo",
+      "scheme": "url"
+    }
+  ],
+  "notes": "Do not publish this release candidate. The v3 withdrawal and required follow-up are recorded in manifests/failures/flare24_release_candidate_v3_withdrawn_cutoff_audit.json and docs/CUTOFF_RESEARCH_PLAN.md. 2025 is development-informed retrospective evidence, not blind confirmation. The historical +0.05 and +0.10 accuracy gates failed. 2026 outcomes remain unopened. No external Zenodo deposit or DOI is claimed."
+}

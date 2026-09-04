@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "artifact_type": "ccrth_failed_run_record",
+  "run_id": "flare24_ccrth_v3",
+  "stage": "study_wrapper_console_logging",
+  "status": "FAILED_BEFORE_ANY_RUN_ARTIFACT",
+  "created_at_utc": "2026-09-04T11:25:21.9414809Z",
+  "failure": {
+    "exception_type": "DirectoryNotFoundException",
+    "message": "PowerShell could not open logs/flare24_ccrth_v3_console.log because the logs directory did not exist.",
+    "run_directory_created": true,
+    "run_directory_child_count": 0,
+    "method_lock_written": false,
+    "study_report_written": false
+  },
+  "boundary_status": {
+    "2024_input_access_may_have_started": true,
+    "2025_outcomes_accessed": false,
+    "2026_outcomes_accessed": false
+  },
+  "preserved_run_directory": "D:/FlightDelayAdvisorResearchData/runs/flare24_ccrth_v3",
+  "run_directory_creation_time_utc": "2026-09-04T11:24:44.3300000Z",
+  "resolution": "Preserve the empty v3 namespace, create the missing logs directory, and execute the unchanged frozen method in a fresh flare24_ccrth_v4 run directory.",
+  "results_claimed": false
+}

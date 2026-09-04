@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "status": "WITHDRAWN_PENDING_CUTOFF_CORRECTION_AND_NEW_RELEASE_VALIDATION",
+  "recorded_at_utc": "2026-09-04T21:20:48Z",
+  "historical_ledger": {
+    "path": "manifests/flare24_release_candidate_v3.json",
+    "bytes": 44967,
+    "sha256": "65d3dcb50d2c30ee58c883b3ea5b21b5057e0a32b77502125adc9749d7314439",
+    "self_hash": "48d783b75370c2cf01874fdf28145369b093bc3dcc3f6acc74a56dac72beee6e"
+  },
+  "reasons": [
+    "Prior-calendar-day outcome histories can include events after the flight-specific scheduled-departure-minus-24-hour cutoff.",
+    "The packaged inference smoke reverses cancellation and conditional-delay arguments; the main study call sites inspected do not share this defect.",
+    "The boundary comparison also changed categorical-interaction complexity, so it does not isolate the effect of small-airport context."
+  ],
+  "old_artifacts_retained": true,
+  "old_scores_recomputed": false,
+  "corrected_performance_established": false,
+  "external_publication_performed": false,
+  "confirmation_outcomes_accessed": false,
+  "required_followup": "docs/CUTOFF_RESEARCH_PLAN.md"
+}

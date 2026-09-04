@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "artifact_type": "bcpotr_retrospective_study_failure",
+  "status": "RETAINED_FIRST_FIT_GPU_MEMORY_FAILURE",
+  "observed_at_utc": "2026-09-04T19:01:28.8584750Z",
+  "run_id": "flare24_boundary_pot_v3",
+  "method_lock": "D:/FlightDelayAdvisorResearchData/runs/flare24_boundary_pot_v3/method_lock.json",
+  "method_lock_sha256": "c8e28951e500bdc23fb01494659c623da4b0f1ab2690ad843e19f056bd956cf1",
+  "log": "logs/flare24_boundary_pot_study_v3.log",
+  "log_sha256": "991d30960d289260b22ecd18b3f40d60b440f7d9c83504e7c4ad180d2092dacb",
+  "failure": "CatBoostError: bad allocation during the first boundary-only conditional-delay GPU fit",
+  "phase": "first 2024 early-stopping fit",
+  "observed_gpu_memory_before_failure_mib": 7163,
+  "gpu_total_memory_mib": 8188,
+  "models_completed": 0,
+  "2025_boundary_predictions_scored": false,
+  "2026_outcomes_accessed": false,
+  "scientific_result_produced": false,
+  "resolution": "Apply the official CatBoost GPU out-of-memory mitigations before a new lock: Plain boosting, maximum categorical-combination complexity 2, CpuPinnedMemory categorical storage, a 0.80 GPU-RAM fraction, and 2 GiB pinned host memory. Keep the sample, temporal split, features, candidates, estimands, and gates unchanged."
+}

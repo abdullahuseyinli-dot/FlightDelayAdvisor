@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "artifact_type": "flare24_failed_source_release_check_record",
+  "status": "FAILED_DURING_RELEASE_CHECK_REPORT_ASSEMBLY",
+  "created_at_utc": "2026-09-04T20:54:05.7941164Z",
+  "attempt": {
+    "intended_output": "reports/validation/flare24_source_release_checks_v8_bcpotr.json",
+    "output_created": false,
+    "command": "python tools/run_flare24_release_checks.py --output reports/validation/flare24_source_release_checks_v8_bcpotr.json",
+    "interpreter": "C:/Users/user/Desktop/Thesis/codex_full_system_finish_20260711-085848/.venv/Scripts/python.exe",
+    "source_import_path_injected": true
+  },
+  "failure": {
+    "exception_type": "importlib.metadata.PackageNotFoundError",
+    "message": "No package metadata was found for flightdelaybench",
+    "stage": "release-check environment metadata assembly after subordinate checks",
+    "cause": "The workspace-level interpreter could import flightdelaybench from the injected source path but did not contain an installed flightdelaybench distribution record."
+  },
+  "scientific_results_affected": false,
+  "resolution": "Run the create-only release checks under FlightDelayAdvisor/.venv, which contains the declared 0.1.0rc1 distribution metadata and the validated toolchain, and write a new v9 report.",
+  "confirmation_outcomes_accessed": false
+}

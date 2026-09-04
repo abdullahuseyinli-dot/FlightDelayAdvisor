@@ -20,7 +20,11 @@ import numpy as np
 import pandas as pd
 import pyarrow.parquet as pq
 
-from .contracts import AvailabilityHorizon, features_available_at, validate_predictors
+from .contracts import (
+    AvailabilityHorizon,
+    core_point_in_time_features_at,
+    validate_predictors,
+)
 from .hashing import canonical_json_sha256, sha256_file, write_canonical_json
 
 BUILDER_VERSION = 2
@@ -462,7 +466,7 @@ def transform_point_in_time(
     prior = outcome_state.transform(base)
     climatology = climatology_state.transform(base)
     result = pd.concat([base, prior, climatology], axis=1)
-    deployable = features_available_at(AvailabilityHorizon.SCHEDULE_CLIMATOLOGY)
+    deployable = core_point_in_time_features_at(AvailabilityHorizon.SCHEDULE_CLIMATOLOGY)
     validate_predictors(deployable, AvailabilityHorizon.SCHEDULE_CLIMATOLOGY)
     missing = sorted(set(deployable) - set(result.columns))
     if missing:
@@ -641,7 +645,9 @@ def build_dataset(
     state_record = _write_state(
         output_dir / f"state_after_{end_year}.joblib", outcome_state, climatology_state
     )
-    deployable_features = list(features_available_at(AvailabilityHorizon.SCHEDULE_CLIMATOLOGY))
+    deployable_features = list(
+        core_point_in_time_features_at(AvailabilityHorizon.SCHEDULE_CLIMATOLOGY)
+    )
     manifest: dict[str, Any] = {
         "schema_version": 1,
         "builder_version": BUILDER_VERSION,

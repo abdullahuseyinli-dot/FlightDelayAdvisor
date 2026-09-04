@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "artifact_type": "bcpotr_retrospective_study_failure",
+  "status": "RETAINED_POST_PREDICTION_REPORTING_CONTRACT_FAILURE",
+  "observed_at_utc": "2026-09-04T19:39:39.6265730Z",
+  "run_id": "flare24_boundary_pot_v5",
+  "method_lock": "D:/FlightDelayAdvisorResearchData/runs/flare24_boundary_pot_v5/method_lock.json",
+  "method_lock_sha256": "dbb6e7c1cff7452154844322377a4160c98048cc7784303dd19bb9b776a40b0e",
+  "log": "logs/flare24_boundary_pot_study_v5.log",
+  "log_sha256": "d101b1449e50f77f9217e0996255adab28954160191381f482038f1c2187554d",
+  "preserved_run_file_count": 25,
+  "preserved_run_bytes": 1116942716,
+  "completed_models": 4,
+  "completed_calibrators": 4,
+  "completed_prediction_artifacts": 16,
+  "completed_2025_months": 12,
+  "failure": "The compact prediction contract retained the route-shadow gating residual but omitted the all-residual change flag and two predecessor-observation flags required by the predeclared descriptive boundary analysis.",
+  "phase": "final report assembly after all locked 2025 predictions",
+  "final_report_written": false,
+  "breakthrough_claimed": false,
+  "2026_outcomes_accessed": false,
+  "resolution": "Before a new lock, compute the any-nonzero residual indicator within each monthly feature frame, retain that compact indicator plus both observation-change flags in each prediction artifact, and make annual analysis consume the indicator without allocating a 110-column annual residual matrix. Keep all predictive settings and evaluation gates unchanged."
+}

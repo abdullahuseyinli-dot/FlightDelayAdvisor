@@ -1,5 +1,7 @@
 import subprocess
+import sys
 from pathlib import Path
+
 import pytest
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
@@ -10,7 +12,7 @@ PROJECT_ROOT = Path(__file__).resolve().parents[1]
 def test_evaluate_models_script_runs():
     script = PROJECT_ROOT / "src" / "evaluate_models.py"
     result = subprocess.run(
-        ["python", str(script)],
+        [sys.executable, str(script)],
         cwd=PROJECT_ROOT,
         capture_output=True,
         text=True,
@@ -23,7 +25,7 @@ def test_evaluate_models_script_runs():
 def test_generate_plots_script_runs():
     script = PROJECT_ROOT / "src" / "generate_plots_only.py"
     result = subprocess.run(
-        ["python", str(script)],
+        [sys.executable, str(script)],
         cwd=PROJECT_ROOT,
         capture_output=True,
         text=True,

@@ -1,0 +1,5 @@
+period,method,metric,estimate,lower,upper,clusters,repetitions,seed,independent_confirmation,selection_adjusted,negative_favors_candidate
+2025_full_primary,tf_ccrth_cancellation_logit_stack,joint_log_loss,-0.0021998413282511295,-0.0029566238455394954,-0.0015062103466579825,361,2000,20270905,False,False,True
+2025_full_primary,tf_ccrth_cancellation_logit_stack,multiclass_brier,-0.0003070859553154305,-0.0004395463335817694,-0.0001891896857074583,361,2000,20270905,False,False,True
+2025_h2_held_forward,tf_ccrth_cancellation_logit_stack,joint_log_loss,-0.0021027416662707933,-0.0031558617968231286,-0.0011862679798427386,180,2000,20260905,False,False,True
+2025_h2_held_forward,tf_ccrth_cancellation_logit_stack,multiclass_brier,-0.000289583758404518,-0.00047105585444425565,-0.00013211477198136955,180,2000,20260905,False,False,True

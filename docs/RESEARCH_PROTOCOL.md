@@ -1,5 +1,10 @@
 # FlightDelayBench research protocol
 
+> Historical generation: the later cutoff audit withdrew the release candidate's
+> strict T−24 claims. Recorded scores and checks below retain their original scope;
+> they do not establish corrected forecast performance. See
+> [current status](PROJECT_STATUS.md) and [current results](CURRENT_RESULTS.md).
+
 Protocol version: `1.0.0-draft`  
 Evidence status: `DEVELOPMENT`  
 Confirmation status: `UNOPENED`

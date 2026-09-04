@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "status": "QUARANTINED_PROVENANCE_DEFECT",
+  "recorded_at": "2026-09-03",
+  "affected_manifest": "manifests/census_top100_2018_v1.json",
+  "affected_manifest_sha256": "ef7dec02f181991faf9dc4c2f52308e1cfb3e8d9502187ac3f68e7bb009d5327",
+  "affected_output_directory": "D:/FlightDelayAdvisorResearchData/normalized_top100_census_v1",
+  "affected_rows": 5994397,
+  "impact": "sample_id source-row numbers after the first 200000-row CSV chunk add the global pandas index and explicit chunk offset twice; labels, schedule fields, row order, row count, and outcome metrics are unchanged, and IDs remain unique",
+  "disposition": "Preserve all v1 evidence. Exclude it from modeling and publication results. Rebuild with a reset chunk-local index into normalized_top100_census_v2 and validate cross-chunk source IDs independently.",
+  "cause": "pandas TextFileReader retains a global RangeIndex across chunks",
+  "repair": "reset each raw chunk index before adding source_offset exactly once",
+  "confirmation_outcomes_accessed": false
+}

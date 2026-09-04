@@ -1,0 +1,9 @@
+{
+  "schema_version": 1,
+  "status": "FAILED_REPOSITORY_TEXT_SCOPE_CHECK",
+  "evidence": "reports/validation/flare24_source_checks_v13_cutoff_correction.json",
+  "finding": "The public-text scanner entered the newly created isolated validation environment and flagged a build path inside NumPy's installed configuration.",
+  "recovery": "Recognize actual pyvenv.cfg-marked environments in the execution workspace as dependencies, with regression tests retaining checks for ordinary source directories.",
+  "third_party_files_edited_or_removed": false,
+  "publication_authorized": false
+}

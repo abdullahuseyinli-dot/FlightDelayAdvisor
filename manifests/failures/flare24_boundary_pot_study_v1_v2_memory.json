@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "artifact_type": "bcpotr_retrospective_study_failure",
+  "status": "RETAINED_PRE_FIT_MEMORY_FAILURE",
+  "observed_at_utc": "2026-09-04T18:54:19.6733674Z",
+  "attempts": [
+    {
+      "run_id": "flare24_boundary_pot_v1",
+      "method_lock": "D:/FlightDelayAdvisorResearchData/runs/flare24_boundary_pot_v1/method_lock.json",
+      "method_lock_sha256": "03288ac69a276042867e6edc67399b4eff75deaa342d7b15f57051681c739f2c",
+      "log": "logs/flare24_boundary_pot_study_v1.log",
+      "log_sha256": "cd3cef206e7115e4ed998ad11c87f53957686f71140813eb543a8d8acf862ae1",
+      "stderr_capture_complete": false
+    },
+    {
+      "run_id": "flare24_boundary_pot_v2",
+      "method_lock": "D:/FlightDelayAdvisorResearchData/runs/flare24_boundary_pot_v2/method_lock.json",
+      "method_lock_sha256": "a49c5051f65c78c3df1aadb700e13e49375239a4c5d8dd561459e46facd9abde",
+      "log": "logs/flare24_boundary_pot_study_v2.log",
+      "log_sha256": "33170add83e976e3f8788b218baa052100e1d588a8cf05c47337b1a119cdc974",
+      "stderr_capture_complete": true
+    }
+  ],
+  "failure": "numpy ArrayMemoryError while pandas reset_index consolidated an unused 625-column task frame: requested 2.28 GiB for shape (625, 980486) float32",
+  "phase": "2024 task-frame construction before the first CatBoost fit",
+  "models_fitted": 0,
+  "2025_boundary_predictions_scored": false,
+  "2026_outcomes_accessed": false,
+  "scientific_result_produced": false,
+  "resolution": "Project each hurdle task to the exact candidate model inputs before copying rows; fit candidates sequentially; add regression and real-data projection checks; restart with a new run identifier and new source hashes."
+}

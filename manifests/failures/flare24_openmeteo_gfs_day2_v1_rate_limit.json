@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "status": "FAILED_INCOMPLETE_RATE_LIMITED",
+  "created_at_utc": "2026-09-03T21:48:35.0250216Z",
+  "stage": "FLARE-24 day-2 Open-Meteo covariate acquisition",
+  "failed_request": {
+    "airport": "ANC",
+    "year": 2024,
+    "http_status": 429,
+    "error": "Too Many Requests after five bounded retries"
+  },
+  "attempted_workers": 8,
+  "completed_raw_responses_retained": 113,
+  "completion_manifest_written": false,
+  "flight_outcomes_accessed": false,
+  "adjudication": "Retain every verified raw response; resume missing requests with lower concurrency and explicit 429 backoff."
+}

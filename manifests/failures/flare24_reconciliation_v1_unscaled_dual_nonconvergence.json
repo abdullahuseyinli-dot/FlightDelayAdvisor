@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "status": "FAILED_REAL_SCHEDULE_STRESS_TEST_UNSCALED_DUAL_NONCONVERGENCE",
+  "created_at_utc": "2026-09-03T23:53:04.1600418Z",
+  "stage": "FLARE-24 uncertainty-weighted soft marginal reconciliation",
+  "schedule_input": "D:/FlightDelayAdvisorResearchData/normalized_top100_census_v2/year=2024/month=10.parquet",
+  "tested_date": "2024-10-01",
+  "flight_rows": 15248,
+  "overlapping_constraints": 6623,
+  "base_probability_role": "deterministic synthetic Dirichlet stress probabilities; no outcome labels read",
+  "failure": "The original unscaled L-BFGS dual reached the 500-iteration limit and raised RuntimeError: STOP: TOTAL NO. OF ITERATIONS REACHED LIMIT.",
+  "extended_iteration_diagnostics": {
+    "iterations": 1000,
+    "optimizer_success": false,
+    "maximum_absolute_dual_gradient": 0.0012813159310098854,
+    "rms_dual_gradient": 0.0000183797258669201,
+    "maximum_probability_change_from_500_to_1000_iterations": 0.0010596063270554845,
+    "mean_probability_change_from_500_to_1000_iterations": 0.0000838452646284586
+  },
+  "root_cause": "Constraint/state coordinates have sharply different curvature because group sizes and rare-state variances vary by orders of magnitude; the mathematically valid but unscaled dual is poorly conditioned for a real flight day.",
+  "adjudication": "The next implementation uses an exact diagonal reparameterization based on the square root of the dual Hessian diagonal at the base forecast. The objective and estimand are unchanged.",
+  "corrected_stress_test": {
+    "iterations": 30,
+    "elapsed_seconds": 0.278,
+    "optimizer_success": true,
+    "maximum_absolute_dual_gradient": 0.0000371375048189293,
+    "rms_dual_gradient": 7.251856027986399e-7,
+    "objective_change": -672.111836166258,
+    "maximum_simplex_error": 2.220446049250313e-16,
+    "base_margin_standardized_rmse": 0.3278897333108203,
+    "reconciled_margin_standardized_rmse": 0.13473944490309403
+  },
+  "completion_report_written": false,
+  "outcome_columns_read": [],
+  "confirmation_outcomes_accessed": false,
+  "git_head": "d4cbd5cc37cfc6f48eb66c9019759566c0be4e28"
+}

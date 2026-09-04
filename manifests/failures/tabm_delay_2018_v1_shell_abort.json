@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "attempted_run_id": "tabm_delay_2018_v1",
+  "status": "FAILED_BEFORE_MODEL_FIT_RETAINED",
+  "recorded_at_utc": "2026-09-03T17:23:00.6075724Z",
+  "failure_stage": "PowerShell stderr handling during TabM embedding construction",
+  "exception": "NativeCommandError: a non-fatal rtdl_num_embeddings single-bin UserWarning was promoted to a terminating shell error by ErrorActionPreference=Stop",
+  "interpretation": "The child process emitted the expected warning while constructing a piecewise-linear embedding for a binary feature. PowerShell terminated the wrapper before a benchmark report or log file was materialized; no metric or model result exists for this attempt.",
+  "resolution": "The known constructor warning is now suppressed only around PiecewiseLinearEmbeddings construction. The replacement benchmark uses a new v2 run identifier and non-terminating native stderr handling.",
+  "retained_outputs": [],
+  "feature_manifest": "manifests/point_in_time_all_history_v2.json",
+  "manifest_sha256": "bcc842f6316b2a7156f8e96d144ecfb8370b76d2cbe6d40b5ecfbde3f91d5f65"
+}

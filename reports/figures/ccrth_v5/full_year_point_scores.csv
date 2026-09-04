@@ -1,0 +1,8 @@
+method,display_name,n,joint_log_loss,joint_log_loss_delta_vs_flare24,multiclass_brier,multiclass_brier_delta_vs_flare24,evidence_role
+flare24,FLARE-24,5814817,0.5392251622713801,0.0,0.32707623623444126,0.0,descriptive full-year continuity; primary inference is embargoed
+raw_demand,+ demand,5814817,0.5388399283272707,-0.0003852339441093866,0.32755336813607955,0.00047713190163828356,descriptive full-year continuity; primary inference is embargoed
+normalized_capacity,+ normalized capacity,5814817,0.5384821104383647,-0.0007430518330153735,0.32741170523012336,0.00033546899568209776,descriptive full-year continuity; primary inference is embargoed
+queue_shadow,+ queue / shadow price,5814817,0.5394802614678661,0.0002550991964860305,0.32760558389290767,0.0005293476584664059,descriptive full-year continuity; primary inference is embargoed
+hypergraph,+ graph messages,5814817,0.5398476258967941,0.0006224636254140714,0.32765185509069933,0.0005756188562580644,descriptive full-year continuity; primary inference is embargoed
+global_simplex,Global simplex,5814817,0.5392251622719543,5.74207348336131e-13,0.3270762362344509,9.658940314238862e-15,descriptive full-year continuity; primary inference is embargoed
+capacity_gated_simplex,Capacity-gated simplex,5814817,0.5392077918524418,-1.737041893823399e-05,0.32707541345621444,-8.227782268277473e-07,descriptive full-year continuity; primary inference is embargoed

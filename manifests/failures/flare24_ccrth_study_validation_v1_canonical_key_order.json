@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "artifact_type": "ccrth_failed_validation_record",
+  "validation_id": "flare24_ccrth_2025_retrospective_v5_validation_v1",
+  "stage": "study_report_validation",
+  "status": "FAILED_VALIDATOR_IMPLEMENTATION_CHECK_NO_STUDY_ARTIFACT_CHANGED",
+  "created_at_utc": "2026-09-04T11:50:51.2578043Z",
+  "failure": {
+    "exception_type": "ValueError",
+    "message": "CC-RTH study candidate order is invalid",
+    "cause": "The validator compared JSON object iteration order with the scientific candidate order. Canonical serialization deliberately sorts object keys, so the valid feature_sets mapping was read in alphabetical key order.",
+    "serialized_keys": [
+      "flare24",
+      "hypergraph",
+      "normalized_capacity",
+      "queue_shadow",
+      "raw_demand"
+    ],
+    "frozen_scientific_order": [
+      "flare24",
+      "raw_demand",
+      "normalized_capacity",
+      "queue_shadow",
+      "hypergraph"
+    ]
+  },
+  "study_report": {
+    "path": "reports/experiments/flare24_ccrth_2025_retrospective_v5.json",
+    "bytes": 571375,
+    "sha256": "d9c6057508f5ceb2bcdf7c64054e9069d47df79ceeb311122f19e1354c802942",
+    "self_hash": "f09b60b5428b8abf38630fe489205968a3b9f56d89ffde29d6034551bb046572"
+  },
+  "validation_output_written": false,
+  "adjudication": "Preserve the completed study report unchanged. Validate exact candidate key membership independent of JSON map order, then check nesting by the frozen CAPACITY_CANDIDATES sequence. Rerun validation to a new v2 output path.",
+  "results_claimed": false
+}

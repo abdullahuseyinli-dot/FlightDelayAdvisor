@@ -1,0 +1,31 @@
+cff-version: 1.2.0
+message: "Local release candidate withdrawn pending cutoff correction; no published archive or DOI is claimed."
+title: "FlightDelayAdvisor: Flight Disruption, Weather and Airport-Network Benchmarks"
+type: software
+authors:
+  - family-names: Huseyinli
+    given-names: Abdulla
+repository-code: "https://github.com/abdullahuseyinli-dot/FlightDelayAdvisor"
+url: "https://github.com/abdullahuseyinli-dot/FlightDelayAdvisor"
+license: MIT
+version: 0.1.0-rc.1
+keywords:
+  - flight delay
+  - cancellation risk
+  - temporal validation
+  - calibration
+  - dataset shift
+  - archived weather forecast
+  - latent aircraft rotation
+  - airport resource network
+  - small-airport boundary context
+  - proper scoring rules
+abstract: >-
+  WITHDRAWN LOCAL RELEASE CANDIDATE. FLARE-24 and BC-POT-R investigate US
+  domestic flight disruption probabilities and airport-boundary context.
+  A later audit found that prior-operating-day histories did not establish
+  flight-specific T-24 availability and that the legacy packaged smoke reversed
+  cancellation and conditional-delay arguments. Historical scores and negative
+  results are preserved as retrospective proxy evidence, not corrected forecast
+  performance. New timestamp-validated experiments are required. The 2025 cohort
+  is development-informed; 2026 outcomes remain unopened.

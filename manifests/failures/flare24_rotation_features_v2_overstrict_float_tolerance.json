@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "status": "FAILED_OVERSTRICT_FLOAT_FEASIBILITY_TOLERANCE",
+  "created_at_utc": "2026-09-03T23:07:31.6366222Z",
+  "stage": "FLARE-24 schedule-only latent-rotation materialization after dual repair",
+  "target_year": 2024,
+  "failed_period": "2024-01-01",
+  "diagnosed_maximum_inbound_mass": 1.00000000151,
+  "absolute_capacity_residual": 1.51e-9,
+  "configured_acceptance_tolerance": 1e-9,
+  "completion_manifest_written": false,
+  "feature_partitions_written": 0,
+  "retained_model": {
+    "path": "runs/flare24/rotation_features_v2/models/latent_rotation_history_2023_for_2024.joblib",
+    "bytes": 18312726,
+    "sha256": "3441aa98f47f5ad4b6ab9b7e2c4bbb4a5318d309dd3d2bad00864356a51cff51"
+  },
+  "adjudication": "The repaired solution missed the configured threshold by 5.1e-10 while remaining within the pre-existing 1e-7 test tolerance. The numerical acceptance threshold was made explicit at 1e-8 for a new versioned run; the mathematical inbound capacity remains one.",
+  "target_tail_number_read": false,
+  "target_outcomes_accessed": false
+}

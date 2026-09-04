@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "artifact_type": "flare24_superseded_release_check_record",
+  "status": "SUPERSEDED_PREPACKAGING_ENVIRONMENT_METADATA",
+  "created_at_utc": "2026-09-04T02:15:00.0254167Z",
+  "superseded_report": {
+    "path": "reports/validation/flare24_source_release_checks_v1.json",
+    "sha256": "f07f3f140f08ae5ff5479127f097b5e8607f136b3f524627fb4c4bde38e1508c",
+    "reported_status": "PASS_FLARE24_SOURCE_RELEASE_CHECKS"
+  },
+  "reason": "The source code, pyproject, package __version__, and uv lock were 0.1.0rc1, but the existing editable environment still exposed stale 0.1.0.dev0 distribution metadata. The v1 runner did not yet make metadata equality a separate check.",
+  "scientific_results_affected": false,
+  "source_check_results_affected": false,
+  "resolution": "Add an explicit distribution/source version-consistency check, reinstall the editable package without changing dependencies, and write a new create-only v2 release-check report.",
+  "confirmation_outcomes_accessed": false
+}

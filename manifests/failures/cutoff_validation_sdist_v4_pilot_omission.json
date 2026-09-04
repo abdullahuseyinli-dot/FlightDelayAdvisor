@@ -1,0 +1,10 @@
+{
+  "schema_version": 1,
+  "status": "INCOMPLETE_SOURCE_EVIDENCE_BUNDLE",
+  "affected_source_archive": "dist/cutoff_validation_v4/flightdelaybench-0.1.0rc1.tar.gz",
+  "finding": "Hatch respected the data/external ignore rule, omitting the new pilot evidence despite the sdist include entry.",
+  "scope": "The clean wheel inference check passed; this is a separate source-evidence packaging omission.",
+  "planned_recovery": "Explicitly unignore the preserved pilot directory, rebuild to a new artifact directory, and verify every pilot member against source bytes.",
+  "prior_artifacts_removed": false,
+  "publication_authorized": false
+}

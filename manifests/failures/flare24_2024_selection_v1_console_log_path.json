@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "artifact_type": "flare24_failed_run_record",
+  "run_id": "flare24_2024_selection_v1",
+  "stage": "selection_wrapper_preflight",
+  "status": "FAILED_BEFORE_TRAINING",
+  "created_at_utc": "2026-09-04T00:30:34.0610512Z",
+  "failure": {
+    "exception_type": "DirectoryNotFoundException",
+    "message": "The console transcript target logs/flare24_2024_selection_v1_console.log could not be opened because the logs directory did not exist.",
+    "training_started": false,
+    "selection_report_written": false,
+    "run_directory_created": true,
+    "run_directory_child_count": 0
+  },
+  "preserved_run_directory": "D:/FlightDelayAdvisorResearchData/runs/flare24_2024_selection_v1",
+  "run_directory_creation_time_utc": "2026-09-04T00:30:10.1200000Z",
+  "resolution": "Preserve the empty v1 namespace and execute the unchanged frozen method as flare24_2024_selection_v2 with its console transcript in the existing reports/experiments directory.",
+  "confirmation_outcomes_accessed": false,
+  "git_head": "d4cbd5cc37cfc6f48eb66c9019759566c0be4e28"
+}

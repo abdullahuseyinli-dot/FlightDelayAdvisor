@@ -1,0 +1,8 @@
+{
+  "artifact": "data/external/flare24_ccrth_resources_nasr_20241003_v1.json",
+  "disposition": "QUARANTINED_NOT_FOR_MODELING",
+  "failure": "Missing FAA annual-operation fields were initially coerced to numeric zero.",
+  "impact": "Runway geometry was valid, but annual_operations=0 could be misread as a measured value.",
+  "remediation": "The v2 builder retains missing annual-operation values as null and exposes missingness.",
+  "results_claimed": false
+}

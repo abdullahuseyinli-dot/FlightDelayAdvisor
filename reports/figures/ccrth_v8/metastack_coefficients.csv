@@ -1,0 +1,7 @@
+term,term_type,coefficient,regularization_c,interpretation_limit
+intercept,intercept,0.9004651489468467,0.001,descriptive predictive coefficient; not causal
+flare24,candidate_cancellation_logit,0.38734585069176974,0.001,conditional on correlated candidate logits; not causal
+raw_demand,candidate_cancellation_logit,-0.021546069125020786,0.001,conditional on correlated candidate logits; not causal
+normalized_capacity,candidate_cancellation_logit,0.1336403528883207,0.001,conditional on correlated candidate logits; not causal
+queue_shadow,candidate_cancellation_logit,0.3936058166404517,0.001,conditional on correlated candidate logits; not causal
+hypergraph,candidate_cancellation_logit,0.25449064273858485,0.001,conditional on correlated candidate logits; not causal

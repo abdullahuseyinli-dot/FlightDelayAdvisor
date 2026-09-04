@@ -1,0 +1,9 @@
+method,display_name,metric,estimate,lower,upper,clusters,repetitions,selection_adjusted,negative_favors_candidate
+capacity_gated_simplex,Parent gated simplex,joint_log_loss,-1.7456397860727196e-05,-2.3791037050230363e-05,-1.1591752857297784e-05,361,2000,,True
+capacity_gated_simplex,Parent gated simplex,multiclass_brier,-7.811407948505675e-07,-2.4867771192371486e-06,9.677972296570294e-07,361,2000,,True
+task_factorized_global_q4,Task-factorized global (Q4 lock),joint_log_loss,-0.00060805693913378,-0.0008945420846014901,-0.000346716841760132,361,2000,,True
+task_factorized_global_q4,Task-factorized global (Q4 lock),multiclass_brier,-4.249159889308913e-05,-7.438664260859911e-05,-1.3277189595566425e-05,361,2000,,True
+task_factorized_capacity_gated_q4,Task-factorized stress-gated (Q4 lock),joint_log_loss,-0.0006052495950775677,-0.0008867717915448866,-0.00034522134049512476,361,2000,,True
+task_factorized_capacity_gated_q4,Task-factorized stress-gated (Q4 lock),multiclass_brier,-4.182933331166559e-05,-7.347573241385595e-05,-1.2953989283268087e-05,361,2000,,True
+cancel_normalized_capacity__delay_flare24,2025 component-pair winner (post-hoc),joint_log_loss,-0.0013678910754149802,-0.002043187171921093,-0.0008035121996043712,361,2000,False,True
+cancel_normalized_capacity__delay_flare24,2025 component-pair winner (post-hoc),multiclass_brier,-0.0001272532564310554,-0.0002034799926121911,-6.182701633975381e-05,361,2000,False,True

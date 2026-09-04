@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "status": "WRAPPER_FAILED_AFTER_COMPLETE_ACQUISITION_RETAINED",
+  "recorded_at": "2026-09-03",
+  "failure_stage": "PowerShell logging wrapper after the final 2024 archive verification",
+  "exception": "CommandNotFoundException: the token 2>&1 was placed after a completed script block and parsed as a command",
+  "impact": "The enclosing shell returned exit code 1 after all 84 monthly archives and seven create-only manifests had already been downloaded, validated, hashed, and written. No archive or manifest write failed.",
+  "independent_validation": {
+    "status": "PASS",
+    "archives": 84,
+    "bytes": 2311739589,
+    "gibibytes": 2.153,
+    "manifest_file_sha256": {
+      "2018": "e62d10fa823e8cb9fa9efd9950cbc5092b9b17d00924066f70645ed282629c8e",
+      "2019": "b175ba9d69ca0e5091ade525e894fd01c57c7e341013dd4d156407af03b4c748",
+      "2020": "4e6e9bcfc039aeadc9ef1d836bc7fe3fa729f151ded54bf1584cbc68cf2bb153",
+      "2021": "eb42f477a41d3247c2eb07d8b2a9e8cb452ba6c6c431810937b24def6ae448c1",
+      "2022": "7cc8abe7be8735261532f08f0e3ec8decf0c41c47b9eb81415f1042363b5c8ae",
+      "2023": "6b1fe3d68696377aae074eb90094bad891a2a86264f6bdeaef7e23b62b3116c7",
+      "2024": "a28a88fb72376b58f4fad483aa006c32a866da4821624bd85f56bfc69a05c661"
+    },
+    "checks": "all manifest self-hashes, exactly 12 months per year, every local archive present, and every recorded archive SHA-256 matched"
+  },
+  "log": "runs/raw_bts_census_2018_2024_acquisition.log",
+  "disposition": "Preserve the nonzero wrapper outcome and log. Accept the archives only through the independent validation and the downstream census normalizer's repeated hash checks. Correct logging syntax in future launchers.",
+  "confirmation_outcomes_accessed": false
+}

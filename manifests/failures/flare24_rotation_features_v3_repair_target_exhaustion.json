@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "status": "FAILED_OVERSTRICT_REPAIR_TARGET_BELOW_ACCEPTANCE_TOLERANCE",
+  "created_at_utc": "2026-09-03T23:14:16.7146539Z",
+  "stage": "FLARE-24 schedule-only latent-rotation materialization after two accepted months",
+  "target_year": 2024,
+  "failed_period": "2024-03",
+  "reproduced_error": "latent rotation capacity repair did not converge: maximum_mass=1.00000000866",
+  "diagnosed_maximum_inbound_mass": 1.00000000866,
+  "repair_target_tolerance": 5e-9,
+  "declared_acceptance_tolerance": 1e-8,
+  "completion_manifest_written": false,
+  "retained_outputs": [
+    {
+      "path": "D:/FlightDelayAdvisorResearchData/derived/flare24_rotation_features_v3/year=2024/month=01.parquet",
+      "bytes": 10492217,
+      "sha256": "7fbb01c7a7f9f32f6bf1e714538af26a87d9ec0cf4ad3cbe3cc502c5403378c1"
+    },
+    {
+      "path": "D:/FlightDelayAdvisorResearchData/derived/flare24_rotation_features_v3/year=2024/month=02.parquet",
+      "bytes": 9984045,
+      "sha256": "8e6d1f4872881a5f6e9795fae117b1487978307bf47e665a957ec472080d1613"
+    }
+  ],
+  "retained_model": {
+    "path": "runs/flare24/rotation_features_v3/models/latent_rotation_history_2023_for_2024.joblib",
+    "bytes": 18312726,
+    "sha256": "3441aa98f47f5ad4b6ab9b7e2c4bbb4a5318d309dd3d2bad00864356a51cff51"
+  },
+  "adjudication": "The repaired residual was inside the declared 1e-8 acceptance tolerance but outside an internal 5e-9 optimization target. The control flow incorrectly raised when the tighter target exhausted its iteration budget. A new version accepts only after the separate 1e-8 post-loop gate; the mathematical inbound capacity remains one and the residual is retained.",
+  "target_tail_number_read": false,
+  "target_outcomes_accessed": false
+}

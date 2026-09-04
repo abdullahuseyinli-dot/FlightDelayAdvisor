@@ -1,0 +1,13 @@
+{
+  "failure_observed_at_utc": "2026-09-04T04:37:29.0375054Z",
+  "disposition": "RETAINED_PARTIAL_RUN_NOT_FOR_MODELING",
+  "failure": "The full v2 materialization was deliberately interrupted during 2024-02 because provenance-tracked source files received type-annotation-only edits after the process started.",
+  "completed_before_interruption": {
+    "feature_partition": "D:/FlightDelayAdvisorResearchData/derived/flare24_ccrth_v2/year=2024/month=01.parquet",
+    "graph_directory": "D:/FlightDelayAdvisorResearchData/derived/flare24_ccrth_graph_v2/year=2024/month=01",
+    "frontier": "D:/FlightDelayAdvisorResearchData/derived/flare24_ccrth_frontier_v2/history=2023_for=2024.parquet"
+  },
+  "impact": "Allowing the process to finish would have recorded hashes for source bytes that were not exactly those imported at process start. No v2 manifest was written and no v2 artifact is admitted to modeling.",
+  "remediation": "Complete lint, tests, and static typing first, then restart unchanged source in new v3 directories.",
+  "results_claimed": false
+}

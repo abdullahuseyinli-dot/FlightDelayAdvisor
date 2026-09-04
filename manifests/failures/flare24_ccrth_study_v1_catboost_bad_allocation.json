@@ -1,0 +1,59 @@
+{
+  "run_started_at_utc": "2026-09-04T05:30:09Z",
+  "failure_observed_at_utc": "2026-09-04T06:52:44Z",
+  "disposition": "RETAINED_PARTIAL_RUN_NOT_FOR_SCORING_OR_RELEASE",
+  "run_directory": "D:/FlightDelayAdvisorResearchData/runs/flare24_ccrth_v1",
+  "failure": "CatBoost raised 'bad allocation' while refitting the eighth and final model, hypergraph/cancellation, for 549 fixed iterations.",
+  "boundary_status": {
+    "2024_outcomes_accessed": true,
+    "2025_outcomes_accessed": false,
+    "2026_outcomes_accessed": false,
+    "method_lock_written": false,
+    "study_report_written": false
+  },
+  "resource_observation": {
+    "approximate_peak_process_private_gib": 22.81,
+    "approximate_gpu_memory_mib": 7062,
+    "gpu": "NVIDIA GeForce RTX 4060 Laptop GPU (8188 MiB)"
+  },
+  "completed_model_artifacts": [
+    {
+      "path": "D:/FlightDelayAdvisorResearchData/runs/flare24_ccrth_v1/models/raw_demand_delay.joblib",
+      "bytes": 40994019,
+      "sha256": "8bb24a34758e716471e4964ab4e0294dbfc852ab6d03cea4b1ecea29bd8ffd88"
+    },
+    {
+      "path": "D:/FlightDelayAdvisorResearchData/runs/flare24_ccrth_v1/models/normalized_capacity_delay.joblib",
+      "bytes": 53553495,
+      "sha256": "9cd71bcf9d935075a27bb6631782914ad6cfc530b1392cd040cd5513a2ae2a8a"
+    },
+    {
+      "path": "D:/FlightDelayAdvisorResearchData/runs/flare24_ccrth_v1/models/queue_shadow_delay.joblib",
+      "bytes": 51028171,
+      "sha256": "83e90038f4a833c67770b2eb0346a0ff4c807508fe3caeaa91c202513fd77c83"
+    },
+    {
+      "path": "D:/FlightDelayAdvisorResearchData/runs/flare24_ccrth_v1/models/hypergraph_delay.joblib",
+      "bytes": 38934604,
+      "sha256": "0e33b9b7ccdcdd0a9098ccd7d245b50fe08b155381678e5664e825296717f068"
+    },
+    {
+      "path": "D:/FlightDelayAdvisorResearchData/runs/flare24_ccrth_v1/models/raw_demand_cancellation.joblib",
+      "bytes": 35608561,
+      "sha256": "5979a98028429bb18dfb7060a3404c06e4c8542ca99c295e7c0ccd8d98f8b267"
+    },
+    {
+      "path": "D:/FlightDelayAdvisorResearchData/runs/flare24_ccrth_v1/models/normalized_capacity_cancellation.joblib",
+      "bytes": 42121274,
+      "sha256": "917c8aafba6aacb3952529d8427c502eead5e5bf84300b875e2ebc3726ecd3a1"
+    },
+    {
+      "path": "D:/FlightDelayAdvisorResearchData/runs/flare24_ccrth_v1/models/queue_shadow_cancellation.joblib",
+      "bytes": 56851586,
+      "sha256": "370264c5c4534718069275d371252ec9a6873db715040fffdf08fb938854e5df"
+    }
+  ],
+  "impact": "The failed run produced no method lock, no 2025 predictions, and no score. Its seven model files are retained as failure evidence and will not be imported into a completed run.",
+  "remediation": "Use a fresh v2 run directory and report path. Serialize each final model, record its checksum, release it from memory before fitting the next model, and checksum-reload only one model at a time during prediction.",
+  "results_claimed": false
+}

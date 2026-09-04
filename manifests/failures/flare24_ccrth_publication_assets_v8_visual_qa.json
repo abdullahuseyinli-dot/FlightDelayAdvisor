@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "artifact_type": "tf_ccrth_metastack_publication_visual_qa_failure",
+  "bundle_id": "flare24_ccrth_publication_assets_v8",
+  "status": "FAILED_VISUAL_QA_NUMERICAL_ASSETS_UNCHANGED",
+  "created_at_utc": "2026-09-04T13:03:21.9312737Z",
+  "failure": {
+    "affected_figures": [
+      "metastack_proper_score_intervals.png",
+      "metastack_cancellation_effects.png",
+      "metastack_coefficients.png"
+    ],
+    "cause": "Shared-axis tick propagation removed the visible held-forward/full-period labels; small cancellation-Brier tick labels overlapped; and the intercept annotation sat over a coefficient bar."
+  },
+  "bundle_manifest": {
+    "path": "manifests/flare24_ccrth_publication_assets_v8.json",
+    "bytes": 25589,
+    "sha256": "b5632c868c3a26125740b1ee9b9cfc382f6abc3a51fdb4d48d7d22f181b73c1a",
+    "self_hash": "6ad3936b1530fcd0e2a5514ee5b1b418d9c334503c0c5cb676a94e2cddecba26",
+    "preserved_unchanged": true
+  },
+  "adjudication": "Remove shared y-axis propagation, apply scientific tick formatting to the Brier delta, move the intercept annotation into a legible callout, and generate a new v9 bundle.",
+  "tables_changed": false,
+  "scientific_results_changed": false,
+  "confirmation_outcomes_accessed": false
+}

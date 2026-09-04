@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "status": "FAILED_PROVIDER_RATE_WINDOW_COMPLETION_MANIFEST_WITHHELD",
+  "created_at_utc": "2026-09-04T00:06:24.0063924Z",
+  "stage": "FLARE-24 Open-Meteo previous_day2 acquisition resume",
+  "command_parameters": {
+    "lead_days": 2,
+    "start_year": 2024,
+    "end_year": 2025,
+    "workers": 2,
+    "retries": 8,
+    "resume": true
+  },
+  "failure": "12 requests exhausted their per-request retry loops across the provider rate window; the completion manifest was correctly withheld.",
+  "retained_verified_responses": 188,
+  "missing_requests_after_failure": [
+    "SEA 2024",
+    "SEA 2025",
+    "SFO 2024",
+    "SFO 2025",
+    "SJC 2024",
+    "SJC 2025",
+    "SJU 2024",
+    "SJU 2025",
+    "SLC 2024",
+    "SLC 2025",
+    "SMF 2024",
+    "SMF 2025"
+  ],
+  "completion_manifest_written": false,
+  "adjudication": "Resume the same create-only archive after the provider window resets, with one worker. Existing response files are reopened, schema-validated, and checksum-recorded; none are overwritten.",
+  "outcome_columns_read": [],
+  "confirmation_outcomes_accessed": false
+}

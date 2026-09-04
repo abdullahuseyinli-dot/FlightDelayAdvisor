@@ -34,7 +34,13 @@ Thumbs.db
 # Local pipeline inputs and intermediate outputs
 data/raw/
 data/raw_bts/
-data/external/
+data/external/*
+!data/external/flare24_ccrth_resources_nasr_20241003_v2.json
+!data/external/cutoff_taf_pilot_v1/
+!data/external/cutoff_taf_pilot_v1/**
+!data/external/forecast24_openmeteo_gfs_v1/
+data/external/forecast24_openmeteo_gfs_v1/*
+!data/external/forecast24_openmeteo_gfs_v1/airport_catalog.json
 data/interim/
 data/derived/
 data/processed/*
@@ -50,6 +56,7 @@ models/*
 !models/lgbm_cancel_calibrated.joblib
 
 # Local execution output
+.local/
 *.log
 reports/local/
 reports/tmp/

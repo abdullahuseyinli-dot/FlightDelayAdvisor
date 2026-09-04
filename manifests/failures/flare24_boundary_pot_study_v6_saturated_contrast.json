@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "artifact_type": "bcpotr_retrospective_study_failure",
+  "status": "RETAINED_POST_PREDICTION_SATURATED_CONTRAST_REPORTING_FAILURE",
+  "observed_at_utc": "2026-09-04T20:09:45.7930772Z",
+  "run_id": "flare24_boundary_pot_v6",
+  "method_lock": "D:/FlightDelayAdvisorResearchData/runs/flare24_boundary_pot_v6/method_lock.json",
+  "method_lock_sha256": "9d91cf6c92b8e851b27f50bb91866167e3e77175d4b719fda2d61faf02fe7942",
+  "method_lock_self_hash": "a6338186474dcaa70b92797cf165d7ba6e7addbfc3dfa5bb8490d7147489dff7",
+  "log": "logs/flare24_boundary_pot_study_v6.log",
+  "log_sha256": "451f6eba93d6918851a21daba00d786e9a30cf3b0decadcf82cccd216d40ef60",
+  "preserved_run_file_count": 25,
+  "preserved_run_bytes": 1116874190,
+  "completed_models": 4,
+  "completed_calibrators": 4,
+  "completed_prediction_artifacts": 16,
+  "completed_2025_months": 12,
+  "contrast_audit": {
+    "signal": "any_nonzero_boundary_residual",
+    "primary_period_rows": 5829666,
+    "exposed_rows": 5829662,
+    "unexposed_rows": 4,
+    "exposed_dates": 365,
+    "unexposed_dates": 4,
+    "interpretation": "Boundary completion changed at least one residual feature for essentially every primary-period flight, so the any-change versus no-change descriptive contrast has inadequate temporal overlap for a date-cluster confidence interval."
+  },
+  "failure": "The final descriptive date-cluster bootstrap required both exposure groups in at least 99 percent of resamples. Only four unexposed rows on four dates existed, so that non-causal contrast was saturated and scientifically non-estimable under the frozen inference design.",
+  "phase": "final report assembly after all locked 2025 predictions",
+  "final_report_written": false,
+  "breakthrough_claimed": false,
+  "2026_outcomes_accessed": false,
+  "resolution": "Recover the report from the unchanged v6 models, calibrators, Q4 cross-fit predictions, and twelve locked 2025 prediction artifacts. Preserve the point estimate where defined, label the date-cluster interval NOT_ESTIMABLE_INSUFFICIENT_TEMPORAL_CONTRAST_SUPPORT, and retain the estimable predecessor-observation and severe-versus-low residual analyses. Do not retrain or regenerate predictions."
+}

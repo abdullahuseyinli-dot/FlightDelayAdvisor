@@ -1,0 +1,47 @@
+[identity]
+method = "TF-CC-RTH-LogitStack-v1"
+expanded_name = "Task-Factorized CC-RTH Cancellation Logit Meta-Stack"
+status = "POST_HOC_2025_DEVELOPMENT_FOR_UNOPENED_2026_CONFIRMATION"
+parent_method = "TF-CC-RTH-v1"
+
+[information_boundary]
+coefficient_fit_year = 2024
+regularization_selection_year = 2025
+held_forward_evaluation_year = 2025
+confirmation_year = 2026
+prior_2025_results_informed_design = true
+confirmation_outcomes_accessed = false
+
+[meta_model]
+task = "cancellation"
+input_candidates = ["flare24", "raw_demand", "normalized_capacity", "queue_shadow", "hypergraph"]
+features = "clipped cancellation logits in registered candidate order"
+probability_clip = 0.000001
+family = "L2-regularized logistic regression"
+solver = "lbfgs"
+maximum_iterations = 800
+tolerance = 0.000000001
+regularization_c_grid = [0.0001, 0.0003, 0.001, 0.003, 0.01, 0.03, 0.1]
+delay_given_operated_source = "flare24"
+coefficient_fit_dates = ["2024-10-03", "2024-12-31"]
+
+[selection]
+dates = ["2025-01-03", "2025-06-30"]
+metric = "joint_three_state_log_loss"
+tie_breaker = "smaller C"
+h2_embargo_dates = ["2025-07-01", "2025-07-02"]
+
+[evaluation]
+held_forward_dates = ["2025-07-03", "2025-12-29"]
+descriptive_full_primary_dates = ["2025-01-03", "2025-12-29"]
+cluster_key = "FlightDate"
+bootstrap_repetitions = 2000
+bootstrap_seed = 20260905
+reference = "exact persisted FLARE-24 probabilities"
+
+[claim_limits]
+blind_2025_confirmation_claimed = false
+selection_adjusted_2025_interval_claimed = false
+state_of_the_art_claimed = false
+causal_claimed = false
+confirmation_outcomes_accessed = false

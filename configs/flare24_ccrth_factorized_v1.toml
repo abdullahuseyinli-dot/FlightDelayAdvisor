@@ -1,0 +1,49 @@
+[identity]
+method = "TF-CC-RTH-v1"
+expanded_name = "Task-Factorized Capacity-Conditioned Resource-Time Flight Hypergraph"
+status = "POST_HOC_EXPLORATORY_2025_REANALYSIS"
+parent_method = "CC-RTH-v1"
+
+[information_boundary]
+selection_year = 2024
+exploratory_evaluation_year = 2025
+confirmation_year = 2026
+confirmation_outcomes_accessed = false
+prior_2025_aggregate_results_informed_hypothesis = true
+row_level_2025_predictions_loaded_before_q4_lock = false
+
+[factorization]
+components = ["cancellation", "delay_given_operated"]
+base_candidates = ["flare24", "raw_demand", "normalized_capacity", "queue_shadow", "hypergraph"]
+recombination = "P(cancelled)=p_cancel; P(delayed)=(1-p_cancel)*p_delay_given_operated; P(on_time)=(1-p_cancel)*(1-p_delay_given_operated)"
+optimizer = "convex SLSQP with analytic gradient"
+component_selection_metric = "binary_log_loss"
+final_selection_metric = "joint_three_state_log_loss"
+
+[stress_gating]
+feature = "ccrth_route_sum_shadow_price"
+cutpoints_source = "frozen CC-RTH-v1 Q4 method lock"
+regimes = ["low", "elevated", "severe", "missing"]
+minimum_component_rows = 10000
+
+[evaluation]
+primary_dates = ["2025-01-03", "2025-12-29"]
+full_year_point_scores_are_descriptive = true
+cluster_key = "FlightDate"
+bootstrap_repetitions = 2000
+bootstrap_seed = 20260904
+reference = "exact persisted FLARE-24 probabilities"
+
+[post_hoc_grid]
+enabled = true
+component_pairs = 25
+selection_metric = "2025 primary-period joint log loss"
+inferential_status = "hypothesis-generating; intervals are not selection-adjusted"
+purpose = "freeze one exact task-factorized candidate for unopened 2026 confirmation"
+
+[claim_limits]
+blind_2025_confirmation_claimed = false
+state_of_the_art_claimed = false
+causal_claimed = false
+post_selection_interval_claimed = false
+confirmation_outcomes_accessed = false

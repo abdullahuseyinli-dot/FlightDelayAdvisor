@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "artifact_type": "release_candidate_supersession",
+  "status": "SUPERSEDED_BEFORE_EXTERNAL_PUBLICATION_AFTER_BCPOTR_METADATA_REVIEW",
+  "recorded_at_utc": "2026-09-04T20:48:17.6140102Z",
+  "superseded_ledger": {
+    "path": "manifests/flare24_release_candidate_v2.json",
+    "bytes": 43676,
+    "sha256": "b5c80dd150da3b21160fabdd52461a3d27d98d0d4799f9a56773d1623d35ea26",
+    "self_hash": "434049ac2c7bef83ca5d246189694f5686ce2b83868ee98ced10bcd85a8d15e3"
+  },
+  "reason": "The v2 package and checks passed, but final human review found public metadata that still described only the parent FLARE-24 release and a stale test count. No external publication occurred. The code, archives, and ledger remain preserved while metadata is corrected and the exact final tree is rebuilt as candidate v3.",
+  "external_publication_performed_for_v2": false,
+  "doi_assigned_for_v2": false,
+  "old_distributions_retained": true,
+  "research_results_changed": false,
+  "2026_outcomes_accessed": false
+}

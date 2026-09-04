@@ -6,7 +6,10 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from flightdelaybench.contracts import AvailabilityHorizon, features_available_at
+from flightdelaybench.contracts import (
+    AvailabilityHorizon,
+    core_point_in_time_features_at,
+)
 from flightdelaybench.feature_validation import validate_feature_dataset
 from flightdelaybench.point_in_time import (
     ClimatologyState,
@@ -88,7 +91,7 @@ def test_current_year_outcomes_and_weather_cannot_change_deployable_features() -
         climatology_state=climate,
     )
 
-    columns = list(features_available_at(AvailabilityHorizon.SCHEDULE_CLIMATOLOGY))
+    columns = list(core_point_in_time_features_at(AvailabilityHorizon.SCHEDULE_CLIMATOLOGY))
     pd.testing.assert_frame_equal(original[columns], changed[columns])
     assert not original["oracle_origin_tavg"].equals(changed["oracle_origin_tavg"])
 

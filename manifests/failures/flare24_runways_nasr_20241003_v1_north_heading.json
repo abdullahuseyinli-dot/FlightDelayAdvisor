@@ -1,0 +1,11 @@
+{
+  "schema_version": 1,
+  "status": "FAILED_SCHEMA_CONVENTION_NO_OUTPUT_WRITTEN",
+  "created_at_utc": "2026-09-03T22:05:27.1585522Z",
+  "stage": "FLARE-24 FAA NASR runway catalog build",
+  "error": "FAA TRUE_ALIGNMENT includes 0.0 degrees for due north; internal validation expected (0, 360].",
+  "raw_archive_retained": true,
+  "output_written": false,
+  "flight_outcomes_accessed": false,
+  "adjudication": "Treat 0 and 360 degrees as equivalent due-north representations, normalize 0 to 360, and retain strict rejection outside [0, 360]."
+}

@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "status": "FAILED_INBOUND_CAPACITY_ROUNDOFF_AFTER_DUAL_REPAIR",
+  "created_at_utc": "2026-09-03T23:27:42.6466932Z",
+  "stage": "FLARE-24 structural latent-rotation ablation after three accepted months",
+  "target_year": 2024,
+  "failed_period": "2024-04",
+  "reproduced_error": "latent rotation solution violates inbound capacity: maximum_mass=1.00000001053",
+  "diagnosed_maximum_inbound_mass": 1.00000001053,
+  "declared_acceptance_tolerance": 1e-8,
+  "excess_above_acceptance_boundary": 5.3e-10,
+  "completion_manifest_written": false,
+  "retained_outputs": [
+    {
+      "path": "D:/FlightDelayAdvisorResearchData/derived/flare24_rotation_features_v4/year=2024/month=01.parquet",
+      "bytes": 10492217,
+      "sha256": "7fbb01c7a7f9f32f6bf1e714538af26a87d9ec0cf4ad3cbe3cc502c5403378c1"
+    },
+    {
+      "path": "D:/FlightDelayAdvisorResearchData/derived/flare24_rotation_features_v4/year=2024/month=02.parquet",
+      "bytes": 9984045,
+      "sha256": "8e6d1f4872881a5f6e9795fae117b1487978307bf47e665a957ec472080d1613"
+    },
+    {
+      "path": "D:/FlightDelayAdvisorResearchData/derived/flare24_rotation_features_v4/year=2024/month=03.parquet",
+      "bytes": 11119713,
+      "sha256": "d878189d9c7cd0896b325714cb72aa42cc4824062611602bd7d571c1c9e8ba36"
+    }
+  ],
+  "retained_model": {
+    "path": "runs/flare24/rotation_features_v4/models/latent_rotation_history_2023_for_2024.joblib",
+    "bytes": 18312726,
+    "sha256": "3441aa98f47f5ad4b6ab9b7e2c4bbb4a5318d309dd3d2bad00864356a51cff51"
+  },
+  "adjudication": "No tolerance was relaxed. A deterministic final feasibility projection was added for the next version: each over-capacity predecessor's incident probabilities are scaled to just below unit mass and the removed mass is assigned to each successor's explicit no-predecessor state. Both inbound capacity and outbound probability conservation are then checked.",
+  "target_tail_number_read": false,
+  "target_outcomes_accessed": false
+}

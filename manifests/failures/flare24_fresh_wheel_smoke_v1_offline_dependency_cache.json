@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "artifact_type": "flare24_failed_fresh_environment_record",
+  "status": "FAILED_BEFORE_PACKAGE_INSTALL_OFFLINE_DEPENDENCY_UNAVAILABLE",
+  "created_at_utc": "2026-09-04T02:18:03.3685216Z",
+  "environment": "D:/FlightDelayAdvisorResearchData/fresh_envs/flare24_0_1_0rc1_smoke_v1",
+  "wheel": "dist/flare24-0.1.0rc1-smoke-v2/flightdelaybench-0.1.0rc1-py3-none-any.whl",
+  "failure": {
+    "stage": "uv offline dependency resolution",
+    "reason": "The local cache lacked a non-yanked Python 3.11 NumPy wheel that uv could resolve for numpy>=1.26,<3; no package was installed and no inference ran."
+  },
+  "scientific_results_affected": false,
+  "resolution": "Preserve the failed environment and repeat with registry access in a new environment identifier.",
+  "confirmation_outcomes_accessed": false
+}

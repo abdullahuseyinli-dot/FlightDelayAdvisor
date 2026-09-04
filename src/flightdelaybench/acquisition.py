@@ -76,6 +76,16 @@ def validate_confirmation_lock(path: Path, expected_year: int) -> None:
         raise PermissionError("confirmation lock self-hash is invalid")
 
 
+def _manifest_path(path: Path, repository_root: Path) -> str:
+    """Prefer a portable repository path, retaining explicit external paths when needed."""
+
+    resolved = path.resolve()
+    try:
+        return resolved.relative_to(repository_root.resolve()).as_posix()
+    except ValueError:
+        return resolved.as_posix()
+
+
 def _manifest_payload(records: list[ArchiveRecord], events: list[dict[str, Any]]) -> dict[str, Any]:
     body: dict[str, Any] = {
         "schema_version": 1,
@@ -116,7 +126,7 @@ def _record_verified_archive(
         year=year,
         month=month,
         url=remote_url(year, month),
-        local_path=archive_path.resolve().relative_to(repository_root.resolve()).as_posix(),
+        local_path=_manifest_path(archive_path, repository_root),
         bytes=archive_path.stat().st_size,
         sha256=sha256_file(archive_path),
         csv_member=csv_member,
@@ -212,7 +222,7 @@ def acquire_month(
     record = ArchiveRecord(
         **{
             **asdict(record),
-            "local_path": destination.resolve().relative_to(repository_root.resolve()).as_posix(),
+            "local_path": _manifest_path(destination, repository_root),
         }
     )
     existing = {(item.year, item.month): item for item in records}

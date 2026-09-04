@@ -1,0 +1,31 @@
+{
+  "run_started_at_utc": "2026-09-04T04:23:00Z",
+  "failure_observed_at_utc": "2026-09-04T04:29:58.7328622Z",
+  "disposition": "RETAINED_PARTIAL_RUN_NOT_FOR_MODELING",
+  "failure": "The 2024-02 rotation context stopped on one BTS schedule row with missing CRSElapsedTime, producing an unresolved scheduled arrival timestamp.",
+  "evidence": {
+    "sample_id": "bts-2024-02-0255947",
+    "FlightDate": "2024-02-11",
+    "Origin": "BWI",
+    "Dest": "SJU",
+    "CRSDepMinutes": 1080,
+    "CRSElapsedTime": null,
+    "Distance": 1565.0,
+    "exception": "ValueError: rotation schedule contains unresolved timestamps"
+  },
+  "completed_before_failure": {
+    "feature_partition": {
+      "path": "D:/FlightDelayAdvisorResearchData/derived/flare24_ccrth_v1/year=2024/month=01.parquet",
+      "rows": 459526,
+      "sha256": "9dc636dc51466b68166b869be3d26356aa894c473ab2f524189a2c24c85d303f"
+    },
+    "graph_directory": "D:/FlightDelayAdvisorResearchData/derived/flare24_ccrth_graph_v1/year=2024/month=01",
+    "frontier": {
+      "path": "D:/FlightDelayAdvisorResearchData/derived/flare24_ccrth_frontier_v1/history=2023_for=2024.parquet",
+      "sha256": "5f2d511a3759846b8fa12fc996520dd862f58fbba540af8ddc8aaa21cc7b2b9f"
+    }
+  },
+  "impact": "The covariate manifest was not written and the partial v1 run is excluded from all modeling.",
+  "remediation": "Use the same outcome-blind distance-based scheduled-block-time fallback already used by CC-RTH event construction before latent-rotation inference; record its count and restart in new v2 directories.",
+  "results_claimed": false
+}

@@ -1,5 +1,10 @@
 FlightDelayAdvisor
 
+Historical application design document. The sampled application is separate from
+the current research benchmark; see [the legacy guide](LEGACY_APPLICATION.md) and
+[current research status](PROJECT_STATUS.md). Original contributor attribution
+and design history are retained below.
+
 Intelligent flight disruption risk advisor for US domestic routes
 
 Version: 1.0
@@ -304,9 +309,9 @@ Real‑time signals can be plugged into those weather and congestion slots later
 
 - add live departure bank load based on current schedule and known disruptions.
 
-That means the current version is already doing something valuable and dependable today, while the architecture naturally supports a v2 that integrates live feeds without forcing a redesign or a breaking change to the app.
-
-In other words: today FlightDelayAdvisor is a “historical risk advisor” that you can trust to be stable and explainable; tomorrow it can evolve into a hybrid system that blends those long‑run patterns with live operational data.
+The application estimates historical statistical risk. Integration of live feeds
+would require new feature-availability contracts, validation and monitoring; the
+current results do not establish real-time forecast quality or operational reliability.
 
 
 3. System architecture (high‑level)

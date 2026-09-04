@@ -1,0 +1,11 @@
+{
+  "schema_version": 1,
+  "status": "FAILED_LOCAL_VALIDATION_BUILDS",
+  "attempts": ["dist/cutoff_validation_v1", "dist/cutoff_validation_v2"],
+  "failure": "ModuleNotFoundError: No module named 'hatchling'",
+  "cause": "Non-isolated builds require the declared build backend in the selected interpreter; it was absent.",
+  "planned_recovery": "Install the declared Hatchling build dependency into the FlightDelayAdvisor environment and build into a new directory.",
+  "prior_artifacts_removed": false,
+  "release_promoted": false,
+  "confirmation_outcomes_accessed": false
+}

@@ -4,8 +4,8 @@ build-backend = "hatchling.build"
 
 [project]
 name = "flightdelaybench"
-version = "0.1.0.dev0"
-description = "Point-in-time benchmarks for flight disruption prediction under weather and regime shift"
+version = "0.1.0rc1"
+description = "Flight disruption research, retrospective benchmarks and timestamp-aware evaluation"
 readme = "README.md"
 requires-python = ">=3.11,<3.13"
 license = { file = "LICENSE" }
@@ -20,19 +20,21 @@ keywords = [
   "machine learning",
 ]
 classifiers = [
-  "Development Status :: 3 - Alpha",
+  "Development Status :: 4 - Beta",
   "License :: OSI Approved :: MIT License",
   "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
   "Topic :: Scientific/Engineering :: Artificial Intelligence",
 ]
 dependencies = [
+  "duckdb>=1.4,<2",
   "joblib>=1.4,<2",
   "numpy>=1.26,<3",
   "pandas>=2.2,<3",
   "pyarrow>=15,<26",
   "PyYAML>=6,<7",
   "requests>=2.32,<3",
+  "scipy>=1.11,<2",
   "scikit-learn>=1.5,<2",
 ]
 
@@ -41,6 +43,12 @@ models = [
   "catboost>=1.2.8,<2",
   "lightgbm>=4.6,<5",
   "optuna>=4.5,<5",
+]
+frontier = [
+  "chimeraboost>=0.30,<0.31",
+  "rtdl-num-embeddings>=0.0.12,<0.1",
+  "tabm>=0.0.3,<0.1",
+  "torch>=2.9,<2.10",
 ]
 weather = [
   "airportsdata>=20250523",
@@ -51,6 +59,7 @@ weather = [
 ]
 plots = [
   "matplotlib>=3.9,<4",
+  "pillow>=10,<13",
   "seaborn>=0.13,<1",
 ]
 app = [
@@ -75,14 +84,113 @@ Issues = "https://github.com/abdullahuseyinli-dot/FlightDelayAdvisor/issues"
 flightdelaybench = "flightdelaybench.cli:main"
 flightdelaybench-acquire-bts = "flightdelaybench.acquisition:main"
 flightdelaybench-normalize-bts = "flightdelaybench.bts:main"
+flightdelaybench-normalize-census = "flightdelaybench.census_normalization:main"
+flightdelaybench-validate-census = "flightdelaybench.census_validation:main"
+flightdelaybench-audit-census-context = "flightdelaybench.census_context_audit:main"
+flightdelaybench-build-boundary-context = "flightdelaybench.boundary_context:main"
+flightdelaybench-fit-boundary-rotations = "flightdelaybench.boundary_rotation_models:main"
+flightdelaybench-validate-boundary-rotations = "flightdelaybench.boundary_rotation_validation:main"
+flightdelaybench-validate-boundary-rotation-smoke = "flightdelaybench.boundary_rotation_smoke_validation:main"
+flightdelaybench-validate-boundary-pot = "flightdelaybench.flare_boundary_validation:main"
+flightdelaybench-run-boundary-pot = "flightdelaybench.flare_boundary_study:main"
+flightdelaybench-recover-boundary-pot-study = "flightdelaybench.flare_boundary_recovery:main"
+flightdelaybench-validate-boundary-pot-study = "flightdelaybench.flare_boundary_study_validation:main"
+flightdelaybench-report-boundary-pot = "flightdelaybench.flare_boundary_reporting:main"
+flightdelaybench-validate-boundary-pot-publication = "flightdelaybench.flare_boundary_reporting_validation:main"
 flightdelaybench-build-features = "flightdelaybench.point_in_time:main"
 flightdelaybench-validate-features = "flightdelaybench.feature_validation:main"
+flightdelaybench-benchmark = "flightdelaybench.benchmark:main"
+flightdelaybench-tune = "flightdelaybench.tuning:main"
+flightdelaybench-rolling = "flightdelaybench.rolling:main"
+flightdelaybench-build-recent = "flightdelaybench.recent:main"
+flightdelaybench-build-census-flight-recent = "flightdelaybench.census_recent:main"
+flightdelaybench-validate-recent = "flightdelaybench.recent_validation:main"
+flightdelaybench-validate-census-flight-recent = "flightdelaybench.census_recent_validation:main"
+flightdelaybench-build-census-graph = "flightdelaybench.census_graph:main"
+flightdelaybench-validate-census-graph = "flightdelaybench.census_graph_validation:main"
+flightdelaybench-benchmark-recent = "flightdelaybench.recent_benchmark:main"
+flightdelaybench-benchmark-census = "flightdelaybench.census_benchmark:main"
+flightdelaybench-tune-recent = "flightdelaybench.recent_tuning:main"
+flightdelaybench-tune-census = "flightdelaybench.census_tuning:main"
+flightdelaybench-rolling-recent = "flightdelaybench.recent_rolling:main"
+flightdelaybench-recalibrate-shift = "flightdelaybench.shift_recalibration:main"
+flightdelaybench-analyse-joint = "flightdelaybench.joint_analysis:main"
+flightdelaybench-acquire-forecast24 = "flightdelaybench.forecast_acquisition:main"
+flightdelaybench-build-forecast24 = "flightdelaybench.forecast_features:main"
+flightdelaybench-validate-forecast24 = "flightdelaybench.forecast_validation:main"
+flightdelaybench-benchmark-forecast24 = "flightdelaybench.forecast_benchmark:main"
+flightdelaybench-select-forecast-adapter = "flightdelaybench.forecast_adaptation:main"
+flightdelaybench-select-forecast-calibration = "flightdelaybench.forecast_calibration:main"
+flightdelaybench-lock-forecast-method = "flightdelaybench.forecast_lock:main"
+flightdelaybench-audit-forecast-method = "flightdelaybench.forecast_audit:main"
+flightdelaybench-diagnose-forecast-audit = "flightdelaybench.forecast_diagnostics:main"
+flightdelaybench-generate-figures = "flightdelaybench.figures:main"
+flightdelaybench-acquire-flare24-weather = "flightdelaybench.flare_weather_acquisition:main"
+flightdelaybench-build-flare24-weather = "flightdelaybench.flare_weather:main"
+flightdelaybench-build-flare24-runways = "flightdelaybench.flare_runways:main"
+flightdelaybench-build-flare24-features = "flightdelaybench.flare_features:main"
+flightdelaybench-build-flare24-rotations = "flightdelaybench.flare_rotation_features:main"
+flightdelaybench-validate-flare24 = "flightdelaybench.flare_validation:main"
+flightdelaybench-run-flare24 = "flightdelaybench.flare_study:main"
+flightdelaybench-recover-flare24-audit = "flightdelaybench.flare_audit_recovery:main"
+flightdelaybench-report-flare24 = "flightdelaybench.flare_reporting:main"
+flightdelaybench-lock-flare24-confirmation = "flightdelaybench.flare_confirmation:main"
+flightdelaybench-analyse-flare24-ablation = "flightdelaybench.flare_ablation:main"
+flightdelaybench-smoke-flare24 = "flightdelaybench.flare_smoke:main"
+flightdelaybench-build-flare24-release = "flightdelaybench.flare_release:main"
+flightdelaybench-build-ccrth-resources = "flightdelaybench.flare_resource_catalog:main"
+flightdelaybench-build-ccrth = "flightdelaybench.flare_capacity_features:main"
+flightdelaybench-run-ccrth = "flightdelaybench.flare_capacity_study:main"
+flightdelaybench-record-ccrth-recovery = "flightdelaybench.flare_capacity_recovery:main"
+flightdelaybench-validate-ccrth = "flightdelaybench.flare_capacity_validation:main"
+flightdelaybench-report-ccrth = "flightdelaybench.flare_capacity_reporting:main"
+flightdelaybench-run-factorized-ccrth = "flightdelaybench.flare_capacity_factorized:main"
+flightdelaybench-validate-factorized-ccrth = "flightdelaybench.flare_capacity_factorized_validation:main"
+flightdelaybench-report-factorized-ccrth = "flightdelaybench.flare_capacity_factorized_reporting:main"
+flightdelaybench-validate-factorized-assets = "flightdelaybench.flare_capacity_factorized_asset_validation:main"
+flightdelaybench-run-ccrth-metastack = "flightdelaybench.flare_capacity_metastack:main"
+flightdelaybench-validate-ccrth-metastack = "flightdelaybench.flare_capacity_metastack_validation:main"
+flightdelaybench-report-ccrth-metastack = "flightdelaybench.flare_capacity_metastack_reporting:main"
+flightdelaybench-validate-metastack-assets = "flightdelaybench.flare_capacity_metastack_asset_validation:main"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/flightdelaybench"]
 
+[tool.hatch.build.targets.sdist]
+include = [
+  "/.gitattributes",
+  "/.github/workflows/tests.yml",
+  "/.zenodo.json",
+  "/THIRD_PARTY_NOTICES.md",
+  "/CHANGELOG.md",
+  "/CITATION.cff",
+  "/CONTRIBUTING.md",
+  "/LICENSE",
+  "/README.md",
+  "/app.py",
+  "/config",
+  "/configs",
+  "/data/external/flare24_ccrth_resources_nasr_20241003_v2.json",
+  "/data/external/forecast24_openmeteo_gfs_v1/airport_catalog.json",
+  "/data/external/cutoff_taf_pilot_v1",
+  "/docs",
+  "/manifests",
+  "/pyproject.toml",
+  "/pytest.ini",
+  "/reports/experiments",
+  "/reports/metrics_summary.txt",
+  "/reports/backtest_2025_metrics.txt",
+  "/reports/figures/bcpotr_v6_recovered_v2",
+  "/reports/figures/ccrth_v9",
+  "/reports/figures/flare24_v2",
+  "/reports/validation",
+  "/src/flightdelaybench",
+  "/tests",
+  "/tools",
+  "/uv.lock",
+]
 [tool.pytest.ini_options]
-addopts = "-ra"
+addopts = '-ra -m "not integration"'
 testpaths = ["tests"]
 pythonpath = ["."]
 markers = [
@@ -94,11 +202,14 @@ markers = [
 [tool.ruff]
 target-version = "py311"
 line-length = 100
-extend-exclude = ["annomi_counselling_dialogue_analysis.ipynb"]
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "B", "UP", "RUF"]
 ignore = ["E501"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/test_flight_delay_pipeline.py" = ["E402", "I001", "RUF001", "RUF002", "RUF003", "RUF059"]
+"tests/test_prepare_2025.py" = ["E402"]
 
 [tool.mypy]
 python_version = "3.11"
@@ -106,5 +217,5 @@ strict = true
 packages = ["flightdelaybench"]
 
 [[tool.mypy.overrides]]
-module = ["pandas", "pandas.*", "pyarrow", "pyarrow.*", "sklearn", "sklearn.*"]
+module = ["airportsdata", "chimeraboost", "pandas", "pandas.*", "pyarrow", "pyarrow.*", "rtdl_num_embeddings", "scipy", "scipy.*", "sklearn", "sklearn.*", "tabm", "torch", "torch.*"]
 ignore_missing_imports = true

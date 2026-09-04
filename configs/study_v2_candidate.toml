@@ -1,0 +1,106 @@
+[identity]
+study = "FlightDelayBench"
+protocol_version = "2.0.0-candidate"
+status = "DEVELOPMENT_NOT_CONFIRMATORY"
+inherits = "configs/study_v1.toml"
+
+[evidence_boundaries]
+development_years = [2018, 2019, 2020, 2021, 2022, 2023]
+hyperparameter_year = 2018
+rolling_evaluation_years = [2019, 2020, 2021, 2022, 2023]
+selection_year = 2024
+retrospective_audit_year = 2025
+confirmation_year = 2026
+confirmation_gate_opened = false
+
+[primary_evaluation]
+metrics = ["log_loss", "brier", "brier_skill"]
+secondary_metrics = ["roc_auc", "average_precision", "ece_equal_mass", "calibration_intercept", "calibration_slope", "top_decile_lift"]
+cluster_key = "FlightDate"
+bootstrap_repetitions = 2000
+bootstrap_seed = 20260903
+
+[hmop]
+working_name = "hierarchical_multi_timescale_operational_priors"
+availability_horizon = "forecast_24h"
+windows_days = [7, 28, 90]
+cutoff = "closed-left [D-window,D); target day excluded"
+views = ["global", "route", "airline", "origin_outbound", "origin_inbound", "dest_inbound", "dest_outbound"]
+route_smoothing = 50.0
+carrier_smoothing = 200.0
+airport_smoothing = 200.0
+live_feed_equivalence_claimed = false
+
+[task_method.delay]
+feature_variant = "direct"
+tuning_report = "runs/model_tuning/recent_direct_delay_2018_v1.json"
+tuning_objective = "log_loss"
+
+[task_method.cancellation]
+feature_variant = "network"
+tuning_report = "runs/model_tuning/recent_network_cancellation_2018_v1.json"
+tuning_objective = "log_loss"
+
+[schedule_context_ablation]
+status = "SUPPLEMENTARY_PROXY_ONLY"
+outcomes_used_by_transform = false
+advance_schedule_snapshot_validated = false
+limitation = "The 2011-2024 legacy cohort is a research sample and the 2025 cohort excludes diverted flights; density features are not a schedule census."
+
+[forecast24]
+source = "Open-Meteo Previous Model Runs API"
+model = "gfs_seamless"
+lead_field = "previous_day1"
+fixed_lead_hours = 24
+years = [2024, 2025]
+weather_variables = ["temperature_2m", "precipitation", "relative_humidity_2m", "cloud_cover", "surface_pressure", "wind_speed_10m", "wind_gusts_10m", "cape"]
+realisations_as_inference_inputs = false
+production_feed_equivalence_claimed = false
+
+[prior_anchored_forecast_residual_adaptation]
+status = "CANDIDATE_2024_SELECTION_ONLY"
+base_risk = "frozen earlier-year HMOP logit"
+adapter_training_end = "2024-08-31"
+early_stopping_dates = ["2024-09-01", "2024-09-30"]
+selection_dates = ["2024-10-01", "2024-12-31"]
+ablation = "closed-left operational residual without forecast weather"
+selection_metric = "log_loss"
+causal_claimed = false
+
+[forecast_probability_calibration]
+status = "CANDIDATE_2024_SELECTION_ONLY"
+fit_period = ["2024-10-01", "2024-12-31"]
+selection_method = "three expanding forward folds"
+candidate_methods = ["identity", "intercept", "platt", "beta", "isotonic"]
+selection_metric = "pooled forward-fold log_loss"
+retrospective_audit_refit = false
+
+[official_census_rich_schedule_track]
+status = "PARALLEL_CANDIDATE_TRACK_NOT_COMPARABLE_AS_SAME_COHORT"
+source = "US DOT BTS monthly Reporting Carrier On-Time Performance archives"
+airport_cohort = "frozen top-100 union from the pre-existing 2024 cohort"
+warmup_year = 2018
+development_training_years = [2019, 2020, 2021, 2022]
+development_validation_year = 2023
+selection_year = 2024
+retrospective_audit_year = 2025
+confirmation_year = 2026
+confirmation_gate_opened = false
+schedule_counts_include_later_diversions = true
+delay_target_excludes_diversions = true
+tail_number_used = false
+flight_number_prior_cutoff = "closed-left [D-window,D); target day excluded"
+advance_schedule_equivalence_claimed = false
+
+[closed_left_shift_recalibration]
+status = "CANDIDATE"
+fit_rule = "For target year Y, fit only with out-of-time predictions and labels before Y."
+target_covariate_cutoff = "D-1"
+regularization_c = 0.25
+
+[claim_limits]
+state_of_the_art_claimed = false
+causal_claimed = false
+real_time_deployment_claimed = false
+safety_claimed = false
+demographic_fairness_claimed = false

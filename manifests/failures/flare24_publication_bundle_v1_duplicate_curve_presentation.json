@@ -1,0 +1,11 @@
+{
+  "schema_version": 1,
+  "artifact_type": "flare24_superseded_presentation_record",
+  "status": "SUPERSEDED_PRESENTATION_ONLY",
+  "superseded_manifest": "manifests/flare24_publication_bundle_v1.json",
+  "reason": "The v1 figures plotted the selected ensemble and final reconciled output as separate curves even though both are exactly identical to the selected structural-rotation candidate. The label 'Selected aggregate alignment' also obscured that the identity/no-alignment control won.",
+  "metric_values_affected": false,
+  "source_reports_affected": false,
+  "resolution": "Generate a create-only v2 bundle showing the three unique nested feature candidates; retain ensemble and reconciliation decisions in the complete CSV tables and use explicit labels stating that alignment was rejected.",
+  "confirmation_outcomes_accessed": false
+}

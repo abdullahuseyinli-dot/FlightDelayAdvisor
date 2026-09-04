@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "artifact_type": "flare24_failed_release_check_record",
+  "status": "FAILED_VERSION_CONSISTENCY_STALE_EDITABLE_METADATA",
+  "created_at_utc": "2026-09-04T02:15:50.5814588Z",
+  "failed_report": {
+    "path": "reports/validation/flare24_source_release_checks_v2.json",
+    "sha256": "ea1e2fdb1f99e6242c90520fc945c9c30a31ef9e301cbd9c7a3ec16efdf8727a"
+  },
+  "failure": {
+    "check": "version_consistency",
+    "source_version": "0.1.0rc1",
+    "installed_distribution_version": "0.1.0.dev0",
+    "preceding_install_error": "The uv-managed research environment does not contain the pip module, so python -m pip could not refresh editable metadata."
+  },
+  "scientific_results_affected": false,
+  "resolution": "Use uv pip install with the environment's explicit Python interpreter, then run a new create-only release-check report.",
+  "confirmation_outcomes_accessed": false
+}

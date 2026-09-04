@@ -1,0 +1,11 @@
+{
+  "schema_version": 1,
+  "status": "RETAINED_VALIDATION_FAILURE_CORRECTED_NOT_AN_ACCEPTANCE_PASS",
+  "stage": "FLARE24_WEATHER_CUBE_VALIDATION",
+  "artifact": "manifests/flare24_weather_cube_v1.json",
+  "failure": "The first independent validator treated UTC year 2026 as forbidden even when it represented local 2025-12-31 weather at a western U.S. airport.",
+  "root_cause": "The validator conflated UTC timestamp year with the source partition's local calendar year.",
+  "correction": "Validate UTC timestamps against a +/-15 hour tolerance around the declared local-year partition and report both local partition year and UTC years.",
+  "confirmation_flight_outcomes_accessed": false,
+  "prior_artifacts_modified": false
+}

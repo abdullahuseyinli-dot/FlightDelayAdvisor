@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "recorded_at_utc": "2026-09-04T23:23:45+00:00",
+  "status": "STAGING_BYTE_MISMATCH_DETECTED_AND_CORRECTED_BEFORE_COMMIT",
+  "scope": "Git handoff integrity, not a model experiment",
+  "cause": "Nine previously tracked legacy report entries retained normalized index bytes after byte-preserving attributes were added.",
+  "affected_paths": [
+    "reports/backtest_2025_log.txt",
+    "reports/backtest_2025_metrics.txt",
+    "reports/cancel_feature_ablation_logreg.csv",
+    "reports/delay15_feature_ablation_logreg.csv",
+    "reports/drift/cancel_full_metrics_by_year.csv",
+    "reports/drift/delay15_full_metrics_by_year.csv",
+    "reports/fairness/cancel_bestmodel_airline_by_Reporting_Airline.csv",
+    "reports/fairness/delay15_bestmodel_airline_by_Reporting_Airline.csv",
+    "reports/metrics_summary.txt"
+  ],
+  "correction": "Refreshed report index entries under the explicit -text attributes. Original working files were not rewritten. All 639 protected files then matched the staged blob bytes.",
+  "raw_source_whitespace": "Original NWS text includes trailing spaces and legacy reports include CRLF. They are preserved byte-for-byte and excluded from source-whitespace lint, not normalized.",
+  "historical_commits_preserved": true,
+  "raw_working_files_changed": false,
+  "model_results_recomputed": false,
+  "confirmation_outcomes_accessed": false
+}

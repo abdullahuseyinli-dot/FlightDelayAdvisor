@@ -1,161 +1,125 @@
 # FlightDelayAdvisor
 
+Probabilistic flight-disruption research: what can schedules, weather forecasts and
+airport-network context tell us about a flight a day before departure?
+
 [![CI](https://github.com/abdullahuseyinli-dot/FlightDelayAdvisor/actions/workflows/tests.yml/badge.svg)](https://github.com/abdullahuseyinli-dot/FlightDelayAdvisor/actions/workflows/tests.yml)
 
-FlightDelayAdvisor estimates delay and cancellation risk for US domestic
-flights. A Streamlit interface combines calibrated tabular models with route,
-airline, congestion, calendar, and monthly weather features to support
-scenario comparison rather than a single opaque prediction.
+> **Research status:** the previous release candidate is withdrawn following a
+> prediction-cutoff audit. The scores below are historical retrospective proxy
+> results, not validated T−24 operational performance. Corrected software has been
+> tested; corrected real-data experiments have not been completed.
+> [Status and correction](docs/PROJECT_STATUS.md).
 
-![Delay-model ROC comparison](reports/figures_analysis/delay15_roc_comparison.png)
+The repository contains a three-state benchmark (on time, arrival delay of at least
+15 minutes, cancelled), preserved experiments and negative results, a timestamp-aware
+evaluation pipeline, and a separate legacy Streamlit application. It is intended for
+reproducibility and research, not live travel advice.
 
-## Scope
+## Main findings
 
-- Historical source: US Bureau of Transportation Statistics on-time data,
-  2010–2024.
-- Targets: arrival delay of at least 15 minutes and flight cancellation.
-- Models: logistic regression, LightGBM, CatBoost, and a tabular neural network,
-  with probability calibration and feature ablations.
-- Product surface: single-flight risk estimates, departure-time comparisons,
-  airline comparisons, airport summaries, and route alternatives.
-- Temporal check: a separate out-of-time evaluation on 2025 BTS records.
+Weather supplied most of the historical improvement over the schedule/history
+baseline. Airport-resource models helped cancellation probability estimates, but
+adding small-airport schedule context did not deliver a large accuracy gain.
+The later audit identified a more fundamental problem: excluding the target
+operating day does not ensure that a historical outcome was available at each
+flight's scheduled-departure-minus-24-hours cutoff.
 
-## Recorded results
+The latest matched comparison covers **5,754,266 flights**, January 3–December 29,
+2025, with 361 date clusters. All rows below use the same observed joint outcomes.
+Accuracy is standard three-class argmax; lower log loss and Brier are better.
 
-The in-period values below come directly from
-[`reports/metrics_summary.txt`](reports/metrics_summary.txt). They use the fixed
-test split and calibrated probabilities; threshold-dependent classification
-scores are available in the same artifact.
+| Method | Accuracy (%) | Joint log loss | Multiclass Brier |
+|---|---:|---:|---:|
+| Schedule/history baseline | 76.7493 | 0.555921 | 0.337727 |
+| FLARE-24 structural rotation | 77.3289 | 0.539577 | 0.327218 |
+| Regularized cancellation meta-stack | 77.3308 | 0.537377 | 0.326911 |
+| Boundary-complete model | 77.3673 | 0.538733 | 0.326536 |
+| Q4-selected boundary ensemble | 77.3512 | 0.538449 | 0.326679 |
 
-| Target | Selected model | ROC-AUC | PR-AUC | Brier score |
-| --- | --- | ---: | ---: | ---: |
-| Delay ≥ 15 minutes | CatBoost | 0.6864 | 0.3819 | 0.1587 |
-| Cancellation | LightGBM | 0.7061 | 0.1089 | 0.0171 |
+The selected boundary ensemble gains **0.0203 percentage points** over the
+meta-stack (95% date-cluster interval: 0.0060 to 0.0349 points), while log loss
+worsens. Neither the +5 nor +10 percentage-point target was met. The boundary
+comparison also changed a CatBoost interaction setting, so it does not isolate
+the benefit of adding small airports. The best 2025 point estimate is not
+substituted for the method selected on 2024.
 
-The tracked 2025 summary is an out-of-time check, not a second tuning set.
+On-time flights account for 76.5222% of this cohort; accuracy alone obscures weak
+minority-class recall. See [current results](docs/CURRENT_RESULTS.md) for class
+metrics, uncertainty, negative findings and exact source reports.
 
-| Target | Evaluated rows | Base rate | ROC-AUC | PR-AUC | Brier score | Top-decile rate |
-| --- | ---: | ---: | ---: | ---: | ---: | ---: |
-| Delay ≥ 15 minutes | 196,693 | 0.2287 | 0.6469 | 0.3460 | 0.1703 | 0.4190 |
-| Cancellation | 200,000 | 0.0165 | 0.6543 | 0.0368 | 0.0165 | 0.0435 |
+## What is included
 
-See [`reports/backtest_2025_metrics.txt`](reports/backtest_2025_metrics.txt) for
-the promoted summary. The retained `backtest_2025_log.txt` records a separate,
-earlier 500,000-row run and is deliberately not mixed with the table above.
+- **FLARE-24:** schedule/history baselines, fixed-lead archived weather, aviation
+  transforms, latent schedule-compatible rotations and reconciliation ablations.
+- **CC-RTH:** capacity-conditioned airport resource-time features, task-factorized
+  models and a regularized cancellation stack.
+- **BC-POT-R:** boundary-complete schedule context from 255 additional airports,
+  probabilistic operations-twin features and residual/ensemble experiments.
+- **Cutoff correction:** explicit event, source-publication, feature and label
+  availability checks; matched temporal experiment infrastructure; a small issued-TAF
+  archive feasibility pilot. The real-data study remains pending.
 
-## Design
+Method names describe investigated frameworks, not established novel or
+state-of-the-art inventions. Null, harmful, failed and superseded runs are retained.
 
-```text
-BTS monthly files + airport weather
-              │
-              ▼
-     cleaning and feature engineering
-              │
-              ▼
- temporal split → model training → probability calibration
-              │                         │
-              ├──────── evaluation ─────┘
-              │
-              ▼
-   versioned artifacts → Streamlit application
-```
+## Quick start
 
-The application reuses the same feature schema and aggregate metadata as the
-training pipeline. Model and dataset paths are centralized in
-[`config/model_paths.yml`](config/model_paths.yml).
-
-## Run the application
-
-The curated parquet dataset and deployed model files use Git LFS.
+Python 3.11 or 3.12. From a source checkout:
 
 ```bash
-git lfs install
-git clone https://github.com/abdullahuseyinli-dot/FlightDelayAdvisor.git
-cd FlightDelayAdvisor
-git lfs pull
-
 python -m venv .venv
-# Windows: .venv\Scripts\activate
+# Windows PowerShell: .venv\Scripts\Activate.ps1
 # macOS/Linux: source .venv/bin/activate
-python -m pip install --upgrade pip
-python -m pip install -r requirements.txt
-streamlit run app.py
-```
+python -m pip install -e ".[dev,models,plots]"
 
-The first application load builds in-memory route, airline, congestion, and
-weather aggregates from the materialized parquet file. Startup therefore takes
-longer than subsequent cached interactions.
-
-## Reproduce the pipeline
-
-Each stage is kept as an explicit script under `src/`:
-
-```bash
-python src/download_bts.py
-python src/prepare_dataset.py
-python src/download_airport_weather.py
-python src/add_weather_to_dataset.py
-python src/train_models.py
-python src/evaluate_models.py
-```
-
-The 2025 temporal check has its own preparation and evaluation stages:
-
-```bash
-python src/prepare_bts_2025_for_backtest.py
-python src/backtest_2025_from_processed.py
-```
-
-These commands are compute- and storage-intensive. They overwrite generated
-local outputs only; the tracked summaries remain the reviewable release
-evidence.
-
-## Quality checks
-
-Fast checks do not download LFS objects:
-
-```bash
-python -m compileall -q app.py src tools tests
-python -m pytest -q tests/test_prepare_2025.py
+python -m pytest -q -m "not integration and not slow and not confirmation"
 python tools/validate_repository.py
 ```
 
-Artifact-backed regression tests require `git lfs pull` and the runtime
-dependencies:
+These checks do not download research data or retrain the benchmark. Model inference
+and full reconstruction require external artifacts. Some legacy integration scripts
+write fixed report paths and must not be run over the preserved evidence.
 
-```bash
-python -m pytest -q -m integration
-```
+See [usage](docs/USAGE.md) for lint, typing, optional models, packaging, inference and
+safe reproduction scopes. See [legacy application](docs/LEGACY_APPLICATION.md) for
+Git LFS setup, the Streamlit demo and its separate sampled results.
+
+## Documentation
+
+| Start here | Contents |
+|---|---|
+| [Benchmark card](docs/BENCHMARK_CARD.md) | Population, endpoints, temporal splits and comparison rules |
+| [Current results](docs/CURRENT_RESULTS.md) | Matched scores, absolute changes and interpretation |
+| [Project status](docs/PROJECT_STATUS.md) | Completed work, withdrawn claims and outstanding gates |
+| [Data card](docs/DATA_CARD.md) / [model card](docs/MODEL_CARD.md) | Inputs, coverage, model lineage and intended use |
+| [Artifacts](docs/ARTIFACTS.md) | Evidence locations, external dependencies and reconstruction limits |
+| [Limitations](docs/LIMITATIONS.md) | Timing, missing operational state, confounding and scope |
+| [Documentation index](docs/README.md) | Technical reports, historical protocols and correction plan |
 
 ## Repository layout
 
 ```text
-.
-├── app.py                         # Streamlit application
-├── config/                        # Artifact path configuration
-├── data/
-│   ├── processed/                 # Curated LFS dataset
-│   └── raw_2025/                  # Retained monthly backtest inputs
-├── models/                        # Calibrated LFS model artifacts
-├── reports/                       # Metrics, drift/fairness tables, and figures
-├── src/                           # Download, preparation, training, and evaluation
-├── tests/                         # Fast schema and opt-in integration tests
-└── tools/                         # Repository release validation
+src/flightdelaybench/   Research pipelines, models and independent validators
+configs/               Versioned experiment protocols and frozen airport cohort
+manifests/             Source/derivative hashes, method locks and failure records
+reports/               Historical scores, diagnostics, figures and validation evidence
+data/external/         Curated source metadata and small issued-weather pilot
+docs/                  Benchmark documentation, methods and research status
+tests/                 Synthetic/unit tests and opt-in artifact-backed checks
+tools/                 Source, documentation, package and evidence validation
+app.py + config/       Legacy Streamlit application and artifact paths
 ```
 
-## Limitations
+Large datasets and research models are not bundled as ordinary Git files. An archive
+containing code and reports is not a self-contained full-data reproduction package.
 
-- The system estimates historical statistical risk; it is not a guarantee of a
-  particular flight outcome or a substitute for live airline information.
-- Cancellation is rare, so ROC-AUC alone can be misleading. PR-AUC, Brier score,
-  base rate, and concentration metrics are reported alongside it.
-- Monthly climatology cannot represent a live storm or operational disruption.
-- Performance declines on the 2025 temporal check, indicating distribution
-  shift and the need for monitoring before operational use.
-- Route and airline aggregates can be sparse for uncommon combinations; the UI
-  surfaces fallback behavior and supporting sample counts.
+## Citation and licensing
 
-## License
+Citation metadata is in [CITATION.cff](CITATION.cff). No Zenodo DOI is assigned here;
+the [Zenodo metadata](.zenodo.json) is a draft, not evidence of a deposit. A new release
+requires the [release checklist](docs/RELEASE_CHECKLIST.md).
 
-Released under the [MIT License](LICENSE). BTS and weather source data remain
-subject to their respective provider terms.
+Software is [MIT licensed](LICENSE). Upstream data and dependencies retain their own
+terms; see [third-party notices](THIRD_PARTY_NOTICES.md). Contributions should follow
+[CONTRIBUTING.md](CONTRIBUTING.md) and the [research standards](docs/RESEARCH_STANDARDS.md).

@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "attempted_run_id": "census_top100_2018_2025_v2",
+  "status": "FAILED_PARTITION_RETAINED_FOR_ADJUDICATION",
+  "recorded_at_utc": "2026-09-03T20:10:30Z",
+  "failure_stage": "official BTS census normalization at 2024-08",
+  "exception": "ValueError: Table schema does not match schema used to create file; Flight_Number_Reporting_Airline changed from int64 to float64 between CSV chunks",
+  "root_cause": "The first 200,000-row CSV chunk contained only integral flight-number identifiers, while a later chunk contained a missing identifier. Pandas therefore inferred different physical dtypes for the same source column across chunks.",
+  "impact": "The create-only final census manifest was not written. Completed partitions through 2024-07 remain immutable and are rehashed on resume. The incomplete 2024-08 Parquet .part file is not eligible evidence.",
+  "failed_partial": {
+    "original_path": "D:/FlightDelayAdvisorResearchData/normalized_top100_census_v2/year=2024/month=08.parquet.part",
+    "quarantined_path": "D:/FlightDelayAdvisorResearchData/failures/census_top100_2024_08_v2_schema_failure/month=08.parquet.part",
+    "bytes": 1609182,
+    "sha256": "29fbbb71470e78822848207327b85ff1cf23ae97bac14dac58074886c6721855"
+  },
+  "log": {
+    "path": "runs/census_top100_2018_2025_v2_normalization.log",
+    "sha256_at_failure": "d17229e4dbfb606520e33466098a3b71f706b867a884b5dba420a987be029ee7"
+  },
+  "resolution": "Normalize the identifier to a fixed int64 physical type in every chunk, encode an unknown identifier as -1, cover the exact transition with a regression test, quarantine the incomplete .part file, and resume without replacing completed partitions.",
+  "confirmation_outcomes_accessed": false,
+  "manifest_sha256": "f594ba96f337b8c036a084856baa8d08a4e9f05e8e31b1efe708a59add9bd028"
+}

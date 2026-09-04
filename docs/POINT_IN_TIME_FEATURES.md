@@ -1,5 +1,10 @@
 # Point-in-time feature evidence
 
+> Historical generation: the later cutoff audit withdrew the release candidate's
+> strict T−24 claims. Recorded scores and checks below retain their original scope;
+> they do not establish corrected forecast performance. See
+> [current status](PROJECT_STATUS.md) and [current results](CURRENT_RESULTS.md).
+
 The version 2 feature builder replaces the repository's retrospective aggregate
 encodings with an auditable calendar-year state machine. For a flight in year
 `Y`, every outcome prior and weather climatology is based only on years strictly

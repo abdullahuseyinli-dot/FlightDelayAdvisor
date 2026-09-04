@@ -1,0 +1,112 @@
+[identity]
+method = "CC-RTH-v1"
+expanded_name = "Capacity-Conditioned Resource-Time Flight Hypergraph"
+status = "FROZEN_RETROSPECTIVE_RESEARCH_EXTENSION"
+parent_method = "FLARE-24"
+
+[information_boundary]
+prediction_horizon = "flight-specific scheduled departure minus 24 hours"
+schedule_snapshot = "retrospective BTS final-schedule proxy"
+target_outcome_columns_allowed_in_graph = false
+target_tail_number_allowed_in_graph = false
+realised_weather_allowed = false
+historical_frontier_rule = "target year minus one only"
+training_outcome_year = 2024
+retrospective_evaluation_year = 2025
+confirmation_year = 2026
+confirmation_gate_opened = false
+
+[resource_time_graph]
+flight_nodes = true
+airport_resource_bucket_minutes = 15
+demand_windows_minutes = [15, 30, 60, 120]
+include_arrival_resources = true
+include_departure_resources = true
+include_metro_resources = true
+include_candidate_rotation_edges = true
+rotation_messages = "one-hop probability-weighted predecessor resource state"
+
+[capacity_scenarios]
+states = ["constrained", "marginal", "good"]
+conditioning = ["T-24 weather", "static NASR runway geometry", "strictly prior-year scheduling frontier"]
+outputs = ["utilization", "slack", "overload probability", "queue proxy", "recovery proxy"]
+active_runway_claimed = false
+physical_aar_adr_claimed = false
+
+[counterfactuals]
+leave_one_flight_out_marginal_load = true
+smooth_shadow_price = true
+queue_reset = "airport-local operational day"
+
+[models]
+family = "CatBoost binary hurdle"
+components = ["cancellation", "delay_given_operated"]
+candidates = ["flare24", "raw_demand", "normalized_capacity", "queue_shadow", "hypergraph"]
+training_dates = ["2024-01-01", "2024-08-31"]
+early_stopping_dates = ["2024-09-01", "2024-09-30"]
+early_stopping_training_end_after_purge = "2024-08-29"
+early_stopping_purged_dates = ["2024-08-30", "2024-08-31"]
+fixed_iteration_refit_dates = ["2024-01-01", "2024-09-30"]
+rows_per_training_month = 125000
+early_stopping_max_rows = 250000
+sampling_seed = 20260903
+
+[models.delay_parameters]
+iterations = 1200
+learning_rate = 0.020911799420764387
+depth = 8
+l2_leaf_reg = 17.721143984084343
+random_strength = 0.20984487415833059
+bagging_temperature = 0.11862865926623616
+border_count = 64
+
+[models.cancellation_parameters]
+iterations = 1500
+learning_rate = 0.04266275558194561
+depth = 10
+l2_leaf_reg = 1.8439374710684058
+random_strength = 1.8211594669189084
+bagging_temperature = 1.1653117632683447
+border_count = 64
+
+[calibration]
+dates = ["2024-10-01", "2024-12-31"]
+purge_days = 2
+training_starts_after_model_purge = "2024-10-03"
+folds = [
+  ["2024-10-03", "2024-10-13", "2024-10-16", "2024-10-31"],
+  ["2024-10-03", "2024-10-29", "2024-11-01", "2024-11-30"],
+  ["2024-10-03", "2024-11-28", "2024-12-01", "2024-12-31"],
+]
+final_fit_through = "2024-12-31"
+families = ["identity", "intercept", "platt", "beta", "isotonic"]
+selection_metric = "pooled forward-fold binary log loss"
+
+[blending]
+global_simplex = true
+capacity_gated_simplex = true
+optimizer = "convex SLSQP with analytic gradient"
+selection_metric = "joint three-state log loss"
+gating_feature = "ccrth_route_sum_shadow_price"
+gating_quantiles = [0.50, 0.90]
+minimum_regime_rows = 10000
+
+[evaluation]
+primary_metrics = ["joint_log_loss", "multiclass_brier"]
+secondary_views = ["cancellation", "delay_given_operated"]
+cluster_key = "FlightDate"
+bootstrap_repetitions = 2000
+bootstrap_seed = 20260903
+reference = "exact previously published FLARE-24 final probabilities"
+primary_evaluation_dates = ["2025-01-03", "2025-12-29"]
+full_year_point_scores_are_descriptive = true
+
+[claim_limits]
+state_of_the_art_claimed = false
+blind_confirmation_claimed = false
+causal_claimed = false
+observed_airport_queue_claimed = false
+active_runway_configuration_claimed = false
+physical_capacity_claimed = false
+live_schedule_equivalence_claimed = false
+confirmation_outcomes_accessed = false

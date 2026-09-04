@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "artifact_type": "release_candidate_supersession",
+  "status": "SUPERSEDED_BEFORE_EXTERNAL_PUBLICATION_BY_BCPOTR_RELEASE_CANDIDATE_V2",
+  "recorded_at_utc": "2026-09-04T20:40:00Z",
+  "superseded_ledger": {
+    "path": "manifests/flare24_release_candidate_v1.json",
+    "bytes": 27096,
+    "sha256": "22bc64a50017a8ff16a7071b08951193d5e7f1ba3f7421dd515d750ea47b6fb6",
+    "self_hash": "7060b4b490e6db4bb3923dfeea89d6f6be86101da68fafc66f05fa0d82b9aa9c"
+  },
+  "reason": "The repository evolved after the first local release-candidate ledger to add the boundary-complete small-airport study, audited v6 recovery, stronger validators, results, and publication assets. The original ledger is retained unchanged, but its mutable source-path hashes describe the earlier candidate and must not be treated as the current tree.",
+  "external_publication_performed_for_v1": false,
+  "doi_assigned_for_v1": false,
+  "old_distributions_retained": true,
+  "results_claimed_by_supersession": false,
+  "2026_outcomes_accessed": false,
+  "resolution": "Build and strictly validate manifests/flare24_release_candidate_v2.json against a new wheel, source archive, source-check report, wheel smoke, and the BC-POT-R evidence package."
+}

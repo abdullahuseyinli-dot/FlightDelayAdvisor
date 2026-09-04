@@ -8,6 +8,7 @@ from zipfile import ZipFile
 import pytest
 
 from flightdelaybench.acquisition import (
+    _manifest_path,
     acquire_month,
     remote_url,
     validate_bts_zip,
@@ -28,6 +29,16 @@ def test_remote_url_and_zip_validation(tmp_path: Path) -> None:
     assert validate_bts_zip(archive) == "On_Time_2025_1.csv"
     with pytest.raises(ValueError, match="invalid BTS period"):
         remote_url(2025, 13)
+
+
+def test_external_evidence_path_is_retained_explicitly(tmp_path: Path) -> None:
+    repository = tmp_path / "repository"
+    repository.mkdir()
+    inside = repository / "raw" / "month.zip"
+    outside = tmp_path / "external" / "month.zip"
+
+    assert _manifest_path(inside, repository) == "raw/month.zip"
+    assert _manifest_path(outside, repository) == outside.resolve().as_posix()
 
 
 def test_existing_archive_is_recorded_without_replacement(tmp_path: Path) -> None:

@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "artifact_type": "flare24_failed_package_build_record",
+  "status": "FAILED_BEFORE_DISTRIBUTION_CREATION",
+  "created_at_utc": "2026-09-04T02:16:59.7568537Z",
+  "attempt": {
+    "output_directory": "dist/flare24-0.1.0rc1-smoke",
+    "command": "python -m build --outdir dist/flare24-0.1.0rc1-smoke",
+    "artifacts_created": 0
+  },
+  "failure": {
+    "exception_type": "OSError",
+    "message": "[WinError 1920] The file cannot be accessed by the system",
+    "stage": "creation of build's temporary venv+pip isolated environment",
+    "cause": "The Microsoft Store Python runtime could not create/access the isolated environment during ensurepip."
+  },
+  "scientific_results_affected": false,
+  "resolution": "Install the declared hatchling backend into the already validated uv environment and run build --no-isolation in a new output directory.",
+  "confirmation_outcomes_accessed": false
+}

@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "attempted_run_id": "census_flight_recent_v1",
+  "status": "FAILED_BEFORE_OUTPUT_RETAINED",
+  "recorded_at_utc": "2026-09-03T20:27:00Z",
+  "failure_stage": "rolling 7/28/90-day flight-number histories after all 96 source partitions were verified and aggregated",
+  "exception": "numpy._core._exceptions._ArrayMemoryError: unable to allocate 541 MiB for an array with shape (4, 35487278) and data type float32",
+  "root_cause": "The Pandas groupby-rolling implementation materialized 35,487,278 flight-number/date aggregates in memory. Although correct for smaller feature levels, its peak contiguous-memory requirement is unsuitable for the 43.8-million-flight census.",
+  "impact": "No lookup Parquet or manifest was emitted. The empty create-only output directory was moved intact to the failure quarantine.",
+  "quarantined_output_directory": "D:/FlightDelayAdvisorResearchData/failures/census_flight_recent_v1_pandas_memory",
+  "quarantined_output_files": 0,
+  "log": {
+    "path": "runs/census_flight_recent_v1_build.log",
+    "sha256": "3a5e6d3a43018db4f4f3cfe143a878752c16a419f2285922926e5504747a288e"
+  },
+  "resolution": "Use a new v2 identifier and an out-of-core DuckDB RANGE-window backend with bounded memory, annual atomic exports, and the same closed-left calendar semantics. Retain the Pandas backend for small deterministic unit tests.",
+  "confirmation_outcomes_accessed": false,
+  "manifest_sha256": "3931b58e2a87284381e41cb47ef00c03f3a21b11863d4aa0ae31243442fba890"
+}

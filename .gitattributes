@@ -2,3 +2,12 @@ data/processed/*.parquet filter=lfs diff=lfs merge=lfs -text
 models/*.joblib filter=lfs diff=lfs merge=lfs -text
 data/processed/bts_delay_2010_2024_balanced_research_weather.parquet filter=lfs diff=lfs merge=lfs -text
 data/raw_2025/*.zip filter=lfs diff=lfs merge=lfs -text
+
+# Preserve checksum-bound research evidence and source bytes on every platform.
+# Local core.autocrlf settings must not rewrite original provider responses,
+# canonical reports, frozen configurations or packaged research module bytes.
+manifests/** -text
+reports/** -text
+data/external/** -text
+configs/** -text
+src/flightdelaybench/** -text

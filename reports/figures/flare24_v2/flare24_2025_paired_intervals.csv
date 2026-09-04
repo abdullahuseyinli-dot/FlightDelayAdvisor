@@ -1,0 +1,11 @@
+comparison,metric,estimate,lower,upper,confidence,date_clusters,bootstrap_repetitions,seed,direction
+ensemble_minus_baseline,joint_log_loss,-0.016250975645547748,-0.01894838399581727,-0.013950867806349404,0.95,365,2000,20270903,candidate_minus_baseline; negative_favours_candidate
+ensemble_minus_baseline,multiclass_brier,-0.010451833472838816,-0.011909115728464788,-0.0091889171172019,0.95,365,2000,20270903,candidate_minus_baseline; negative_favours_candidate
+reconciled_minus_baseline,joint_log_loss,-0.016250975645547748,-0.01894838399581727,-0.013950867806349404,0.95,365,2000,20270903,candidate_minus_baseline; negative_favours_candidate
+reconciled_minus_baseline,multiclass_brier,-0.010451833472838816,-0.011909115728464788,-0.0091889171172019,0.95,365,2000,20270903,candidate_minus_baseline; negative_favours_candidate
+rotation_risk_minus_baseline,joint_log_loss,-0.015659577743356388,-0.018269615218236997,-0.013444548179789502,0.95,365,2000,20270903,candidate_minus_baseline; negative_favours_candidate
+rotation_risk_minus_baseline,multiclass_brier,-0.00958321717209459,-0.010890145693462968,-0.008438079472165872,0.95,365,2000,20270903,candidate_minus_baseline; negative_favours_candidate
+rotation_structural_minus_baseline,joint_log_loss,-0.016250975645547748,-0.01894838399581727,-0.013950867806349404,0.95,365,2000,20270903,candidate_minus_baseline; negative_favours_candidate
+rotation_structural_minus_baseline,multiclass_brier,-0.010451833472838816,-0.011909115728464788,-0.0091889171172019,0.95,365,2000,20270903,candidate_minus_baseline; negative_favours_candidate
+weather_minus_baseline,joint_log_loss,-0.01586905730712723,-0.01858739163239941,-0.013663351690017688,0.95,365,2000,20270903,candidate_minus_baseline; negative_favours_candidate
+weather_minus_baseline,multiclass_brier,-0.009664022672920705,-0.011005774245716513,-0.008488362669120814,0.95,365,2000,20270903,candidate_minus_baseline; negative_favours_candidate

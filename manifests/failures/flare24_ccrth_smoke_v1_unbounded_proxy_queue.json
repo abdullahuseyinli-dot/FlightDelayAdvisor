@@ -1,0 +1,13 @@
+{
+  "artifact": "reports/validation/flare24_ccrth_smoke_v1.json",
+  "disposition": "RETAINED_FAILED_SMOKE_NOT_FOR_MODELING",
+  "failure": "Quarter-hour scheduling quantiles were treated as continuous service rates and proxy queues carried across operational days.",
+  "evidence": {
+    "origin_expected_queue_median_flights": 64.952568,
+    "origin_queue_p90_median_flights": 334.0,
+    "origin_recovery_minutes_max": 10810.133789
+  },
+  "impact": "Queue magnitudes were not operationally credible and could dominate downstream models.",
+  "remediation": "Estimate hourly prior-year frontiers, convert them to 15-minute service rates, and reset the unresolved proxy queue at each airport-local operational-day boundary.",
+  "results_claimed": false
+}

@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "status": "ADJUDICATED_MIXED_NORMALIZER_REVISION_COMPLETE_COVERAGE",
+  "recorded_at_utc": "2026-09-03T20:15:04Z",
+  "census_manifest": "manifests/census_top100_2018_2025_v2.json",
+  "census_manifest_sha256": "a88d97beae46f06d440252c41f16c17a24004aba4e0c16dd08348555f6bc35ff",
+  "census_manifest_self_hash": "7bdb35fda63dfcd7e9175c504dd518d7305d4adadd2889a6f9089cb3ba7752ff",
+  "normalization_source_sha256": "89e639b6b4f7d9e176affb7c84e3f43d11d6501bfca54e3b004c2548a9e6dcdd",
+  "partition_segments": [
+    {
+      "start": "2018-01",
+      "end": "2024-07",
+      "partitions": 79,
+      "bts_source_sha256": "4e3d3dd7692ddc51fce3fc621b5f4fd702d7611fdced465e0f0ad11991b54ffb",
+      "evidence": "manifests/census_top100_2018_2021_v2_stage.json and the retained normalization log"
+    },
+    {
+      "start": "2024-08",
+      "end": "2025-12",
+      "partitions": 17,
+      "bts_source_sha256": "d068f593de6ee06eee436017010a5957fc0d526e71a57ab3c860b9aea76ca179",
+      "evidence": "successful resume following manifests/failures/census_top100_2024_08_v2_schema_failure.json"
+    }
+  ],
+  "change_scope": "The repair canonicalizes Flight_Number_Reporting_Airline as int64 in every CSV chunk and uses -1 for a missing identifier. It does not change cohort filtering, labels, schedule times, outcomes, or source-row identity.",
+  "resume_policy": "The create-only runner rehashed and summarized every completed partition, rebuilt 2024-08 from its immutable raw ZIP, and then created 2024-09 through 2025-12. It did not replace any completed partition.",
+  "failed_partial": {
+    "path": "D:/FlightDelayAdvisorResearchData/failures/census_top100_2024_08_v2_schema_failure/month=08.parquet.part",
+    "bytes": 1609182,
+    "sha256": "29fbbb71470e78822848207327b85ff1cf23ae97bac14dac58074886c6721855"
+  },
+  "normalization_log": {
+    "path": "runs/census_top100_2018_2025_v2_normalization.log",
+    "sha256": "4d97c5e724fa22eea117b09d7a951ded73badb7c63a3f26542a50969f2e3556a"
+  },
+  "acceptance_requirement": "The final census remains ineligible until every monthly partition passes invariant scanning and all 96 raw archives pass an independent reconstruction check.",
+  "confirmation_outcomes_accessed": false,
+  "manifest_sha256": "814dc5d8b7861e89944b67575486ed0dc219e7c60008d80fc162457ba4860d99"
+}

@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "status": "FROZEN_BEFORE_CENSUS_MODELING",
+  "definition": "Union of Origin and Dest codes in the pre-existing 2024 top-100 research cohort",
+  "source_feature_manifest": "manifests/point_in_time_all_history_v2.json",
+  "source_feature_manifest_sha256": "149921ed39f424a5955af991fa017cea7ee9a55e6ee929fd92f7dfa085c25d59",
+  "airports": [
+    "ABQ", "ALB", "ANC", "ATL", "AUS", "BDL", "BHM", "BNA", "BOI", "BOS",
+    "BUF", "BUR", "BWI", "CHS", "CLE", "CLT", "CMH", "COS", "CVG", "DAL",
+    "DAY", "DCA", "DEN", "DFW", "DSM", "DTW", "ELP", "EWR", "FAT", "FLL",
+    "GEG", "GRR", "GSO", "GSP", "HNL", "HOU", "HPN", "IAD", "IAH", "ICT",
+    "IND", "JAX", "JFK", "KOA", "LAS", "LAX", "LGA", "LGB", "LIH", "LIT",
+    "MAF", "MCI", "MCO", "MDW", "MEM", "MIA", "MKE", "MSN", "MSP", "MSY",
+    "MYR", "OAK", "OGG", "OKC", "OMA", "ONT", "ORD", "ORF", "PBI", "PDX",
+    "PHL", "PHX", "PIT", "PNS", "PSP", "PVD", "PWM", "RDU", "RIC", "RNO",
+    "ROC", "RSW", "SAN", "SAT", "SAV", "SDF", "SEA", "SFO", "SJC", "SJU",
+    "SLC", "SMF", "SNA", "STL", "SYR", "TPA", "TUL", "TUS", "TYS", "XNA"
+  ]
+}

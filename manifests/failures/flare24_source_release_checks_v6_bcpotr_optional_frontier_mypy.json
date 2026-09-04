@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "artifact_type": "source_release_check_failure",
+  "status": "RETAINED_OPTIONAL_FRONTIER_MYPY_CONFIGURATION_FAILURE",
+  "observed_at_utc": "2026-09-04T20:39:02.582185+00:00",
+  "report": {
+    "path": "reports/validation/flare24_source_release_checks_v6_bcpotr.json",
+    "bytes": 4622,
+    "sha256": "0d2f3d380bc5b3c6a4fdf0e9a1b44034f6c2b0027fa3e6105d72056be3ca322a",
+    "self_hash": "d929748b88df8943215b7787f6f9c113c20c9c7b6010bff858a3a20e5456e252"
+  },
+  "passed_gates": [
+    "lock_consistency",
+    "version_consistency",
+    "compileall",
+    "ruff",
+    "source_only_tests: 210 passed, 2 skipped, 2 deselected",
+    "repository_evidence"
+  ],
+  "failed_gate": "mypy",
+  "failure": "The lean release environment intentionally omitted optional frontier packages (ChimeraBoost, TabM, rtdl-num-embeddings, and Torch), but the strict mypy configuration did not declare those optional imports as missing-import-tolerant. Nine import diagnostics resulted; no BC-POT-R implementation or result check failed.",
+  "resolution": "Declare optional frontier modules in the existing strict-mypy missing-import override and remove now-inappropriate inline import-untyped ignores. Rerun full mypy and the entire release suite under a new immutable report path.",
+  "research_results_affected": false,
+  "2026_outcomes_accessed": false
+}

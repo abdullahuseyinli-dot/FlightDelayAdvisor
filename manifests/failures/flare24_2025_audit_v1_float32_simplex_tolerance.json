@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "artifact_type": "flare24_failed_run_record",
+  "run_id": "flare24_2025_audit_v1",
+  "stage": "full_year_report_assembly",
+  "status": "FAILED_AFTER_ALL_MONTHLY_INFERENCE_ARTIFACTS_WRITTEN",
+  "created_at_utc": "2026-09-04T01:26:56.4798601Z",
+  "failure": {
+    "exception_type": "ValueError",
+    "message": "probabilities rows must sum to one",
+    "cause": "Joint probabilities were coherent in float64, but the audit intentionally persisted and reassembled float32 probability columns. Float32 rounding produced maximum row-sum error 4.470348358154297e-08, while joint_binary_marginals used a zero-relative-tolerance absolute threshold of 1e-08.",
+    "maximum_absolute_float32_row_sum_error": 4.470348358154297e-08,
+    "rows_exceeding_1e_8_tolerance_by_method_range": [
+      3873478,
+      3876762
+    ],
+    "rows_exceeding_1e_6_tolerance": 0,
+    "model_or_calibrator_refit": false,
+    "monthly_inference_complete": true,
+    "audit_report_written": false
+  },
+  "preserved_evidence": {
+    "run_directory": "D:/FlightDelayAdvisorResearchData/runs/flare24_2025_audit_v1",
+    "file_count": 25,
+    "total_bytes": 1177057611,
+    "prediction_partitions": 12,
+    "prediction_rows": 5829666,
+    "aggregate_forecast_partitions": 12,
+    "console_log": {
+      "path": "reports/experiments/flare24_2025_audit_v1_console.log",
+      "sha256": "696ef23ce911c2d90cf1cafbd0aca9e9592a134be98fa876939a3c3af1396608"
+    },
+    "deterministic_reproduction_log": {
+      "path": "reports/experiments/flare24_2025_audit_v1_report_assembly_diagnostic.log",
+      "sha256": "c863b58d1acdc385751bdf97df6742e00aefc9554c730789c03bb7afb60fd20d"
+    }
+  },
+  "adjudication": "Recover only report assembly from the immutable monthly partitions. Renormalize each persisted three-state float32 row in float64 before evaluation, record the observed adjustment bound, do not refit or repredict, and independently validate the recovered report.",
+  "confirmation_outcomes_accessed": false,
+  "confirmation_year_2026_accessed": false,
+  "git_head": "d4cbd5cc37cfc6f48eb66c9019759566c0be4e28"
+}

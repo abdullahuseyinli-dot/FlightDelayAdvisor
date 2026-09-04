@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "artifact_type": "tf_ccrth_metastack_failed_validation_record",
+  "validation_id": "flare24_ccrth_metastack_validation_v1",
+  "stage": "metastack_study_validation",
+  "status": "FAILED_VALIDATOR_DESIGN_NORMALIZATION_NO_STUDY_ARTIFACT_CHANGED",
+  "created_at_utc": "2026-09-04T12:55:20.0826601Z",
+  "failure": {
+    "exception_type": "ValueError",
+    "message": "meta-stack C=0.1 intercept differs",
+    "cause": "The first validator extracted the cancellation column directly from each joint matrix, while the registered design function first applies its simplex protection and normalization. The tiny distinction became detectable only for the weakest-regularized candidate under the intentionally strict coefficient tolerance."
+  },
+  "console_log": {
+    "path": "logs/flare24_ccrth_metastack_validation_v1_console.log",
+    "bytes": 3778,
+    "sha256": "789e1b6ff17e7fecf5e8a9fb30972956ac7029bdf6028dbfa4826ee1a6363748"
+  },
+  "study_report": {
+    "path": "reports/experiments/flare24_ccrth_metastack_v1.json",
+    "sha256": "ead6177a3a2ff6d82f7720044ee922c1f655b5095ff3b350106ed52af7378383",
+    "preserved_unchanged": true
+  },
+  "validation_output_written": false,
+  "confirmation_outcomes_accessed": false,
+  "adjudication": "Reproduce the registered joint-simplex protection independently before extracting cancellation logits, retain the strict tolerance, and rerun to a new v2 validation output.",
+  "results_claimed": false
+}

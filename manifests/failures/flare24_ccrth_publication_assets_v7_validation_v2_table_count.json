@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "artifact_type": "tf_ccrth_publication_asset_validation_failure",
+  "validation_id": "flare24_ccrth_publication_assets_v7_validation_v2",
+  "status": "FAILED_VALIDATOR_TABLE_COUNT_ASSUMPTION_NO_ASSET_CHANGED",
+  "created_at_utc": "2026-09-04T12:29:15.3896308Z",
+  "failure": {
+    "exception_type": "ValueError",
+    "message": "TF-CC-RTH table schema/row count differs: parent_feature_importance",
+    "cause": "The validator expected 160 rows, but the complete parent table contains 320 registered rows: four augmented candidates times two hurdle tasks times 40 retained capacity-feature ranks."
+  },
+  "observed_table_contract": {
+    "models": 8,
+    "rows_per_model": 40,
+    "rows": 320
+  },
+  "bundle_manifest": {
+    "path": "manifests/flare24_ccrth_publication_assets_v7.json",
+    "preserved_unchanged": true
+  },
+  "validation_output_written": false,
+  "adjudication": "Correct the explicit expected row count to 320 and rerun to a v3 validation path.",
+  "results_or_assets_changed": false,
+  "confirmation_outcomes_accessed": false
+}

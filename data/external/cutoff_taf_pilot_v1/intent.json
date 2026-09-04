@@ -1,0 +1,1 @@
+{"cutoffs":["2024-01-15T06:00:00Z","2024-01-15T12:00:00Z","2024-07-15T06:00:00Z","2024-07-15T12:00:00Z"],"maximum_requests":32,"outcomes_accessed":false,"selection":"fixed small seasonal station/time grid, not flight-weighted or representative","stations":["KJFK","KORD","KDSM","KCWA"],"status":"STARTED_ARCHIVE_FEASIBILITY_PILOT"}

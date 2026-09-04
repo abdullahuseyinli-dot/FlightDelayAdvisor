@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "status": "FAILED_INBOUND_CAPACITY_NUMERICAL_TOLERANCE",
+  "created_at_utc": "2026-09-03T22:56:37.1684061Z",
+  "stage": "FLARE-24 schedule-only latent-rotation materialization",
+  "target_year": 2024,
+  "failed_period": "2024-01-01",
+  "error": "latent rotation solution violates inbound capacity",
+  "diagnosed_maximum_inbound_mass": 1.00002513901,
+  "required_maximum_inbound_mass_with_numerical_tolerance": 1.0000001,
+  "completion_manifest_written": false,
+  "feature_partitions_written": 0,
+  "retained_model": {
+    "path": "runs/flare24/rotation_features_v1/models/latent_rotation_history_2023_for_2024.joblib",
+    "bytes": 18312726,
+    "sha256": "3441aa98f47f5ad4b6ab9b7e2c4bbb4a5318d309dd3d2bad00864356a51cff51"
+  },
+  "adjudication": "The L-BFGS optimizer stopped on relative objective tolerance before the active capacity residual met the invariant. The failed model is retained. A KKT-sign-preserving dual feasibility repair and vectorized candidate construction were implemented and independently smoke-tested before a new versioned run.",
+  "target_tail_number_read": false,
+  "target_outcomes_accessed": false
+}

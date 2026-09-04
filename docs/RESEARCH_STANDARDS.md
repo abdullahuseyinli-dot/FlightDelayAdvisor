@@ -1,4 +1,9 @@
-# Repository research rules
+# Research standards
+
+These rules govern contributions, experiments and release review. The
+[cutoff data contract](CUTOFF_DATA_CONTRACT.md) additionally requires explicit
+event, publication, consumer and label availability; earlier operating dates
+alone are insufficient to establish T−24 validity.
 
 - Preserve every tracked historical result, raw archive, model, and failure record.
 - Never overwrite a completed run. New runs use a new run identifier and output directory.
@@ -18,4 +23,3 @@
   real-time forecast validity from retrospective BTS data.
 - Run tests, lint, manifest validation, archive inspection, and a clean-environment
   smoke test before a release or tag.
-

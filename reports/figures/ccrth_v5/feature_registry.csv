@@ -1,0 +1,129 @@
+feature,available_from,source,description
+ccrth_origin_physical_runway_count,FORECAST_24H,cycle-dated FAA NASR static airport/runway geometry,Static airport resource geometry; not the realised active configuration.
+ccrth_origin_eligible_runway_end_count,FORECAST_24H,cycle-dated FAA NASR static airport/runway geometry,Static airport resource geometry; not the realised active configuration.
+ccrth_origin_orientation_family_count,FORECAST_24H,capacity-conditioned resource-time hypergraph,"Derived from registered schedule, prior-year frontier, static geometry, and T-24 weather."
+ccrth_origin_max_parallel_runways,FORECAST_24H,capacity-conditioned resource-time hypergraph,"Derived from registered schedule, prior-year frontier, static geometry, and T-24 weather."
+ccrth_origin_ils_end_fraction,FORECAST_24H,capacity-conditioned resource-time hypergraph,"Derived from registered schedule, prior-year frontier, static geometry, and T-24 weather."
+ccrth_origin_minimum_runway_length_kft,FORECAST_24H,cycle-dated FAA NASR static airport/runway geometry,Static airport resource geometry; not the realised active configuration.
+ccrth_origin_maximum_runway_length_kft,FORECAST_24H,cycle-dated FAA NASR static airport/runway geometry,Static airport resource geometry; not the realised active configuration.
+ccrth_origin_airport_annual_operations_log1p,FORECAST_24H,cycle-dated FAA NASR static airport/runway geometry,Static airport resource geometry; not the realised active configuration.
+ccrth_origin_runway_catalog_missing,FORECAST_24H,cycle-dated FAA NASR static airport/runway geometry,Static airport resource geometry; not the realised active configuration.
+ccrth_dest_physical_runway_count,FORECAST_24H,cycle-dated FAA NASR static airport/runway geometry,Static airport resource geometry; not the realised active configuration.
+ccrth_dest_eligible_runway_end_count,FORECAST_24H,cycle-dated FAA NASR static airport/runway geometry,Static airport resource geometry; not the realised active configuration.
+ccrth_dest_orientation_family_count,FORECAST_24H,capacity-conditioned resource-time hypergraph,"Derived from registered schedule, prior-year frontier, static geometry, and T-24 weather."
+ccrth_dest_max_parallel_runways,FORECAST_24H,capacity-conditioned resource-time hypergraph,"Derived from registered schedule, prior-year frontier, static geometry, and T-24 weather."
+ccrth_dest_ils_end_fraction,FORECAST_24H,capacity-conditioned resource-time hypergraph,"Derived from registered schedule, prior-year frontier, static geometry, and T-24 weather."
+ccrth_dest_minimum_runway_length_kft,FORECAST_24H,cycle-dated FAA NASR static airport/runway geometry,Static airport resource geometry; not the realised active configuration.
+ccrth_dest_maximum_runway_length_kft,FORECAST_24H,cycle-dated FAA NASR static airport/runway geometry,Static airport resource geometry; not the realised active configuration.
+ccrth_dest_airport_annual_operations_log1p,FORECAST_24H,cycle-dated FAA NASR static airport/runway geometry,Static airport resource geometry; not the realised active configuration.
+ccrth_dest_runway_catalog_missing,FORECAST_24H,cycle-dated FAA NASR static airport/runway geometry,Static airport resource geometry; not the realised active configuration.
+ccrth_origin_arrival_demand_15m_log1p,FORECAST_24H,target-day advance-schedule proxy,Outcome-blind airport resource demand computed before row sampling.
+ccrth_origin_arrival_demand_30m_log1p,FORECAST_24H,target-day advance-schedule proxy,Outcome-blind airport resource demand computed before row sampling.
+ccrth_origin_arrival_demand_60m_log1p,FORECAST_24H,target-day advance-schedule proxy,Outcome-blind airport resource demand computed before row sampling.
+ccrth_origin_arrival_demand_120m_log1p,FORECAST_24H,target-day advance-schedule proxy,Outcome-blind airport resource demand computed before row sampling.
+ccrth_origin_departure_demand_15m_log1p,FORECAST_24H,target-day advance-schedule proxy,Outcome-blind airport resource demand computed before row sampling.
+ccrth_origin_departure_demand_30m_log1p,FORECAST_24H,target-day advance-schedule proxy,Outcome-blind airport resource demand computed before row sampling.
+ccrth_origin_departure_demand_60m_log1p,FORECAST_24H,target-day advance-schedule proxy,Outcome-blind airport resource demand computed before row sampling.
+ccrth_origin_departure_demand_120m_log1p,FORECAST_24H,target-day advance-schedule proxy,Outcome-blind airport resource demand computed before row sampling.
+ccrth_origin_movement_demand_15m_log1p,FORECAST_24H,target-day advance-schedule proxy,Outcome-blind airport resource demand computed before row sampling.
+ccrth_origin_movement_demand_30m_log1p,FORECAST_24H,target-day advance-schedule proxy,Outcome-blind airport resource demand computed before row sampling.
+ccrth_origin_movement_demand_60m_log1p,FORECAST_24H,target-day advance-schedule proxy,Outcome-blind airport resource demand computed before row sampling.
+ccrth_origin_movement_demand_120m_log1p,FORECAST_24H,target-day advance-schedule proxy,Outcome-blind airport resource demand computed before row sampling.
+ccrth_dest_arrival_demand_15m_log1p,FORECAST_24H,target-day advance-schedule proxy,Outcome-blind airport resource demand computed before row sampling.
+ccrth_dest_arrival_demand_30m_log1p,FORECAST_24H,target-day advance-schedule proxy,Outcome-blind airport resource demand computed before row sampling.
+ccrth_dest_arrival_demand_60m_log1p,FORECAST_24H,target-day advance-schedule proxy,Outcome-blind airport resource demand computed before row sampling.
+ccrth_dest_arrival_demand_120m_log1p,FORECAST_24H,target-day advance-schedule proxy,Outcome-blind airport resource demand computed before row sampling.
+ccrth_dest_departure_demand_15m_log1p,FORECAST_24H,target-day advance-schedule proxy,Outcome-blind airport resource demand computed before row sampling.
+ccrth_dest_departure_demand_30m_log1p,FORECAST_24H,target-day advance-schedule proxy,Outcome-blind airport resource demand computed before row sampling.
+ccrth_dest_departure_demand_60m_log1p,FORECAST_24H,target-day advance-schedule proxy,Outcome-blind airport resource demand computed before row sampling.
+ccrth_dest_departure_demand_120m_log1p,FORECAST_24H,target-day advance-schedule proxy,Outcome-blind airport resource demand computed before row sampling.
+ccrth_dest_movement_demand_15m_log1p,FORECAST_24H,target-day advance-schedule proxy,Outcome-blind airport resource demand computed before row sampling.
+ccrth_dest_movement_demand_30m_log1p,FORECAST_24H,target-day advance-schedule proxy,Outcome-blind airport resource demand computed before row sampling.
+ccrth_dest_movement_demand_60m_log1p,FORECAST_24H,target-day advance-schedule proxy,Outcome-blind airport resource demand computed before row sampling.
+ccrth_dest_movement_demand_120m_log1p,FORECAST_24H,target-day advance-schedule proxy,Outcome-blind airport resource demand computed before row sampling.
+ccrth_origin_same_direction_loo_30m_log1p,FORECAST_24H,capacity-conditioned resource-time hypergraph,"Derived from registered schedule, prior-year frontier, static geometry, and T-24 weather."
+ccrth_origin_movement_loo_30m_log1p,FORECAST_24H,capacity-conditioned resource-time hypergraph,"Derived from registered schedule, prior-year frontier, static geometry, and T-24 weather."
+ccrth_origin_minutes_since_previous_same_direction_log1p,FORECAST_24H,target-day advance-schedule proxy,Outcome-blind airport resource demand computed before row sampling.
+ccrth_origin_minutes_until_next_same_direction_log1p,FORECAST_24H,target-day advance-schedule proxy,Outcome-blind airport resource demand computed before row sampling.
+ccrth_origin_flow_imbalance_60m,FORECAST_24H,target-day advance-schedule proxy,Outcome-blind airport resource demand computed before row sampling.
+ccrth_origin_burstiness_15_to_60,FORECAST_24H,target-day advance-schedule proxy,Outcome-blind airport resource demand computed before row sampling.
+ccrth_origin_metro_movement_demand_60m_log1p,FORECAST_24H,target-day advance-schedule proxy,Outcome-blind airport resource demand computed before row sampling.
+ccrth_dest_same_direction_loo_30m_log1p,FORECAST_24H,capacity-conditioned resource-time hypergraph,"Derived from registered schedule, prior-year frontier, static geometry, and T-24 weather."
+ccrth_dest_movement_loo_30m_log1p,FORECAST_24H,capacity-conditioned resource-time hypergraph,"Derived from registered schedule, prior-year frontier, static geometry, and T-24 weather."
+ccrth_dest_minutes_since_previous_same_direction_log1p,FORECAST_24H,target-day advance-schedule proxy,Outcome-blind airport resource demand computed before row sampling.
+ccrth_dest_minutes_until_next_same_direction_log1p,FORECAST_24H,target-day advance-schedule proxy,Outcome-blind airport resource demand computed before row sampling.
+ccrth_dest_flow_imbalance_60m,FORECAST_24H,target-day advance-schedule proxy,Outcome-blind airport resource demand computed before row sampling.
+ccrth_dest_burstiness_15_to_60,FORECAST_24H,target-day advance-schedule proxy,Outcome-blind airport resource demand computed before row sampling.
+ccrth_dest_metro_movement_demand_60m_log1p,FORECAST_24H,target-day advance-schedule proxy,Outcome-blind airport resource demand computed before row sampling.
+ccrth_origin_direction_frontier_p50,FORECAST_24H,strictly prior-year schedule,"Hierarchically backed-off empirical scheduling frontier, not declared AAR/ADR."
+ccrth_origin_direction_frontier_p75,FORECAST_24H,strictly prior-year schedule,"Hierarchically backed-off empirical scheduling frontier, not declared AAR/ADR."
+ccrth_origin_direction_frontier_p90,FORECAST_24H,strictly prior-year schedule,"Hierarchically backed-off empirical scheduling frontier, not declared AAR/ADR."
+ccrth_origin_movement_frontier_p50,FORECAST_24H,strictly prior-year schedule,"Hierarchically backed-off empirical scheduling frontier, not declared AAR/ADR."
+ccrth_origin_movement_frontier_p75,FORECAST_24H,strictly prior-year schedule,"Hierarchically backed-off empirical scheduling frontier, not declared AAR/ADR."
+ccrth_origin_movement_frontier_p90,FORECAST_24H,strictly prior-year schedule,"Hierarchically backed-off empirical scheduling frontier, not declared AAR/ADR."
+ccrth_dest_direction_frontier_p50,FORECAST_24H,strictly prior-year schedule,"Hierarchically backed-off empirical scheduling frontier, not declared AAR/ADR."
+ccrth_dest_direction_frontier_p75,FORECAST_24H,strictly prior-year schedule,"Hierarchically backed-off empirical scheduling frontier, not declared AAR/ADR."
+ccrth_dest_direction_frontier_p90,FORECAST_24H,strictly prior-year schedule,"Hierarchically backed-off empirical scheduling frontier, not declared AAR/ADR."
+ccrth_dest_movement_frontier_p50,FORECAST_24H,strictly prior-year schedule,"Hierarchically backed-off empirical scheduling frontier, not declared AAR/ADR."
+ccrth_dest_movement_frontier_p75,FORECAST_24H,strictly prior-year schedule,"Hierarchically backed-off empirical scheduling frontier, not declared AAR/ADR."
+ccrth_dest_movement_frontier_p90,FORECAST_24H,strictly prior-year schedule,"Hierarchically backed-off empirical scheduling frontier, not declared AAR/ADR."
+ccrth_origin_historical_frontier_support_days_log1p,FORECAST_24H,strictly prior-year schedule,"Hierarchically backed-off empirical scheduling frontier, not declared AAR/ADR."
+ccrth_origin_historical_frontier_observed_fraction,FORECAST_24H,strictly prior-year schedule,"Hierarchically backed-off empirical scheduling frontier, not declared AAR/ADR."
+ccrth_origin_runway_configuration_entropy,FORECAST_24H,cycle-dated FAA NASR static airport/runway geometry,Static airport resource geometry; not the realised active configuration.
+ccrth_origin_runway_effective_end_count,FORECAST_24H,cycle-dated FAA NASR static airport/runway geometry,Static airport resource geometry; not the realised active configuration.
+ccrth_origin_runway_feasible_end_fraction,FORECAST_24H,cycle-dated FAA NASR static airport/runway geometry,Static airport resource geometry; not the realised active configuration.
+ccrth_origin_weather_capacity_stress,FORECAST_24H,capacity-conditioned resource-time hypergraph,"Derived from registered schedule, prior-year frontier, static geometry, and T-24 weather."
+ccrth_origin_capacity_scenario_good_probability,FORECAST_24H,capacity-conditioned resource-time hypergraph,"Derived from registered schedule, prior-year frontier, static geometry, and T-24 weather."
+ccrth_origin_capacity_scenario_marginal_probability,FORECAST_24H,capacity-conditioned resource-time hypergraph,"Derived from registered schedule, prior-year frontier, static geometry, and T-24 weather."
+ccrth_origin_capacity_scenario_constrained_probability,FORECAST_24H,capacity-conditioned resource-time hypergraph,"Derived from registered schedule, prior-year frontier, static geometry, and T-24 weather."
+ccrth_origin_expected_direction_capacity,FORECAST_24H,capacity-conditioned resource-time hypergraph,"Derived from registered schedule, prior-year frontier, static geometry, and T-24 weather."
+ccrth_origin_expected_movement_capacity,FORECAST_24H,capacity-conditioned resource-time hypergraph,"Derived from registered schedule, prior-year frontier, static geometry, and T-24 weather."
+ccrth_origin_direction_utilization,FORECAST_24H,capacity-conditioned resource-time hypergraph,"Derived from registered schedule, prior-year frontier, static geometry, and T-24 weather."
+ccrth_origin_movement_utilization,FORECAST_24H,capacity-conditioned resource-time hypergraph,"Derived from registered schedule, prior-year frontier, static geometry, and T-24 weather."
+ccrth_origin_overload_probability,FORECAST_24H,capacity-conditioned resource-time hypergraph,"Derived from registered schedule, prior-year frontier, static geometry, and T-24 weather."
+ccrth_origin_expected_slack,FORECAST_24H,capacity-conditioned resource-time hypergraph,"Derived from registered schedule, prior-year frontier, static geometry, and T-24 weather."
+ccrth_origin_expected_queue,FORECAST_24H,capacity-conditioned resource-time hypergraph,"Derived from registered schedule, prior-year frontier, static geometry, and T-24 weather."
+ccrth_origin_queue_p90,FORECAST_24H,capacity-conditioned resource-time hypergraph,"Derived from registered schedule, prior-year frontier, static geometry, and T-24 weather."
+ccrth_origin_recovery_minutes,FORECAST_24H,capacity-conditioned resource-time hypergraph,"Derived from registered schedule, prior-year frontier, static geometry, and T-24 weather."
+ccrth_origin_shadow_price,FORECAST_24H,capacity-conditioned resource-time hypergraph,"Derived from registered schedule, prior-year frontier, static geometry, and T-24 weather."
+ccrth_origin_marginal_overload,FORECAST_24H,capacity-conditioned resource-time hypergraph,"Derived from registered schedule, prior-year frontier, static geometry, and T-24 weather."
+ccrth_origin_metro_utilization,FORECAST_24H,capacity-conditioned resource-time hypergraph,"Derived from registered schedule, prior-year frontier, static geometry, and T-24 weather."
+ccrth_origin_metro_queue,FORECAST_24H,capacity-conditioned resource-time hypergraph,"Derived from registered schedule, prior-year frontier, static geometry, and T-24 weather."
+ccrth_origin_optional_constraint_available,FORECAST_24H,optional issue-time-vintaged operational constraint adapter,Constraint admitted only when issued no later than the flight cutoff.
+ccrth_origin_optional_constraint_overload_probability,FORECAST_24H,optional issue-time-vintaged operational constraint adapter,Constraint admitted only when issued no later than the flight cutoff.
+ccrth_dest_historical_frontier_support_days_log1p,FORECAST_24H,strictly prior-year schedule,"Hierarchically backed-off empirical scheduling frontier, not declared AAR/ADR."
+ccrth_dest_historical_frontier_observed_fraction,FORECAST_24H,strictly prior-year schedule,"Hierarchically backed-off empirical scheduling frontier, not declared AAR/ADR."
+ccrth_dest_runway_configuration_entropy,FORECAST_24H,cycle-dated FAA NASR static airport/runway geometry,Static airport resource geometry; not the realised active configuration.
+ccrth_dest_runway_effective_end_count,FORECAST_24H,cycle-dated FAA NASR static airport/runway geometry,Static airport resource geometry; not the realised active configuration.
+ccrth_dest_runway_feasible_end_fraction,FORECAST_24H,cycle-dated FAA NASR static airport/runway geometry,Static airport resource geometry; not the realised active configuration.
+ccrth_dest_weather_capacity_stress,FORECAST_24H,capacity-conditioned resource-time hypergraph,"Derived from registered schedule, prior-year frontier, static geometry, and T-24 weather."
+ccrth_dest_capacity_scenario_good_probability,FORECAST_24H,capacity-conditioned resource-time hypergraph,"Derived from registered schedule, prior-year frontier, static geometry, and T-24 weather."
+ccrth_dest_capacity_scenario_marginal_probability,FORECAST_24H,capacity-conditioned resource-time hypergraph,"Derived from registered schedule, prior-year frontier, static geometry, and T-24 weather."
+ccrth_dest_capacity_scenario_constrained_probability,FORECAST_24H,capacity-conditioned resource-time hypergraph,"Derived from registered schedule, prior-year frontier, static geometry, and T-24 weather."
+ccrth_dest_expected_direction_capacity,FORECAST_24H,capacity-conditioned resource-time hypergraph,"Derived from registered schedule, prior-year frontier, static geometry, and T-24 weather."
+ccrth_dest_expected_movement_capacity,FORECAST_24H,capacity-conditioned resource-time hypergraph,"Derived from registered schedule, prior-year frontier, static geometry, and T-24 weather."
+ccrth_dest_direction_utilization,FORECAST_24H,capacity-conditioned resource-time hypergraph,"Derived from registered schedule, prior-year frontier, static geometry, and T-24 weather."
+ccrth_dest_movement_utilization,FORECAST_24H,capacity-conditioned resource-time hypergraph,"Derived from registered schedule, prior-year frontier, static geometry, and T-24 weather."
+ccrth_dest_overload_probability,FORECAST_24H,capacity-conditioned resource-time hypergraph,"Derived from registered schedule, prior-year frontier, static geometry, and T-24 weather."
+ccrth_dest_expected_slack,FORECAST_24H,capacity-conditioned resource-time hypergraph,"Derived from registered schedule, prior-year frontier, static geometry, and T-24 weather."
+ccrth_dest_expected_queue,FORECAST_24H,capacity-conditioned resource-time hypergraph,"Derived from registered schedule, prior-year frontier, static geometry, and T-24 weather."
+ccrth_dest_queue_p90,FORECAST_24H,capacity-conditioned resource-time hypergraph,"Derived from registered schedule, prior-year frontier, static geometry, and T-24 weather."
+ccrth_dest_recovery_minutes,FORECAST_24H,capacity-conditioned resource-time hypergraph,"Derived from registered schedule, prior-year frontier, static geometry, and T-24 weather."
+ccrth_dest_shadow_price,FORECAST_24H,capacity-conditioned resource-time hypergraph,"Derived from registered schedule, prior-year frontier, static geometry, and T-24 weather."
+ccrth_dest_marginal_overload,FORECAST_24H,capacity-conditioned resource-time hypergraph,"Derived from registered schedule, prior-year frontier, static geometry, and T-24 weather."
+ccrth_dest_metro_utilization,FORECAST_24H,capacity-conditioned resource-time hypergraph,"Derived from registered schedule, prior-year frontier, static geometry, and T-24 weather."
+ccrth_dest_metro_queue,FORECAST_24H,capacity-conditioned resource-time hypergraph,"Derived from registered schedule, prior-year frontier, static geometry, and T-24 weather."
+ccrth_dest_optional_constraint_available,FORECAST_24H,optional issue-time-vintaged operational constraint adapter,Constraint admitted only when issued no later than the flight cutoff.
+ccrth_dest_optional_constraint_overload_probability,FORECAST_24H,optional issue-time-vintaged operational constraint adapter,Constraint admitted only when issued no later than the flight cutoff.
+ccrth_rotation_connected_probability,FORECAST_24H,"prior-year-supervised, target-year schedule-only latent rotation graph",One-hop probability-weighted message from candidate predecessor resources.
+ccrth_rotation_resource_message_coverage,FORECAST_24H,"prior-year-supervised, target-year schedule-only latent rotation graph",One-hop probability-weighted message from candidate predecessor resources.
+ccrth_rotation_predecessor_capacity_overload,FORECAST_24H,"prior-year-supervised, target-year schedule-only latent rotation graph",One-hop probability-weighted message from candidate predecessor resources.
+ccrth_rotation_predecessor_capacity_queue,FORECAST_24H,"prior-year-supervised, target-year schedule-only latent rotation graph",One-hop probability-weighted message from candidate predecessor resources.
+ccrth_rotation_predecessor_capacity_shadow_price,FORECAST_24H,"prior-year-supervised, target-year schedule-only latent rotation graph",One-hop probability-weighted message from candidate predecessor resources.
+ccrth_route_max_overload_probability,FORECAST_24H,capacity-conditioned resource-time hypergraph,"Derived from registered schedule, prior-year frontier, static geometry, and T-24 weather."
+ccrth_route_max_queue_p90,FORECAST_24H,capacity-conditioned resource-time hypergraph,"Derived from registered schedule, prior-year frontier, static geometry, and T-24 weather."
+ccrth_route_min_expected_slack,FORECAST_24H,capacity-conditioned resource-time hypergraph,"Derived from registered schedule, prior-year frontier, static geometry, and T-24 weather."
+ccrth_route_sum_shadow_price,FORECAST_24H,capacity-conditioned resource-time hypergraph,"Derived from registered schedule, prior-year frontier, static geometry, and T-24 weather."
+ccrth_route_bottleneck_is_destination,FORECAST_24H,capacity-conditioned resource-time hypergraph,"Derived from registered schedule, prior-year frontier, static geometry, and T-24 weather."
+ccrth_route_max_weather_capacity_stress,FORECAST_24H,capacity-conditioned resource-time hypergraph,"Derived from registered schedule, prior-year frontier, static geometry, and T-24 weather."
+ccrth_route_max_metro_utilization,FORECAST_24H,capacity-conditioned resource-time hypergraph,"Derived from registered schedule, prior-year frontier, static geometry, and T-24 weather."

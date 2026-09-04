@@ -1,0 +1,10 @@
+{
+  "observed_at_local_date": "2026-09-04",
+  "stage": "post-materialization editable environment refresh",
+  "command": "uv sync --offline --all-extras",
+  "failure": "The optional frontier extra requested torch==2.9.1, whose Windows wheel was not present in the local uv cache while network use was disabled.",
+  "impact": "No research artifact, raw evidence, feature partition, model, prediction, or result was changed. uv lock --offline completed before the sync attempt.",
+  "disposition": "RETAINED_NON_SCIENTIFIC_ENVIRONMENT_FAILURE",
+  "remediation": "Refresh only the models, plots, and dev extras required by BC-POT-R; the unrelated frontier extra is not required for this experiment.",
+  "results_claimed": false
+}

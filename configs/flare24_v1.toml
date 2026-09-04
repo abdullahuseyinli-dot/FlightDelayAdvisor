@@ -1,0 +1,141 @@
+[identity]
+method = "FLARE-24"
+expanded_name = "Flight-Level Aggregate-Reconciled Ensemble at 24 Hours"
+protocol_version = "1.0.0"
+status = "FROZEN_CANDIDATE_PENDING_MEASURED_AUDIT"
+parent_protocol = "configs/study_v2_candidate.toml"
+
+[information_boundary]
+prediction_horizon = "flight-specific scheduled departure minus 24 hours"
+weather_rule = "freshest non-missing forecast whose issue time is at or before the flight cutoff"
+weather_fixed_leads_hours = [24, 48]
+historical_statistics_rule = "closed-left dates only; target date excluded"
+target_tail_number_allowed = false
+target_outcome_columns_allowed = false
+realised_weather_allowed = false
+years_with_outcomes_permitted_for_selection = [2024]
+retrospective_audit_year = 2025
+confirmation_year = 2026
+confirmation_gate_opened = false
+
+[cohort]
+source = "US DOT BTS Reporting Carrier On-Time Performance"
+airport_scope = "frozen union of the top 100 airports from the pre-existing 2024 cohort"
+schedule_snapshot = "retrospective BTS schedule proxy"
+delay_population = "operated, non-diverted flights with observed ArrDel15"
+cancellation_population = "all scheduled cohort rows with observed binary Cancelled; later diversions remain non-cancellations"
+joint_states = ["on_time", "delayed", "cancelled"]
+
+[weather]
+source = "Open-Meteo Previous Model Runs API"
+model = "gfs_seamless"
+variables = [
+  "temperature_2m",
+  "precipitation",
+  "relative_humidity_2m",
+  "cloud_cover",
+  "surface_pressure",
+  "wind_speed_10m",
+  "wind_direction_10m",
+  "wind_gusts_10m",
+  "cape",
+  "visibility",
+  "freezing_level_height",
+  "snowfall",
+]
+locations = ["origin_departure", "destination_arrival", "origin_window", "great_circle_corridor_proxies"]
+revision_features = "fresh safe forecast minus day-2 forecast when both exist"
+
+[aviation_transforms]
+runway_source = "FAA NASR 28-day subscription effective 2024-10-03"
+minimum_runway_length_ft = 4000.0
+runway_interpretation = "wind-optimal eligible-runway envelope; active runway unknown"
+features = ["headwind", "crosswind", "gust_crosswind", "visibility_hazard", "convection", "icing", "snow", "bank_load"]
+
+[latent_rotations]
+fit_supervision = "immediately prior calendar-year Tail_Number only"
+target_inference = "schedule-only three-day windows"
+minimum_turn_minutes = 20.0
+maximum_layover_minutes = 720.0
+maximum_candidates = 12
+inbound_capacity = 1.0
+floating_point_acceptance_tolerance = 1e-8
+claim = "probabilistic schedule-based connection hypotheses, not observed target-year assignments"
+inbound_disruption_risk = "closed-left 7/28/90-day HMOP logit pool propagated through predecessor probabilities"
+
+[models]
+family = "CatBoost binary hurdle"
+components = ["cancellation", "delay_given_operated"]
+candidates = ["rich_schedule_history_graph_baseline", "baseline_plus_weather", "baseline_plus_weather_plus_structural_rotation", "baseline_plus_weather_plus_risk_propagating_rotation"]
+training_dates = ["2024-01-01", "2024-08-31"]
+early_stopping_dates = ["2024-09-01", "2024-09-30"]
+fixed_iteration_refit_dates = ["2024-01-01", "2024-09-30"]
+refit_at_selected_iteration = true
+rows_per_training_month = 125000
+early_stopping_max_rows = 250000
+
+[models.delay_parameters]
+iterations = 1200
+learning_rate = 0.020911799420764387
+depth = 8
+l2_leaf_reg = 17.721143984084343
+random_strength = 0.20984487415833059
+bagging_temperature = 0.11862865926623616
+border_count = 64
+
+[models.cancellation_parameters]
+iterations = 1500
+learning_rate = 0.04266275558194561
+depth = 10
+l2_leaf_reg = 1.8439374710684058
+random_strength = 1.8211594669189084
+bagging_temperature = 1.1653117632683447
+border_count = 64
+
+[calibration]
+folds = [
+  ["2024-10-01", "2024-10-15", "2024-10-16", "2024-10-31"],
+  ["2024-10-01", "2024-10-31", "2024-11-01", "2024-11-30"],
+  ["2024-10-01", "2024-11-30", "2024-12-01", "2024-12-31"],
+]
+families = ["identity", "intercept", "platt", "beta", "isotonic"]
+selection_metric = "pooled forward-fold log loss"
+
+[ensemble]
+constraint = "non-negative weights summing to one"
+grid_step = 0.05
+selection_metric = "joint three-state log loss"
+
+[aggregate_forecasts]
+method = "recency-weighted hierarchical Dirichlet-multinomial"
+independent_from_flight_model = true
+groups = ["origin_hour", "destination_hour", "carrier_day", "route_day"]
+half_life_days = 90.0
+global_prior_strength = 3.0
+group_prior_strength = 20.0
+seasonal_prior_strength = 15.0
+
+[reconciliation]
+method = "uncertainty-weighted soft marginal KL projection"
+include_identity_no_alignment_control = true
+variance_multiplier_candidates = [0.5, 1.0, 2.0, 4.0, 8.0]
+selection_metric = "joint three-state log loss"
+hard_equality_claimed = false
+full_joint_distribution_claimed = false
+
+[evaluation]
+primary_metrics = ["joint_log_loss", "multiclass_brier"]
+secondary_views = ["cancellation", "delay_given_operated"]
+cluster_key = "FlightDate"
+bootstrap_repetitions = 2000
+bootstrap_seed = 20260903
+reference = "rich_schedule_history_graph_baseline"
+
+[claim_limits]
+state_of_the_art_claimed = false
+causal_claimed = false
+operational_tail_tracking_claimed = false
+live_schedule_equivalence_claimed = false
+production_weather_latency_claimed = false
+fairness_claimed = false
+safety_claimed = false

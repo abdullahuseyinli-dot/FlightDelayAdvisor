@@ -47,6 +47,15 @@ def normalize_crs_hour(values: pd.Series) -> pd.Series:
     return ((numeric % 2400) // 100).clip(0, 23).astype("int8")
 
 
+def normalize_crs_minutes(values: pd.Series) -> pd.Series:
+    """Convert BTS HHMM schedule values to minutes after local midnight."""
+
+    numeric = pd.to_numeric(values, errors="coerce").fillna(0).astype("int32") % 2400
+    hours = (numeric // 100).clip(0, 23)
+    minutes = (numeric % 100).clip(0, 59)
+    return (hours * 60 + minutes).astype("int16")
+
+
 def normalize_bts_chunk(
     frame: pd.DataFrame,
     *,
@@ -54,6 +63,7 @@ def normalize_bts_chunk(
     source_month: int,
     source_offset: int,
     allowed_airports: Collection[str] | None = None,
+    retain_diverted: bool = False,
 ) -> pd.DataFrame:
     """Normalize one raw chunk and retain explicit source-row lineage."""
 
@@ -72,7 +82,8 @@ def normalize_bts_chunk(
         raise ValueError("archive rows do not match the declared year and month")
 
     frame["Diverted"] = pd.to_numeric(frame["Diverted"], errors="coerce").fillna(0)
-    frame = frame.loc[frame["Diverted"].eq(0)].copy()
+    if not retain_diverted:
+        frame = frame.loc[frame["Diverted"].eq(0)].copy()
     if allowed_airports is not None:
         allowed = set(allowed_airports)
         frame = frame.loc[frame["Origin"].isin(allowed) & frame["Dest"].isin(allowed)].copy()
@@ -86,6 +97,8 @@ def normalize_bts_chunk(
     frame["DayOfYear"] = frame["FlightDate"].dt.dayofyear.astype("int16")
     frame["DepHour"] = normalize_crs_hour(frame["CRSDepTime"])
     frame["ArrHour"] = normalize_crs_hour(frame["CRSArrTime"])
+    frame["CRSDepMinutes"] = normalize_crs_minutes(frame["CRSDepTime"])
+    frame["CRSArrMinutes"] = normalize_crs_minutes(frame["CRSArrTime"])
     frame["DepHour_sin"] = np.sin(2 * np.pi * frame["DepHour"] / 24).astype("float32")
     frame["DepHour_cos"] = np.cos(2 * np.pi * frame["DepHour"] / 24).astype("float32")
     frame["Month_sin"] = np.sin(2 * np.pi * frame["Month"] / 12).astype("float32")
@@ -93,6 +106,20 @@ def normalize_bts_chunk(
     frame["IsWeekend"] = frame["DayOfWeek"].isin([6, 7]).astype("int8")
     frame["IsHolidaySeason"] = frame["Month"].isin([11, 12, 1]).astype("int8")
     frame["Route"] = frame["Origin"].astype(str) + "_" + frame["Dest"].astype(str)
+    # CSV inference can otherwise switch this identifier from integer to float
+    # when a later chunk is the first one containing a missing value.  A fixed
+    # int64 representation keeps the Parquet writer schema stable across the
+    # entire archive; -1 is the explicit unknown identifier already used by the
+    # derived ScheduledFlightId.
+    flight_number = (
+        pd.to_numeric(frame["Flight_Number_Reporting_Airline"], errors="coerce")
+        .fillna(-1)
+        .astype("int64")
+    )
+    frame["Flight_Number_Reporting_Airline"] = flight_number
+    frame["ScheduledFlightId"] = (
+        frame["Reporting_Airline"].astype(str) + "_" + flight_number.astype(str)
+    )
     distance = pd.to_numeric(frame["Distance"], errors="coerce")
     frame["DistanceBand"] = pd.cut(
         distance,
@@ -100,8 +127,24 @@ def normalize_bts_chunk(
         labels=["short", "medium", "long", "very_long"],
     ).astype("string")
     frame["Cancelled"] = pd.to_numeric(frame["Cancelled"], errors="coerce").astype("Int8")
+    frame["Diverted"] = pd.to_numeric(frame["Diverted"], errors="coerce").astype("Int8")
     frame["ArrDel15"] = pd.to_numeric(frame["ArrDel15"], errors="coerce").astype("Float32")
-    frame.loc[frame["Cancelled"].eq(1), "ArrDel15"] = pd.NA
+    frame.loc[frame["Cancelled"].eq(1) | frame["Diverted"].eq(1), "ArrDel15"] = pd.NA
+    frame["delay_label_observed"] = (
+        frame["Cancelled"].eq(0) & frame["Diverted"].eq(0) & frame["ArrDel15"].notna()
+    ).astype("int8")
+    frame["joint_label_observed"] = (
+        frame["Cancelled"].eq(1) | frame["delay_label_observed"].eq(1)
+    ).astype("int8")
+    frame["disruption_state"] = np.select(
+        [
+            frame["Cancelled"].eq(1),
+            frame["delay_label_observed"].eq(1) & frame["ArrDel15"].eq(1),
+            frame["delay_label_observed"].eq(1) & frame["ArrDel15"].eq(0),
+        ],
+        [2, 1, 0],
+        default=-1,
+    ).astype("int8")
 
     columns = [
         "sample_id",
@@ -114,6 +157,7 @@ def normalize_bts_chunk(
         "Reporting_Airline",
         "DOT_ID_Reporting_Airline",
         "Flight_Number_Reporting_Airline",
+        "ScheduledFlightId",
         "Tail_Number",
         "OriginAirportID",
         "Origin",
@@ -124,6 +168,8 @@ def normalize_bts_chunk(
         "CRSDepTime",
         "CRSArrTime",
         "CRSElapsedTime",
+        "CRSDepMinutes",
+        "CRSArrMinutes",
         "DepHour",
         "ArrHour",
         "DepHour_sin",
@@ -137,6 +183,10 @@ def normalize_bts_chunk(
         "Route",
         "ArrDel15",
         "Cancelled",
+        "Diverted",
+        "delay_label_observed",
+        "joint_label_observed",
+        "disruption_state",
     ]
     return frame.loc[:, columns].reset_index(drop=True)
 
@@ -148,6 +198,7 @@ def iter_normalized_archive(
     month: int,
     chunksize: int = 200_000,
     allowed_airports: Collection[str] | None = None,
+    retain_diverted: bool = False,
 ) -> Iterator[pd.DataFrame]:
     member = validate_bts_zip(archive_path)
     offset = 0
@@ -160,11 +211,14 @@ def iter_normalized_archive(
         )
         for raw in reader:
             normalized = normalize_bts_chunk(
-                raw,
+                # TextFileReader preserves the global CSV index across chunks.
+                # Reset it before adding the explicit source offset exactly once.
+                raw.reset_index(drop=True),
                 source_year=year,
                 source_month=month,
                 source_offset=offset,
                 allowed_airports=allowed_airports,
+                retain_diverted=retain_diverted,
             )
             offset += len(raw)
             if not normalized.empty:
@@ -179,6 +233,7 @@ def materialize_archive(
     month: int,
     chunksize: int = 200_000,
     allowed_airports: Collection[str] | None = None,
+    retain_diverted: bool = False,
 ) -> dict[str, int | str | float]:
     """Create one normalized Parquet file; never replace an existing output."""
 
@@ -193,6 +248,7 @@ def materialize_archive(
     rows = 0
     delays = 0
     cancellations = 0
+    diversions = 0
     try:
         for frame in iter_normalized_archive(
             archive_path,
@@ -200,6 +256,7 @@ def materialize_archive(
             month=month,
             chunksize=chunksize,
             allowed_airports=allowed_airports,
+            retain_diverted=retain_diverted,
         ):
             table = pa.Table.from_pandas(frame, preserve_index=False)
             if writer is None:
@@ -208,6 +265,7 @@ def materialize_archive(
             rows += len(frame)
             delays += int(frame["ArrDel15"].fillna(0).sum())
             cancellations += int(frame["Cancelled"].fillna(0).sum())
+            diversions += int(frame["Diverted"].fillna(0).sum())
     finally:
         if writer is not None:
             writer.close()
@@ -220,6 +278,7 @@ def materialize_archive(
         "rows": rows,
         "delays": delays,
         "cancellations": cancellations,
+        "diversions": diversions,
         "delay_rate_non_cancelled": delays / max(1, rows - cancellations),
         "cancellation_rate": cancellations / rows,
         "raw_sha256": sha256_file(archive_path),
@@ -236,6 +295,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--month", required=True, type=int)
     parser.add_argument("--airports-json", type=Path)
     parser.add_argument("--summary", type=Path)
+    parser.add_argument("--retain-diverted", action="store_true")
     return parser
 
 
@@ -251,6 +311,7 @@ def main() -> None:
         year=args.year,
         month=args.month,
         allowed_airports=airports,
+        retain_diverted=args.retain_diverted,
     )
     if args.summary:
         write_canonical_json(args.summary, summary)

@@ -1,0 +1,101 @@
+[identity]
+method = "BC-POT-R-v1"
+expanded_name = "Boundary-Complete Probabilistic Operations Twin with Counterfactual Residual"
+status = "FROZEN_RETROSPECTIVE_REDEVELOPMENT"
+parent_method = "CC-RTH-v1"
+
+[epistemic_status]
+previous_2025_aggregate_results_known = true
+blind_confirmation_claimed = false
+prospective_claimed = false
+description = "Architecture and hypotheses were formed after earlier 2025 analyses; all new 2025 results are retrospective development evidence."
+
+[information_boundary]
+prediction_horizon = "flight-specific scheduled departure minus 24 hours"
+scored_population = "unchanged frozen top100-to-top100 sample ids"
+context_population = "all BTS flights touching a frozen top-100 endpoint"
+context_fields = ["schedule", "carrier", "flight number", "distance"]
+target_outcomes_allowed_in_features = false
+target_tail_number_allowed_in_features = false
+realised_weather_allowed = false
+confirmation_year = 2026
+confirmation_gate_opened = false
+
+[views]
+induced = "top100-to-top100 schedule graph"
+boundary_complete = "all top100-touching schedule graph projected onto top100 resources"
+residual = "boundary-complete minus induced; missing numeric states zero-imputed only for subtraction with observation-change flags"
+causal_effect_claimed = false
+
+[models]
+family = "CatBoost binary hurdle"
+components = ["cancellation", "delay_given_operated"]
+candidates = ["boundary_only", "counterfactual_residual"]
+training_dates = ["2024-01-01", "2024-08-31"]
+early_stopping_dates = ["2024-09-01", "2024-09-30"]
+early_stopping_training_end_after_purge = "2024-08-29"
+fixed_iteration_refit_dates = ["2024-01-01", "2024-09-30"]
+rows_per_training_month = 125000
+early_stopping_max_rows = 250000
+sampling_seed = 20260903
+boosting_type = "Plain"
+max_ctr_complexity = 1
+gpu_cat_features_storage = "CpuPinnedMemory"
+gpu_ram_part = 0.75
+pinned_memory_size = "2gb"
+
+[calibration]
+dates = ["2024-10-01", "2024-12-31"]
+purge_days = 2
+families = ["identity", "intercept", "platt", "beta", "isotonic"]
+selection_metric = "pooled forward-fold binary log loss"
+
+[ensemble]
+members = ["capacity_gated_simplex", "boundary_only", "counterfactual_residual"]
+selection_period = "purged forward Q4 2024 predictions"
+optimizer = "non-negative probability simplex"
+selection_metric = "joint three-state log loss"
+boundary_residual_gating_feature = "bcpot_residual__route_sum_shadow_price"
+boundary_residual_gating_quantiles = [0.50, 0.90]
+minimum_regime_rows = 10000
+final_candidates = ["boundary_ensemble", "boundary_gated_ensemble"]
+final_selection = "lowest Q4 2024 forward joint log loss"
+
+[decision_analysis]
+primary_rule = "three-state probability argmax"
+secondary_rule = "Q4-selected multiplicative class bias"
+delay_log_bias_grid = [-1.0, 2.0, 25]
+cancellation_log_bias_grid = [-1.0, 3.0, 25]
+selection_metric = "three-state accuracy"
+
+[evaluation]
+primary_metrics = ["joint_log_loss", "multiclass_brier"]
+secondary_metrics = ["argmax_accuracy", "class_recall", "balanced_accuracy"]
+contextual_references = ["schedule_baseline", "flare24", "capacity_gated_simplex", "meta_current"]
+cluster_key = "FlightDate"
+bootstrap_repetitions = 2000
+bootstrap_seed = 20260903
+primary_evaluation_dates = ["2025-01-03", "2025-12-29"]
+full_year_point_scores_are_descriptive = true
+
+[descriptive_boundary_analysis]
+signals = ["any_nonzero_boundary_residual", "newly_observed_boundary_predecessor", "severe_vs_low_route_shadow_residual"]
+outcomes = ["joint_disruption", "cancellation", "delay_given_operated"]
+uncertainty = "whole-FlightDate cluster bootstrap"
+causal_effect_claimed = false
+
+[breakthrough_gate]
+metric = "primary-period standard argmax accuracy"
+reference = "best earlier meta-stack"
+minimum_absolute_gain = 0.05
+stretch_absolute_gain = 0.10
+percentage_point_interpretation = true
+
+[claim_limits]
+state_of_the_art_claimed = false
+causal_claimed = false
+physical_capacity_claimed = false
+active_runway_configuration_claimed = false
+gate_assignment_claimed = false
+live_schedule_equivalence_claimed = false
+confirmation_outcomes_accessed = false

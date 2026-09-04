@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "artifact_type": "ccrth_failed_run_record",
+  "run_id": "flare24_ccrth_v4",
+  "stage": "2024_q4_selection_evaluation",
+  "status": "FAILED_BEFORE_METHOD_LOCK_AND_2025_ACCESS",
+  "created_at_utc": "2026-09-04T11:31:51.1920423Z",
+  "failure": {
+    "exception_type": "ValueError",
+    "message": "probabilities rows must sum to one",
+    "method": "flare24",
+    "cause": "The exact checksum-loaded FLARE-24 reference was persisted as three float32 columns. Their float64 row sums differed from one by at most 4.44706529378891e-08, while joint_binary_marginals applies a 1e-08 zero-relative-tolerance contract.",
+    "crossfit_rows": 1242515,
+    "maximum_absolute_float32_row_sum_error": 4.44706529378891e-08,
+    "minimum_row_sum": 0.9999999557621777,
+    "maximum_row_sum": 1.000000044470653,
+    "rows_exceeding_1e_8_tolerance": 827067,
+    "rows_exceeding_1e_6_tolerance": 0,
+    "missing_reference_rows": 0
+  },
+  "boundary_status": {
+    "2024_outcomes_accessed": true,
+    "2025_outcomes_accessed": false,
+    "2026_outcomes_accessed": false,
+    "method_lock_written": false,
+    "study_report_written": false
+  },
+  "preserved_evidence": {
+    "run_directory": "D:/FlightDelayAdvisorResearchData/runs/flare24_ccrth_v4",
+    "file_count": 11,
+    "total_bytes": 67696163,
+    "selection_prediction_partitions": 3,
+    "calibrator_artifacts": 8,
+    "console_log": {
+      "path": "logs/flare24_ccrth_v4_console.log",
+      "bytes": 6296,
+      "sha256": "909b0e2555a6296c577184082d6675cfb30e9394a6fda151b85524ac567d8d10"
+    }
+  },
+  "adjudication": "Preserve v4. In a fresh run, accept only finite non-negative persisted rows whose sum error is at most 1e-06, divide each accepted row by its float64 row sum before evaluation, and record the observed error and adjustment. Do not refit or modify any model, calibrator, label, or candidate selection rule.",
+  "related_precedent": "manifests/failures/flare24_2025_audit_v1_float32_simplex_tolerance.json",
+  "results_claimed": false
+}

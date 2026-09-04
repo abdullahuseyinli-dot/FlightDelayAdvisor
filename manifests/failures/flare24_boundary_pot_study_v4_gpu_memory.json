@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "artifact_type": "bcpotr_retrospective_study_failure",
+  "status": "RETAINED_RESIDUAL_REFIT_GPU_MEMORY_FAILURE",
+  "observed_at_utc": "2026-09-04T19:07:57.2728252Z",
+  "run_id": "flare24_boundary_pot_v4",
+  "method_lock": "D:/FlightDelayAdvisorResearchData/runs/flare24_boundary_pot_v4/method_lock.json",
+  "method_lock_sha256": "1c9338afefb7129a0672f7396210d61bf5514d12457f0386f09478a2bd11c505",
+  "log": "logs/flare24_boundary_pot_study_v4.log",
+  "log_sha256": "c3e29852bdace72b98246f109587db5878a89ce3d29cf994aee45a7ea3d921dc",
+  "completed_model": "D:/FlightDelayAdvisorResearchData/runs/flare24_boundary_pot_v4/models/boundary_only_delay.joblib",
+  "completed_model_sha256": "f9658bebbb801da80080bf0dfd33f3003cc61d63871c2a04771473719da72e9f",
+  "failure": "CatBoostError: bad allocation while refitting the 501-raw-column counterfactual-residual delay candidate on the full January-September 2024 sample",
+  "phase": "second final model refit",
+  "boundary_only_delay_model_completed": true,
+  "counterfactual_residual_delay_pilot_selected_trees": 385,
+  "2025_boundary_predictions_scored": false,
+  "2026_outcomes_accessed": false,
+  "scientific_result_produced": false,
+  "resolution": "Before a new method lock, reduce categorical CTR combination complexity from 2 to 1 and GPU-RAM fraction from 0.80 to 0.75. Retain all rows, explicit graph features, boundary residuals, model depth/learning settings, temporal splits, estimands, and gates."
+}

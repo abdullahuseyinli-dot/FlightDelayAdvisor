@@ -1,0 +1,51 @@
+[identity]
+method = "BC-POT-Rotation-v1"
+expanded_name = "Strictly-prior-year boundary-trained latent aircraft rotation"
+status = "FROZEN_BEFORE_BOUNDARY_ROTATION_FIT"
+parent = "BC-POT-R-v1"
+
+[information_boundary]
+history_years = [2023, 2024]
+target_years = [2024, 2025]
+historical_fields = ["schedule", "carrier", "flight number", "distance", "tail number"]
+historical_outcomes_allowed = false
+target_year_rows_allowed_during_fit = false
+target_year_tail_number_allowed = false
+target_outcomes_allowed_in_features = false
+confirmation_year = 2026
+confirmation_gate_opened = false
+
+[population]
+historical_rotation_fit = "all BTS flights touching at least one frozen top-100 airport"
+scored_population = "unchanged frozen top100-to-top100 sample ids"
+small_airport_role = "context and latent predecessor-transition supervision only"
+
+[model]
+minimum_turn_minutes = 20.0
+maximum_layover_minutes = 720.0
+maximum_candidates = 12
+history_end_month = 9
+minimum_lag_to_earliest_target_cutoff_days = 91
+history_policy = "target year Y uses tails from Y-1 only"
+inference_policy = "target year uses schedule only; target tails remain unavailable"
+
+[outcome_blind_smoke_gate]
+period = "2024-01"
+required_target_id_set_match = true
+required_static_feature_equality = true
+minimum_changed_rotation_feature_row_fraction = 0.001
+rotation_features = [
+  "ccrth_rotation_connected_probability",
+  "ccrth_rotation_resource_message_coverage",
+  "ccrth_rotation_predecessor_capacity_overload",
+  "ccrth_rotation_predecessor_capacity_queue",
+  "ccrth_rotation_predecessor_capacity_shadow_price",
+]
+decision = "materialize the full boundary-rotation version only after this outcome-blind mechanism gate passes"
+
+[claims]
+predictive_improvement_claimed_before_study = false
+tail_assignment_claimed = false
+causal_claimed = false
+physical_capacity_claimed = false
+state_of_the_art_claimed = false

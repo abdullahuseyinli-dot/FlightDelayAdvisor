@@ -1,0 +1,2 @@
+method,status,coefficient_fit_period,regularization_selection_period,execution_held_forward_period,confirmation_period,2025_architecture_informed,2025_independent_confirmation,2026_outcomes_accessed,lock_sha256,lock_self_hash
+tf_ccrth_cancellation_logit_stack,LOCKED_FOR_UNOPENED_2026_CONFIRMATION,2024-10-03/2024-12-31,2025-01-03/2025-06-30,2025-07-03/2025-12-29,2026-01-03/2026-12-29,True,False,False,d1c33e398f678fae49fb235ab5ecbbf14a78925536d5ec6a1dad563ef82d4536,0152a3e82d2178683e269fbf05f458eed28cc061bd6323e8f9530dfffbba4b5e

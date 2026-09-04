@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "artifact_type": "tf_ccrth_publication_visual_qa_failure",
+  "bundle_version": "ccrth_v6",
+  "status": "FAILED_VISUAL_QA_NUMERICAL_TABLES_UNCHANGED",
+  "created_at_utc": "2026-09-04T12:25:29.1796332Z",
+  "bundle_manifest": {
+    "path": "manifests/flare24_ccrth_publication_assets_v6.json",
+    "bytes": 18758,
+    "sha256": "0d1c3841ab5c708d54cba76eba9af46f639e67b9f9ee0c116ee2153a2abc91f6",
+    "self_hash": "8a74378ff722f146e4786b41338e35387dc0e9ce1add2133b7e0712bd5bdc7d8"
+  },
+  "findings": [
+    {
+      "path": "reports/figures/ccrth_v6/validated_proper_score_effects.png",
+      "bytes": 95930,
+      "sha256": "710a60488f1138af3a6855cf65e8eef857becc1b50f55110e1acafff6a62394a",
+      "issue": "Dense fixed-point x-axis ticks overlap in the multiclass Brier panel."
+    },
+    {
+      "path": "reports/figures/ccrth_v6/task_factorized_weights.png",
+      "bytes": 136434,
+      "sha256": "f3e556c24586e1bdd897cef02398dc1da38ff0e9a75326a717dfafef7a46898b",
+      "issue": "The shared colorbar overlaps the delay-component heatmap and one x-axis label."
+    }
+  ],
+  "passed_figures": [
+    "cancellation_component_effects.png",
+    "task_factorized_monthly_deltas.png",
+    "posthoc_component_pair_grid.png",
+    "task_factorized_regime_deltas.png",
+    "hypergraph_feature_importance_corrected.png"
+  ],
+  "adjudication": "Preserve v6, adjust presentation layout only, and generate a new v7 bundle for complete visual QA.",
+  "results_or_tables_changed": false,
+  "confirmation_outcomes_accessed": false
+}
