@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "report_sha256": "11b639e9f8da495d76dd6a585999f00ab263267e8870cdf4344a78b42397a503",
+  "status": "LOCAL_BUILD_BOOTSTRAP_FAILURE_RECORDED",
+  "attempted_command": "python -m build --outdir dist/main_promotion_portability_v1",
+  "exit_code": 1,
+  "failed_phase": "Creating isolated environment: venv+pip; starting ensurepip",
+  "observed_error": "OSError: [WinError 1920] The file cannot be accessed by the system",
+  "environment": "Windows; FlightDelayAdvisor virtual environment based on Microsoft Store Python 3.11.9",
+  "retry_plan": "Retain this failed attempt and use build's supported uv installer for the isolated build in dist/main_promotion_portability_v2. Separate bundle validation records determine the retry outcome.",
+  "package_build_reached": false,
+  "models_retrained": false,
+  "research_scores_changed": false,
+  "confirmation_outcomes_accessed": false
+}

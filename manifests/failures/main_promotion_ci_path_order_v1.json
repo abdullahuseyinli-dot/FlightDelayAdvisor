@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "report_sha256": "78118b1e37ddb2b3fe64c7a9b39aba0d2ac2de509cc07557c4f14d80849570ff",
+  "status": "CI_FAILURE_RECORDED",
+  "recorded_at_utc": "2026-09-05T03:41:05Z",
+  "failed_commit": "6779c9308c321ad0909ab8ec55afce4f65f968a5",
+  "failed_run_id": 33942211340,
+  "failed_run_url": "https://github.com/abdullahuseyinli-dot/FlightDelayAdvisor/actions/runs/33942211340",
+  "failed_test": "tests/test_experiment_index.py::test_repository_index_includes_every_experiment",
+  "observed_test_summary": {
+    "failed": 1,
+    "passed": 316,
+    "skipped": 4,
+    "deselected": 2,
+    "warnings": 3
+  },
+  "cause": "Default pathlib ordering is case-insensitive on Windows and case-sensitive on Linux. SCHEDULE_CONTEXT_LIMITATION_NOTE.md therefore moved from last to first in the regenerated experiment inventory. Source report bytes and metrics did not differ.",
+  "remediation": "Use an explicit (filename.casefold(), filename) sort key and test both POSIX and Windows path semantics plus mixed-case index construction. Preserve the committed inventory and Markdown index without regeneration.",
+  "verification_scope": "This records the failed CI attempt, not a successful rerun. Follow-up source and distribution validation records and the subsequent GitHub workflow retain their own outcomes.",
+  "models_retrained": false,
+  "research_scores_changed": false,
+  "confirmation_outcomes_accessed": false
+}

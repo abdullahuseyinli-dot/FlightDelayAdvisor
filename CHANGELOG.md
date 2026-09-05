@@ -7,6 +7,8 @@ the first research release is frozen.
 
 - Promoted the current research line to `main` without rewriting history and
   preserved the former main at `legacy/streamlit-baseline-20260905`.
+- Corrected platform-dependent experiment-index ordering found by Linux CI;
+  retained the original inventory and report bytes and added cross-platform tests.
 - Added architecture, data acquisition/restoration, complete result lineage,
   experiment inventory, conditional research roadmap and manuscript claim mapping.
 - Integrated the later stopped source investigation, all 42 unrun corrected trial

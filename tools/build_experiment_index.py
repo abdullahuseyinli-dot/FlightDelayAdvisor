@@ -5,7 +5,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
-from pathlib import Path
+from pathlib import Path, PurePath
 from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -29,10 +29,15 @@ def evidence_class(name: str) -> str:
     return "Historical development / screening"
 
 
+def experiment_sort_key(path: PurePath) -> tuple[str, str]:
+    """Keep manifest ordering identical on case-sensitive and insensitive platforms."""
+    return path.name.casefold(), path.name
+
+
 def build_index(root: Path) -> tuple[dict[str, Any], str]:
     directory = root / "reports/experiments"
     records = []
-    for path in sorted(directory.iterdir()):
+    for path in sorted(directory.iterdir(), key=experiment_sort_key):
         if path.suffix not in {".json", ".md"}:
             continue
         if path.is_symlink() or not path.resolve().is_relative_to(root.resolve()):

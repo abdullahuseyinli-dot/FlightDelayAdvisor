@@ -1,5 +1,5 @@
 import json
-from pathlib import Path
+from pathlib import Path, PurePosixPath, PureWindowsPath
 
 import pytest
 
@@ -15,6 +15,27 @@ def make_report(root: Path, name: str = "trial.json") -> Path:
 
 def test_repository_index_includes_every_experiment() -> None:
     assert index.check_index(index.ROOT) >= 20
+
+
+@pytest.mark.parametrize("path_type", [PurePosixPath, PureWindowsPath])
+def test_experiment_sort_is_portable_with_deterministic_case_ties(
+    path_type: type[PurePosixPath] | type[PureWindowsPath],
+) -> None:
+    names = ["Z.json", "a.json", "SCHEDULE_CONTEXT_LIMITATION_NOTE.md", "A.json"]
+    ordered = sorted(map(path_type, names), key=index.experiment_sort_key)
+    assert [path.name for path in ordered] == [
+        "A.json", "a.json", "SCHEDULE_CONTEXT_LIMITATION_NOTE.md", "Z.json",
+    ]
+
+
+def test_index_build_uses_portable_mixed_case_order(tmp_path: Path) -> None:
+    for name in ("Z.json", "a.json", "SCHEDULE_CONTEXT_LIMITATION_NOTE.md"):
+        make_report(tmp_path, name)
+    manifest, _ = index.build_index(tmp_path)
+    assert [Path(record["path"]).name for record in manifest["files"]] == [
+        "a.json", "SCHEDULE_CONTEXT_LIMITATION_NOTE.md", "Z.json",
+    ]
+    assert index.write_index(tmp_path) == index.check_index(tmp_path) == 3
 
 
 def test_index_roundtrip_preserves_stopped_status_and_original_bytes(tmp_path: Path) -> None:

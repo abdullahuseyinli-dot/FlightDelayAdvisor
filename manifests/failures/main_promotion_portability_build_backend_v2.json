@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "report_sha256": "aa06b3f2d63fae9fdcac2ab4bf5ce20e511012a53c66b567060aa879a138a311",
+  "status": "LOCAL_BUILD_BOOTSTRAP_FAILURE_RECORDED",
+  "prior_attempt": "manifests/failures/main_promotion_portability_build_backend_v1.json",
+  "attempted_command": "python -m build --installer uv --outdir dist/main_promotion_portability_v2",
+  "exit_code": 1,
+  "failed_phase": "Creating isolated environment: venv+uv; locating the new interpreter",
+  "observed_error": "RuntimeError: Virtual environment creation failed, executable C:\\Users\\user\\AppData\\Local\\Temp\\build-env-aztu9b1b\\Scripts\\python.exe missing",
+  "environment": "Windows; FlightDelayAdvisor virtual environment based on Microsoft Store Python 3.11.9",
+  "retry_plan": "Use the documented non-isolated local build command with the already installed declared backend, hatchling 1.32.0, in dist/main_promotion_portability_v3. Validate archive contents and bind exact wheel bytes to separate clean-install evidence. GitHub CI retains its isolated Linux build.",
+  "package_build_reached": false,
+  "models_retrained": false,
+  "research_scores_changed": false,
+  "confirmation_outcomes_accessed": false
+}
