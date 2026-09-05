@@ -127,5 +127,9 @@ correction before a strict forecast claim.
 The [historical results ledger](RESULTS.md), [BC-POT-R interpretation](BCPOTR_RESULTS.md)
 and [CC-RTH report](CCRTH_TECHNICAL_REPORT.md) retain the full experimental detail.
 The [correction plan](CUTOFF_RESEARCH_PLAN.md) governs the next research generation.
-2025 is development-informed and cannot become untouched again; 2026 outcomes
-remain unopened.
+2025 is development-informed and cannot become untouched again. The 2026 outcomes
+in the confirmation dataset remain unopened, but aggregate 2026 statistics appeared
+in unsolicited search snippets during a later source investigation. The
+[incident](../manifests/failures/handoff_continuation_20260905_incidental_search_exposure_v1.json)
+was recorded and the values were not used. Do not claim zero exposure. No corrected
+real-data model was fitted before the [continuation stopped](RESEARCH_CONTINUATION_20260905.md).

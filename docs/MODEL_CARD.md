@@ -194,5 +194,8 @@ The historical January-June 2026 confirmation analysis was frozen in
 `manifests/confirmation_lock_v1.json`; no 2026 outcome was acquired or read for this
 release candidate. A cutoff-corrected method requires a new reviewed lock before
 confirmation access; the old lock cannot validate changed inputs or models.
+The later [source investigation](RESEARCH_CONTINUATION_20260905.md) recorded
+incidental aggregate 2026 search exposure without opening the confirmation dataset.
+The next lock must account for that incident rather than claim zero exposure.
 Confirmation outcomes may not change the model, features,
 calibration, ensemble, endpoints, bootstrap design, or success rule.

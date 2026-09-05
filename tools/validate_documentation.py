@@ -34,6 +34,10 @@ CURRENT_PAGES = (
     "docs/PROJECT_STATUS.md", "docs/ARTIFACTS.md", "docs/USAGE.md", "docs/LIMITATIONS.md",
     "docs/DATA_CARD.md", "docs/MODEL_CARD.md", "docs/LEGACY_APPLICATION.md",
     "docs/RESEARCH_STANDARDS.md", "docs/RELEASE_CHECKLIST.md", "THIRD_PARTY_NOTICES.md",
+    "docs/ARCHITECTURE.md", "docs/DATA_ACQUISITION_RUNBOOK.md", "docs/RESULT_LINEAGE.md",
+    "docs/EXPERIMENT_INDEX.md", "docs/RESEARCH_ROADMAP.md", "paper/README.md",
+    "paper/CLAIM_EVIDENCE_CROSSWALK.md",
+    "docs/VERSIONING.md",
 )
 
 
@@ -43,7 +47,22 @@ def require(condition: bool, message: str) -> None:
 
 
 def markdown_files(root: Path) -> list[Path]:
-    return sorted([*root.glob("*.md"), *(root / "docs").rglob("*.md")])
+    return sorted([
+        *root.glob("*.md"), *(root / "docs").rglob("*.md"), *(root / "paper").rglob("*.md"),
+    ])
+
+
+def validate_public_narrative(root: Path) -> None:
+    # Scope this to authored reader-facing prose. Immutable machine-path/source
+    # provenance is not rewritten to satisfy a presentation rule.
+    marker = re.compile(
+        r"\b(?:chat" + r"gpt|co" + r"dex|anthro" + r"pic|clau" + r"de)\b"
+        r"|as an a" + r"i language model|generated (?:by|with) open" + r"ai",
+        re.IGNORECASE,
+    )
+    for page in markdown_files(root):
+        require(not marker.search(page.read_text(encoding="utf-8")),
+                f"tooling attribution/instruction marker in public narrative: {page.relative_to(root)}")
 
 
 def validate_links(root: Path) -> int:
@@ -105,12 +124,21 @@ def validate_metadata_and_status(root: Path) -> None:
     results = (root / "docs/CURRENT_RESULTS.md").read_text(encoding="utf-8").lower()
     for phrase in ("confounded", "2026 outcomes", "remain unopened", "retrospective proxy", "not met"):
         require(phrase in results, f"missing result boundary: {phrase}")
+    for name in ("README.md", "docs/PROJECT_STATUS.md", "docs/CURRENT_RESULTS.md", "docs/BENCHMARK_CARD.md"):
+        content = (root / name).read_text(encoding="utf-8").lower()
+        require("exposure" in content and ("aggregate" in content or "snippets" in content),
+                f"missing later exposure qualification: {name}")
+    usage = (root / "docs/USAGE.md").read_text(encoding="utf-8")
+    require("git clone --branch main --single-branch" in usage, "usage must clone current main")
+    require("legacy/streamlit-baseline-20260905" in (root / "docs/VERSIONING.md").read_text(encoding="utf-8"),
+            "missing preserved legacy reference")
 
 
 def main() -> None:
     count = validate_links(ROOT)
     validate_result_tables(ROOT)
     validate_metadata_and_status(ROOT)
+    validate_public_narrative(ROOT)
     print(f"Documentation validation passed: {len(markdown_files(ROOT))} Markdown files, "
           f"{count} local links, report-backed result tables and metadata.")
     print("Historical scores unchanged; corrected forecast claims remain withdrawn.")

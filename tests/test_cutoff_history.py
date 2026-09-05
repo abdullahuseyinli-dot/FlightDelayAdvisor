@@ -104,6 +104,71 @@ def test_duplicate_observations_rejected() -> None:
         build_cutoff_history(_targets(), pd.concat([events, events]))
 
 
+@pytest.mark.parametrize("delay", [0, 1])
+def test_cancelled_flight_cannot_contribute_a_conditional_delay(delay: int) -> None:
+    events = _observations().iloc[:1].copy()
+    events["value"] = delay
+    cancellation = events.assign(outcome="cancel", value=1)
+    with pytest.raises(ValueError, match="cancelled flights cannot contribute"):
+        build_cutoff_history(_targets(), pd.concat([events, cancellation], ignore_index=True))
+
+
+def test_operated_flight_can_contribute_both_tasks() -> None:
+    events = _observations().iloc[:1].copy()
+    cancellation = events.assign(outcome="cancel", value=0)
+    result, _ = build_cutoff_history(_targets(), pd.concat([events, cancellation], ignore_index=True))
+    assert result.loc[0, "asof_global_delay_rate_7d"] == 0
+    assert result.loc[0, "asof_global_cancel_rate_7d"] == 0
+
+
+@pytest.mark.parametrize(("column", "value"), [
+    ("FlightDate", pd.Timestamp("2023-12-31")),
+    ("Route", "SFO-LAX"), ("Origin", "SFO"), ("Dest", "SFO"),
+    ("Reporting_Airline", "UA"), ("ScheduledFlightId", "AA-2"),
+])
+def test_cross_task_identity_cannot_move_one_flight_between_history_groups(column: str, value: object) -> None:
+    events = _observations().iloc[:1].copy()
+    cancellation = events.assign(outcome="cancel", value=0)
+    cancellation[column] = value
+    with pytest.raises(ValueError, match="observation sample ID has conflicting"):
+        build_cutoff_history(_targets(), pd.concat([events, cancellation], ignore_index=True))
+
+
+def test_target_metadata_conflict_cannot_contaminate_a_later_target_history() -> None:
+    earlier = _targets()
+    earlier["sample_id"] = "early"
+    earlier["FlightDate"] -= pd.Timedelta(days=1)
+    earlier["departure_time_utc"] -= pd.Timedelta(days=1)
+    earlier["cutoff_time_utc"] -= pd.Timedelta(days=1)
+    targets = pd.concat([earlier, _targets()], ignore_index=True)
+    events = _observations().iloc[:1].copy()
+    events["Origin"] = "SFO"
+    with pytest.raises(ValueError, match="target/observation sample ID has conflicting group keys"):
+        build_cutoff_history(targets, events)
+
+
+@pytest.mark.parametrize("diverted", [1, None])
+def test_represented_diversion_cannot_enter_conditional_delay_history(diverted: int | None) -> None:
+    events = _observations().iloc[:1].copy()
+    events["Diverted"] = pd.Series([diverted], dtype="Int8")
+    with pytest.raises(ValueError, match="require known nondiverted status"):
+        build_cutoff_history(_targets(), events)
+
+
+def test_diversion_does_not_remove_cancellation_history() -> None:
+    events = _observations().iloc[:1].copy().assign(outcome="cancel", value=0, Diverted=1)
+    result, _ = build_cutoff_history(_targets(), events)
+    assert result.loc[0, "asof_global_cancel_rate_7d"] == 0
+    assert np.isnan(result.loc[0, "asof_global_delay_rate_7d"])
+
+
+def test_cross_task_diversion_conflict_is_rejected() -> None:
+    events = _observations().iloc[:1].copy().assign(Diverted=0)
+    cancellation = events.assign(outcome="cancel", value=0, Diverted=1)
+    with pytest.raises(ValueError, match="conflicting diversion status"):
+        build_cutoff_history(_targets(), pd.concat([events, cancellation], ignore_index=True))
+
+
 def test_join_requires_matching_cutoff_and_preserves_target_order() -> None:
     targets = _targets()
     history, _ = build_cutoff_history(targets, _observations())

@@ -7,6 +7,12 @@ This guide preserves the original Streamlit application track. It uses a sampled
 research pipeline. Its historical scores use different cohorts and protocols and
 must not be mixed into the current matched results table.
 
+The previous main snapshot is preserved on
+[legacy/streamlit-baseline-20260905](https://github.com/abdullahuseyinli-dot/FlightDelayAdvisor/tree/legacy/streamlit-baseline-20260905)
+at `34ac793a6e681a95fdd0ec2044918cb615d146aa`. The application files also remain
+available in current main for reproducibility; they were not deleted or relabelled
+as corrected research. See [versioning](VERSIONING.md).
+
 ## Recorded scores
 
 Source: [in-period summary](../reports/metrics_summary.txt).

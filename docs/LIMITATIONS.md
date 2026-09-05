@@ -21,6 +21,12 @@ does not erase that knowledge. Confidence intervals describe uncertainty for the
 evaluated comparison, not uncertainty from the entire adaptive research search.
 Historical date-cluster intervals also do not remove all multi-day serial dependence.
 
+During the later source investigation, unsolicited search snippets exposed
+aggregate 2026 statistics. The confirmation dataset was not opened and the values
+were not used, but complete absence of exposure cannot be claimed. The
+[incident and stop record](RESEARCH_CONTINUATION_20260905.md) must accompany any
+future confirmation-design review.
+
 ## Context is not observed operational state
 
 The complete schedule stack does not reveal active runway configuration, actual

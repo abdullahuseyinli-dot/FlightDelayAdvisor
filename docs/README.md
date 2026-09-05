@@ -17,6 +17,13 @@ Moving to another machine? Start with the [research handoff](RESEARCH_HANDOFF.md
 | [Limitations](LIMITATIONS.md) | What the available evidence cannot establish |
 | [Usage](USAGE.md) | Installation, verification and safe execution scopes |
 | [Artifacts](ARTIFACTS.md) | Evidence navigation, portability and external data |
+| [Architecture](ARCHITECTURE.md) | Source boundaries, timing trust boundaries and extension requirements |
+| [Data acquisition and restoration](DATA_ACQUISITION_RUNBOOK.md) | Source/LFS/external tiers and verified transfer scope |
+| [Result lineage](RESULT_LINEAGE.md) | Complete sequence of studies, recoveries and stopped work |
+| [Experiment index](EXPERIMENT_INDEX.md) | Every retained experiment report with a byte-bound inventory |
+| [Research roadmap](RESEARCH_ROADMAP.md) | Conditional improvements, prerequisites and stop criteria |
+| [Versioning and branches](VERSIONING.md) | Current main, legacy snapshot and publication boundaries |
+| [Manuscript evidence](../paper/README.md) | Claim-to-evidence mapping and publication scope |
 | [Third-party notices](../THIRD_PARTY_NOTICES.md) | Attribution and redistribution boundaries |
 | [Research standards](RESEARCH_STANDARDS.md) | Evidence preservation and contribution rules |
 | [Release checklist](RELEASE_CHECKLIST.md) | Conditions for a new, accurately scoped release |
@@ -27,6 +34,8 @@ Moving to another machine? Start with the [research handoff](RESEARCH_HANDOFF.md
 - [Data contract](CUTOFF_DATA_CONTRACT.md): explicit timestamps, lineage and label availability.
 - [Implementation state](CUTOFF_IMPLEMENTATION_STATE.md): correction-generation checks.
 - [Issued-weather pilot](CUTOFF_WEATHER_PILOT.md): small archive study and its limits.
+- [Stopped continuation](RESEARCH_CONTINUATION_20260905.md): later source investigation,
+  validation amendments, unrun trial register and aggregate search-exposure disclosure.
 
 ## Historical methods and experiments
 

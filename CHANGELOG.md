@@ -3,6 +3,22 @@
 All notable changes are recorded here. The project follows Semantic Versioning once
 the first research release is frozen.
 
+## Unreleased - research record and repository alignment (2026-09-05)
+
+- Promoted the current research line to `main` without rewriting history and
+  preserved the former main at `legacy/streamlit-baseline-20260905`.
+- Added architecture, data acquisition/restoration, complete result lineage,
+  experiment inventory, conditional research roadmap and manuscript claim mapping.
+- Integrated the later stopped source investigation, all 42 unrun corrected trial
+  slots, endpoint/history validation amendments and aggregate search-exposure disclosure.
+- Recorded the verified private data/model transfer without adding its large
+  payloads to ordinary Git or claiming it supplies historical receipt evidence.
+- Distinguished source-first cloning, dependency ranges and locked installation;
+  extended documentation and distribution checks to the new public structure.
+- Preserved historical result bytes, failure records, existing source layout and
+  the separate legacy application. No model refit, changed score, release or DOI
+  is implied by this presentation work.
+
 ## Unreleased - cutoff correction and documentation review (2026-09-04)
 
 - Withdrew the previous local release candidate; preserved its ledgers, archives,

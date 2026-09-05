@@ -65,6 +65,7 @@ def main() -> None:
     document_paths = [
         *ROOT.glob("*.md"),
         *(ROOT / "docs").rglob("*.md"),
+        *(ROOT / "paper").rglob("*.md"),
         ROOT / "CITATION.cff",
         ROOT / ".zenodo.json",
         ROOT / "pyproject.toml",
@@ -72,7 +73,17 @@ def main() -> None:
         ROOT / ".github/workflows/tests.yml",
         ROOT / "tools/validate_documentation.py",
         ROOT / "tests/test_documentation.py",
+        ROOT / "tools/build_experiment_index.py",
+        ROOT / "tools/summarize_evidence_transfer.py",
+        ROOT / "tests/test_experiment_index.py",
+        ROOT / "tests/test_transfer_summary.py",
+        ROOT / "manifests/research_experiment_index_v1.json",
+        ROOT / "manifests/transfer/evidence_transfer_20260905_v1.json",
     ]
+    document_paths.extend(
+        path for path in (ROOT / "reports/validation/handoff_continuation_20260905_source_probe_v1").rglob("*")
+        if path.is_file()
+    )
     verified_documents = []
     with tarfile.open(sdist, "r:gz") as archive:
         for path in sorted(document_paths):

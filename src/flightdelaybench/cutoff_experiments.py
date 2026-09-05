@@ -133,11 +133,22 @@ def validate_dataset(frame: pd.DataFrame, features: tuple[str, ...]) -> pd.DataF
         raise ValueError("incorrect T-24 target cutoff")
     if (result["features_available_at_utc"] > result["cutoff_time_utc"]).any():
         raise ValueError("post-cutoff input in corrected dataset")
-    if not result["Cancelled"].isin([0, 1]).all() or not result.loc[observed, "ArrDel15"].isin([0, 1]).all():
+    if not result["Cancelled"].isin([0, 1]).all() or not result["ArrDel15"].dropna().isin([0, 1]).all():
         raise ValueError("invalid observed binary labels")
+    unavailable_delay = result["Cancelled"].eq(1)
+    if "Diverted" in result:
+        if not result["Diverted"].dropna().isin([0, 1]).all():
+            raise ValueError("represented diversion status must be binary when known")
+        # A supplied but unknown diversion status is not evidence of operation
+        # without diversion. Do not silently turn that missing status into zero.
+        unavailable_delay |= ~result["Diverted"].eq(0).fillna(False)
+    if (unavailable_delay & result["ArrDel15"].notna()).any():
+        raise ValueError("unavailable conditional-delay labels must remain missing")
     joint = result["joint_label_observed"].eq(1)
     if not joint.eq(result["Cancelled"].eq(1) | observed).all():
         raise ValueError("joint-observation flag disagrees with observed tasks")
+    if not observed.eq(result["ArrDel15"].notna()).all():
+        raise ValueError("delay-observation flag disagrees with observed arrival labels")
     expected = np.where(result["Cancelled"].eq(1), 2, result["ArrDel15"])
     if not np.array_equal(result.loc[joint, "disruption_state"], expected[joint]):
         raise ValueError("joint labels disagree with cancellation/conditional delay semantics")

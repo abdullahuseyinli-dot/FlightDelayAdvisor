@@ -11,6 +11,8 @@ Follow the [research standards](docs/RESEARCH_STANDARDS.md),
 [current benchmark contract](docs/BENCHMARK_CARD.md) and
 [cutoff-correction plan](docs/CUTOFF_RESEARCH_PLAN.md). The previous release
 candidate is withdrawn; source checks alone cannot restore its timing claims.
+Use the [architecture and extension contract](docs/ARCHITECTURE.md) to place new
+work and the [roadmap](docs/RESEARCH_ROADMAP.md) to identify prerequisites.
 
 1. Create a focused branch and install the `dev` extra.
 2. Register every candidate predictor in `flightdelaybench.contracts` with its
@@ -27,6 +29,12 @@ are checked against immutable reports by `tools/validate_documentation.py`.
 Documentation changes must preserve distinctions between historical scores,
 software validation and uncompleted real-data experiments. Report accuracy
 changes in absolute percentage points; do not substitute relative changes.
+
+Every new experiment report must appear in the generated
+[experiment index](docs/EXPERIMENT_INDEX.md). Check it with
+`python tools/build_experiment_index.py --check`; when adding research records,
+create a new versioned inventory/index and update their current references together.
+Do not rewrite an older immutable index or conceal failed/blocked records.
 
 Do not commit restricted upstream data. Derived public-release artifacts must carry a
 source description, construction code, row counts, checksums, and applicable licence

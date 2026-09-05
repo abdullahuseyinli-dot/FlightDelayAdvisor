@@ -72,7 +72,7 @@ def main() -> None:
             ],
         ),
         ("compileall", [python, "-m", "compileall", "-q", "app.py", "src", "tools", "tests"]),
-        ("ruff", [python, "-m", "ruff", "check", "src/flightdelaybench", "tests"]),
+        ("ruff", [python, "-m", "ruff", "check", "src/flightdelaybench", "tests", "tools"]),
         ("mypy", [python, "-m", "mypy", "src/flightdelaybench"]),
         (
             "source_only_tests",
@@ -87,6 +87,7 @@ def main() -> None:
         ),
         ("repository_evidence", [python, "tools/validate_repository.py"]),
         ("documentation", [python, "tools/validate_documentation.py"]),
+        ("experiment_inventory", [python, "tools/build_experiment_index.py", "--check"]),
     ]
     if uv is not None:
         checks.insert(0, ("lock_consistency", [uv, "lock", "--check", "--offline"]))

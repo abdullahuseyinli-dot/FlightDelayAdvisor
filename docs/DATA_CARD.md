@@ -131,6 +131,9 @@ contract introduced later.
 
 Raw provider responses, failed/superseded builds, and the successful artifacts are
 all retained. No 2026 outcome was acquired or read for this release candidate.
+That is the candidate-era statement. A later source investigation recorded
+incidental aggregate 2026 search exposure without opening the confirmation dataset;
+see the [continuation and incident disclosure](RESEARCH_CONTINUATION_20260905.md).
 
 ## Known limitations
 

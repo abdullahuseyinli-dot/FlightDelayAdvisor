@@ -1,0 +1,99 @@
+{
+  "archive_count": 13,
+  "archives": [
+    {
+      "bytes": 2129119699,
+      "path": "payload-001.zip",
+      "sha256": "b4921670f3ec06418bb7a2c3783baf1ddc80eceb94ba42d35126cf078d0c20c4"
+    },
+    {
+      "bytes": 2130479286,
+      "path": "payload-002.zip",
+      "sha256": "a5b0b9274383ec50a912a277bfd79d310265175d8190cb6ad88aaac6d98564ea"
+    },
+    {
+      "bytes": 2085099684,
+      "path": "payload-003.zip",
+      "sha256": "35961d812c05ffe062baa323ed045e4ecc7b5273eb5733b34b2d71b1d8eb6998"
+    },
+    {
+      "bytes": 2075347948,
+      "path": "payload-004.zip",
+      "sha256": "00421334c87856086a6dc63143d5d63d8224fc7f33fd1ea0ec903b533c983cad"
+    },
+    {
+      "bytes": 2079597283,
+      "path": "payload-005.zip",
+      "sha256": "a1c2cb05a97e89e68ab973dfadb93f6ac4e576e4abf4d57bf04fe4f1e71fccf6"
+    },
+    {
+      "bytes": 2145618853,
+      "path": "payload-006.zip",
+      "sha256": "e5362bc912b63b118c133ddd54f4aea64da6ce00736476122d636fa2f1c5982c"
+    },
+    {
+      "bytes": 2143350906,
+      "path": "payload-007.zip",
+      "sha256": "a50816f7fef8d9932ef164bf36b98379577639128969cbf6f8bce14a423a8909"
+    },
+    {
+      "bytes": 2125879852,
+      "path": "payload-008.zip",
+      "sha256": "1dd02f7dfdba5460065f41587533c293d9058d0fff545fdd0753cd9ebb1be4c5"
+    },
+    {
+      "bytes": 2097945310,
+      "path": "payload-009.zip",
+      "sha256": "1d6db2a6e262b63f766ad65734bc877f77f98237f7cdf6cac5e11fe60037f60b"
+    },
+    {
+      "bytes": 2096188210,
+      "path": "payload-010.zip",
+      "sha256": "8ea724666911cddb4bd63e4ebc54c2040d0ecf182c257a7b7fa6aa4dceeb22bd"
+    },
+    {
+      "bytes": 2127743095,
+      "path": "payload-011.zip",
+      "sha256": "4f007ba54914be334fc61597a602d2888118684057aa86b0d38deec622fb792b"
+    },
+    {
+      "bytes": 2111291523,
+      "path": "payload-012.zip",
+      "sha256": "5debb5cc477ca4e5d4938beb20ad1fe54f17d816b81b16fa541d6b3b23cea5b5"
+    },
+    {
+      "bytes": 876552411,
+      "path": "payload-013.zip",
+      "sha256": "b263ac23cceed59faae235a72be938ddff66cf7b3dba42b06564290c63fc1aaa"
+    }
+  ],
+  "claim_limit": "Original transfer verification plus checked report bindings. Restore bytes separately; retain the newer checkout and the stopped source investigation. This does not supply missing receipt/label-availability evidence or authorize training/publication.",
+  "corrected_real_data_performance_established": false,
+  "evidence_class": "RECORD_OF_COMPLETED_PRIVATE_TRANSFER_VERIFICATION",
+  "full_size_extraction_performed_on_source": false,
+  "historical_availability_certified": false,
+  "input_records": [
+    {
+      "bytes": 1196341,
+      "path": "PACKAGE.json",
+      "sha256": "55f98e632e0814e8b746a98989f0070b7f840ac54f91565f73fc7d9cca229360"
+    },
+    {
+      "bytes": 4066,
+      "path": "VERIFICATION.json",
+      "sha256": "a1df9502ad637104806b1345f2a4b1298bc2a33b5c87119d224fbd9d32cb3a6d"
+    }
+  ],
+  "large_payloads_rehashed_by_summary": false,
+  "later_source_investigation_in_this_snapshot": false,
+  "local_absolute_paths_published": false,
+  "original_integrity_status": "PASS_PACKAGE_INTEGRITY",
+  "original_restore_test_exit_code": 0,
+  "payload_bytes": 26223570444,
+  "payload_files": 2471,
+  "recorded_verification_time_utc": "2026-09-05T00:48:11.523289+00:00",
+  "schema_version": 1,
+  "source_branch": "research/point-in-time-flightdelaybench",
+  "source_commit": "972d0554d899317176c53f29fdf2b7db25a1e281",
+  "status": "TRANSFER_BYTES_VERIFIED_STRICT_CUTOFF_RESEARCH_BLOCKED"
+}

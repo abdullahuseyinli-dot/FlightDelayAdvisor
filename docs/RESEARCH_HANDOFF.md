@@ -1,24 +1,33 @@
 # Research handoff: continuing on a new computer
 
-Prepared 2026-09-05 for branch `research/point-in-time-flightdelaybench`.
+Originally prepared 2026-09-05 for `research/point-in-time-flightdelaybench`;
+current development now uses `main`. See [versioning](VERSIONING.md) for the
+preserved legacy baseline and the unchanged historical transfer snapshot.
+Later status: the [source investigation stopped](RESEARCH_CONTINUATION_20260905.md)
+without corrected training or an authorized assumption study. Read the updated
+[project status](PROJECT_STATUS.md), including its aggregate exposure disclosure,
+before following the conditional plan below. The [restoration guide](DATA_ACQUISITION_RUNBOOK.md)
+describes the verified private transfer and its earlier source-snapshot boundary.
+
 This is a source-and-evidence handoff, not a scientific release or a restored
 T−24 validity claim. Read [project status](PROJECT_STATUS.md),
 [research standards](RESEARCH_STANDARDS.md), [current results](CURRENT_RESULTS.md),
 [the correction plan](CUTOFF_RESEARCH_PLAN.md) and
 [the corrected data contract](CUTOFF_DATA_CONTRACT.md) before training.
 
-## 1. Check out the research branch
+## 1. Check out current main
 
 ```bash
-git clone --branch research/point-in-time-flightdelaybench --single-branch https://github.com/abdullahuseyinli-dot/FlightDelayAdvisor.git
+git clone --branch main --single-branch https://github.com/abdullahuseyinli-dot/FlightDelayAdvisor.git
 cd FlightDelayAdvisor
 git status --short
 git log -1 --oneline
 ```
 
-Match the commit to the accompanying handoff message. Do not assume `main`
-contains this work. Preserve any existing local changes when using an existing
-checkout. No release tag or Zenodo DOI is implied.
+Match the commit to the accompanying handoff message. Older transfer manifests
+correctly identify their earlier research-branch snapshot; they are not instructions
+to replace newer main files. Preserve existing local changes when using an existing
+checkout. Main promotion is not a release tag or Zenodo deposit.
 
 Git LFS can fetch substantial legacy data during checkout. To inspect source first,
 set `GIT_LFS_SKIP_SMUDGE=1` only for the clone/checkout process, then remove that

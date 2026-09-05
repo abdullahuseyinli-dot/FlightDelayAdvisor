@@ -10,6 +10,7 @@ Provider acknowledgements do not imply endorsement.
 |---|---|---|
 | US DOT Bureau of Transportation Statistics | Reporting Carrier On-Time Performance schedules and outcome labels | Acknowledge BTS and identify the extract, years and processing; provider metadata governs the original records |
 | FAA NASR | Runway/reference airport geometry, including the 2024-10-03 cycle | Acknowledge FAA; geometry is not active runway or historical operational capacity |
+| FAA advisory archive | Bounded 2024 source-access pilot | Credit FAA; preserve advisory send time, original response and retrieval metadata; these do not establish historical consumer receipt |
 | Open-Meteo / NOAA GFS | Archived fixed-lead weather API values and derived aviation features | Open-Meteo API data is CC BY 4.0; retain attribution, a license link and a description of transformations |
 | Iowa Environmental Mesonet / NOAA NWS | Issued TAF JSON and original text in the small archive pilot | Credit IEM at Iowa State University and NOAA NWS; preserve original product identity and retrieval metadata |
 

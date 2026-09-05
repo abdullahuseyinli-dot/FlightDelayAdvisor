@@ -59,8 +59,11 @@ Preprocessing is fitted on training only; training/stopping labels must have
 arrived before the corresponding later prediction cutoffs.
 
 No random flight split is acceptable for the main temporal claim. No 2025 reuse
-becomes blind confirmation. 2026 outcomes remain unopened; any corrected method
-needs a new reviewed lock before confirmation access.
+becomes blind confirmation. The 2026 confirmation dataset remains unopened, but
+incidental aggregate search exposure was recorded in the
+[later source investigation](RESEARCH_CONTINUATION_20260905.md). Any corrected
+method needs a new reviewed lock that accounts for this incident before confirmation
+access; complete absence of exposure must not be claimed.
 
 ## Controlled comparison requirements
 

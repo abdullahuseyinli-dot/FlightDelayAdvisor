@@ -1,0 +1,189 @@
+{
+  "files": [
+    {
+      "bytes": 15047,
+      "evidence_class": "Historical development / screening",
+      "path": "reports/experiments/catboost_all_expanding_screen_v1.json",
+      "recorded_status": "COMPLETE_DEVELOPMENT_AND_SELECTION_NOT_CONFIRMATORY",
+      "sha256": "eb781bc65e3bb39700af750303244ea55e931e7b3fd668c51f34e5d62b2a51f0"
+    },
+    {
+      "bytes": 14762,
+      "evidence_class": "Historical development / screening",
+      "path": "reports/experiments/catboost_all_recent5_screen_v1.json",
+      "recorded_status": "COMPLETE_DEVELOPMENT_AND_SELECTION_NOT_CONFIRMATORY",
+      "sha256": "37bb90af6ba3c7dc7f1abd138a310f4335194ed4a77b03f8ab102c53c2730cb6"
+    },
+    {
+      "bytes": 15007,
+      "evidence_class": "Historical development / screening",
+      "path": "reports/experiments/catboost_all_weight4_screen_v1.json",
+      "recorded_status": "COMPLETE_DEVELOPMENT_AND_SELECTION_NOT_CONFIRMATORY",
+      "sha256": "d3a1fbac62ad3627a818684229b3d61b907ca11bb8e04c1031b6a40d6ec49b5c"
+    },
+    {
+      "bytes": 15109,
+      "evidence_class": "Historical development / screening",
+      "path": "reports/experiments/catboost_decay2_expanding_screen_v1.json",
+      "recorded_status": "COMPLETE_DEVELOPMENT_AND_SELECTION_NOT_CONFIRMATORY",
+      "sha256": "2cecca350a5947abfc1a356e917a22f1b060a2d091173688f034344fbe04381c"
+    },
+    {
+      "bytes": 27811,
+      "evidence_class": "Historical development / screening",
+      "path": "reports/experiments/census_2023_development_screen_v1.json",
+      "recorded_status": "COMPLETE_2023_CENSUS_DEVELOPMENT_SCREEN_NOT_CONFIRMATORY",
+      "sha256": "d73e53a82309782fbb2b8189405d92eb613acff07f6fdb8e038641a1c9dd1ea9"
+    },
+    {
+      "bytes": 25116,
+      "evidence_class": "Historical development / screening",
+      "path": "reports/experiments/closr_rolling_v1.json",
+      "recorded_status": "COMPLETE_DEVELOPMENT_ANALYSIS_NOT_CONFIRMATORY",
+      "sha256": "aecf209b164fbe5484df0cfbb2ec2c1ea2e93ef01dcd7525619fca61eb63043d"
+    },
+    {
+      "bytes": 374194,
+      "evidence_class": "FLARE selection / retrospective proxy",
+      "path": "reports/experiments/flare24_2024_selection_v2.json",
+      "recorded_status": "COMPLETE_2024_FLARE24_SELECTION_NOT_CONFIRMATORY",
+      "sha256": "13fef0024e7a08139786ccdfc150a0c3db61208558d31be2a673f960b701e089"
+    },
+    {
+      "bytes": 109934,
+      "evidence_class": "FLARE selection / retrospective proxy",
+      "path": "reports/experiments/flare24_2025_audit_v1_recovered.json",
+      "recorded_status": "COMPLETE_2025_FLARE24_RETROSPECTIVE_AUDIT_NOT_BLIND_CONFIRMATION",
+      "sha256": "8a4e88070d1a55cb30d3292629c1615057a92c661c2998df9045fc601d204171"
+    },
+    {
+      "bytes": 20937,
+      "evidence_class": "FLARE selection / retrospective proxy",
+      "path": "reports/experiments/flare24_2025_nested_ablation_v1.json",
+      "recorded_status": "COMPLETE_2025_FLARE24_NESTED_ABLATION_ANALYSIS",
+      "sha256": "d6bc3cb00c226d1dfebb79c0a80dd8b29b91106c362090bda27a9e386fc88a9c"
+    },
+    {
+      "bytes": 195204,
+      "evidence_class": "Boundary retrospective proxy",
+      "path": "reports/experiments/flare24_boundary_pot_v6_recovered.json",
+      "recorded_status": "COMPLETE_BCPOTR_2024_SELECTION_2025_RETROSPECTIVE_REDEVELOPMENT",
+      "sha256": "adaea6d8fb83d834f5a3b190f471990c7dab7fe218719dce39fadaf491c07279"
+    },
+    {
+      "bytes": 571375,
+      "evidence_class": "Airport-resource retrospective proxy",
+      "path": "reports/experiments/flare24_ccrth_2025_retrospective_v5.json",
+      "recorded_status": "COMPLETE_CCRTH_2024_SELECTION_2025_RETROSPECTIVE_EVALUATION",
+      "sha256": "d9c6057508f5ceb2bcdf7c64054e9069d47df79ceeb311122f19e1354c802942"
+    },
+    {
+      "bytes": 176569,
+      "evidence_class": "Airport-resource retrospective proxy",
+      "path": "reports/experiments/flare24_ccrth_metastack_v1.json",
+      "recorded_status": "COMPLETE_TF_CCRTH_METASTACK_POST_HOC_2025_2026_UNOPENED",
+      "sha256": "ead6177a3a2ff6d82f7720044ee922c1f655b5095ff3b350106ed52af7378383"
+    },
+    {
+      "bytes": 365578,
+      "evidence_class": "Airport-resource retrospective proxy",
+      "path": "reports/experiments/flare24_ccrth_task_factorized_v1.json",
+      "recorded_status": "COMPLETE_TF_CCRTH_POST_HOC_2025_ANALYSIS_2026_UNOPENED",
+      "sha256": "02f1e2f1e800677e19d62fa6167675a29df6949c906303e36a0f0ee79632b767"
+    },
+    {
+      "bytes": 32819,
+      "evidence_class": "Forecast adaptation / retrospective proxy",
+      "path": "reports/experiments/forecast24_calibration_2024_selection_v1.json",
+      "recorded_status": "COMPLETE_2024_CALIBRATION_SELECTION_NOT_CONFIRMATORY",
+      "sha256": "2769c6d99935ebebcf82db661f873b27d2da2b04cbf14c34de030d24727a9fb6"
+    },
+    {
+      "bytes": 12286,
+      "evidence_class": "Forecast adaptation / retrospective proxy",
+      "path": "reports/experiments/forecast24_ofwt_2024_selection_v1.json",
+      "recorded_status": "COMPLETE_2024_SELECTION_NOT_CONFIRMATORY",
+      "sha256": "7d6339541224434ef44d2374efb5d3f0832e29896cdf7f1a941b56d446f29e42"
+    },
+    {
+      "bytes": 16710,
+      "evidence_class": "Forecast adaptation / retrospective proxy",
+      "path": "reports/experiments/forecast24_pafra_2024_selection_v1.json",
+      "recorded_status": "COMPLETE_2024_SELECTION_NOT_CONFIRMATORY",
+      "sha256": "c7ca2456022f2bf3e3b5bbfb510d6b9a806c332de8e5f7e515263502586aa2da"
+    },
+    {
+      "bytes": 67088,
+      "evidence_class": "Forecast adaptation / retrospective proxy",
+      "path": "reports/experiments/forecast24_pafra_2025_audit_v1.json",
+      "recorded_status": "COMPLETE_2025_RETROSPECTIVE_AUDIT_NOT_CONFIRMATORY",
+      "sha256": "8fade492b1d32423b47dea58f0e8d93aeaaf4606376123e33582990c7d4b7404"
+    },
+    {
+      "bytes": 181645,
+      "evidence_class": "Forecast adaptation / retrospective proxy",
+      "path": "reports/experiments/forecast24_pafra_2025_diagnostics_v1.json",
+      "recorded_status": "COMPLETE_2025_RETROSPECTIVE_DIAGNOSTICS_NOT_CONFIRMATORY",
+      "sha256": "4c601ab1fb8ac4e9ffd77eba555213c399d62d7632df8638cc9b7aa76c1543b5"
+    },
+    {
+      "bytes": 17932,
+      "evidence_class": "Stopped corrected-campaign register; no real-data trials",
+      "path": "reports/experiments/handoff_continuation_20260905_register_v1.json",
+      "recorded_status": "STOPPED_MISSING_REQUIRED_SOURCE_EVIDENCE",
+      "sha256": "5348fd60e103b891fd3adc875024be5a1a40487a769d786d784f10386d4f94a0"
+    },
+    {
+      "bytes": 4250,
+      "evidence_class": "Historical development / screening",
+      "path": "reports/experiments/hmop_joint_hurdle_analysis_2019_2023_v1.json",
+      "recorded_status": "COMPLETE_DEVELOPMENT_ANALYSIS_NOT_CONFIRMATORY",
+      "sha256": "81c9ceb52e741f3f56208e11c984117b1491de7f90b1b5cf9f50b718581b13c8"
+    },
+    {
+      "bytes": 40001,
+      "evidence_class": "Historical development / screening",
+      "path": "reports/experiments/hmop_task_specific_plus_joint_direct_v1.json",
+      "recorded_status": "COMPLETE_DEVELOPMENT_AND_SELECTION_NOT_CONFIRMATORY",
+      "sha256": "93595d87bf560c37361aff7ff2766cf99798116f760bc4e1dc9b23be714f36a8"
+    },
+    {
+      "bytes": 24895,
+      "evidence_class": "Historical development / screening",
+      "path": "reports/experiments/hmop_task_specific_strict_rolling_v1.json",
+      "recorded_status": "COMPLETE_DEVELOPMENT_AND_SELECTION_NOT_CONFIRMATORY",
+      "sha256": "d9a814ceef9a5a0f8a9b702992abf04c8ec70a59f88c96bb8f29f46937859b44"
+    },
+    {
+      "bytes": 14101,
+      "evidence_class": "Historical development / screening",
+      "path": "reports/experiments/lightgbm_all_expanding_screen_v1.json",
+      "recorded_status": "COMPLETE_DEVELOPMENT_AND_SELECTION_NOT_CONFIRMATORY",
+      "sha256": "48371c33d5587272e72e6b927bb9f6fc4f626930215610456c5842c9b672951e"
+    },
+    {
+      "bytes": 235824,
+      "evidence_class": "Historical development / screening",
+      "path": "reports/experiments/prospective_ensemble_screen_v1.json",
+      "recorded_status": "COMPLETE_DEVELOPMENT_ANALYSIS_NOT_CONFIRMATORY",
+      "sha256": "337f11d19be946e37a51e63401dff20c6e8d0aca735d4160b4ac63d39a0ac893"
+    },
+    {
+      "bytes": 2819,
+      "evidence_class": "Historical development / screening",
+      "path": "reports/experiments/recent_joint_2018_screen_v1.json",
+      "recorded_status": "COMPLETE_24H_OPERATIONAL_PROXY_SCREENING_NOT_CONFIRMATORY",
+      "sha256": "de2311a185f2b708e8b119b0ce23108db48af4bd030a289b0439cfe9e03bbe4e"
+    },
+    {
+      "bytes": 1459,
+      "evidence_class": "Historical limitation record",
+      "path": "reports/experiments/SCHEDULE_CONTEXT_LIMITATION_NOTE.md",
+      "recorded_status": "NARRATIVE_RECORD",
+      "sha256": "4891d118d70b9941c61d1046d2a95c8f7445523cfdd5a2bd40f688ad038a88eb"
+    }
+  ],
+  "interpretation": "Indexing does not validate a model, certify availability, or promote a recorded historical PASS to current scientific acceptance.",
+  "schema_version": 1,
+  "scope": "Every direct JSON/Markdown file in reports/experiments; console logs and external run payloads are retained separately."
+}

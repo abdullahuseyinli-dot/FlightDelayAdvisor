@@ -175,6 +175,7 @@ include = [
   "/data/external/cutoff_taf_pilot_v1",
   "/docs",
   "/manifests",
+  "/paper",
   "/pyproject.toml",
   "/pytest.ini",
   "/reports/experiments",

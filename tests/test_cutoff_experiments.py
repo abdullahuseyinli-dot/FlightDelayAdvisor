@@ -88,6 +88,63 @@ def test_future_feature_and_invalid_joint_observation_rejected() -> None:
         validate_dataset(frame, FEATURES)
 
 
+@pytest.mark.parametrize("label", [0, 1])
+def test_observed_arrival_cannot_be_silently_removed_by_both_endpoint_masks(label: int) -> None:
+    frame = synthetic_dataset()
+    frame.loc[72, ["ArrDel15", "disruption_state"]] = label
+    frame.loc[72, ["delay_label_observed", "joint_label_observed"]] = 0
+    with pytest.raises(ValueError, match="delay-observation flag"):
+        validate_dataset(frame, FEATURES)
+
+
+def test_missing_arrival_remains_unobserved_without_removing_the_flight() -> None:
+    frame = synthetic_dataset()
+    frame.loc[72, "ArrDel15"] = np.nan
+    frame.loc[72, "delay_label_available_at_utc"] = pd.NaT
+    frame.loc[72, ["delay_label_observed", "joint_label_observed"]] = 0
+    frame.loc[72, "disruption_state"] = -1
+    result = validate_dataset(frame, FEATURES)
+    pd.testing.assert_frame_equal(result, frame)
+
+
+def test_missing_arrival_cannot_be_marked_observed() -> None:
+    frame = synthetic_dataset()
+    frame.loc[72, "ArrDel15"] = np.nan
+    with pytest.raises(ValueError, match="delay-observation flag"):
+        validate_dataset(frame, FEATURES)
+
+
+def test_cancelled_flight_cannot_retain_an_arrival_label_behind_an_unobserved_mask() -> None:
+    frame = synthetic_dataset()
+    frame.loc[74, "ArrDel15"] = 0
+    with pytest.raises(ValueError, match="conditional-delay labels must remain missing"):
+        validate_dataset(frame, FEATURES)
+
+
+@pytest.mark.parametrize("diverted", [1, None])
+def test_represented_diversion_status_cannot_authorize_an_arrival_label(diverted: int | None) -> None:
+    frame = synthetic_dataset()
+    frame["Diverted"] = pd.Series(0, index=frame.index, dtype="Int8")
+    frame.loc[72, "Diverted"] = diverted
+    with pytest.raises(ValueError, match="conditional-delay labels must remain missing"):
+        validate_dataset(frame, FEATURES)
+
+
+def test_represented_diversion_keeps_schedule_and_cancellation_endpoint() -> None:
+    frame = synthetic_dataset()
+    frame["Diverted"] = pd.Series(0, index=frame.index, dtype="Int8")
+    frame.loc[72, "Diverted"] = 1
+    frame.loc[72, "ArrDel15"] = np.nan
+    frame.loc[72, "delay_label_available_at_utc"] = pd.NaT
+    frame.loc[72, ["delay_label_observed", "joint_label_observed"]] = 0
+    frame.loc[72, "disruption_state"] = -1
+    # Missing diversion status does not suppress an observed cancellation.
+    frame.loc[74, "Diverted"] = pd.NA
+    result = validate_dataset(frame, FEATURES)
+    pd.testing.assert_frame_equal(result, frame)
+    assert result.loc[74, "joint_label_observed"] == 1
+
+
 def test_training_labels_must_be_available_before_stopping_predictions() -> None:
     frame = validate_dataset(synthetic_dataset(), FEATURES)
     train, stop, _, fit_at = split_forward(frame, FOLDS[0])

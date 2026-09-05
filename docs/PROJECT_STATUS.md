@@ -1,7 +1,11 @@
 # Project status
 
-Status reviewed: 2026-09-04. Package version remains `0.1.0rc1`; no new release,
+Status reviewed: 2026-09-05. Package version remains `0.1.0rc1`; no new release,
 tag or Zenodo DOI is asserted.
+
+`main` is the current research branch. The former main/application baseline is
+preserved separately; see [versioning and branches](VERSIONING.md). This repository
+organization does not change the scientific withdrawal or the stopped data gate.
 
 ## Current disposition
 
@@ -20,8 +24,18 @@ and distribution archives remain preserved.
 | Issued-weather archive pilot | 16 audited cases, no flight labels | Limited archive feasibility, not model improvement |
 | Source/package checks | Recorded passes | Code and packaging integrity, not scientific acceptance |
 | Corrected full-data model results | Not available | No corrected accuracy or breakthrough claim |
-| Independent confirmation | Unopened | No 2026 outcome-based result |
+| Later source investigation | Stopped at the evidence gate | No corrected fit; four bounded 2024 source requests and preserved findings |
+| Cross-computer preservation | Verified private transfer | 2,471 payload files; does not establish missing availability |
+| Independent confirmation | Dataset not opened; incidental aggregate search exposure recorded | No confirmation evaluation; no zero-exposure claim |
 | External publication | Not performed by this work | Metadata is a draft |
+
+The latest [continuation record](RESEARCH_CONTINUATION_20260905.md) retains the
+stop decision, endpoint/history validation amendments, source-access probe and
+[exposure incident](../manifests/failures/handoff_continuation_20260905_incidental_search_exposure_v1.json).
+All 42 corrected real-data trial slots remain unrun. The model accuracy table has
+not changed. An assumption-based substitute study was not authorized or started.
+See [result lineage](RESULT_LINEAGE.md) for the complete sequence, and the
+[roadmap](RESEARCH_ROADMAP.md) for conditional future work.
 
 ## What the audit changed
 
@@ -37,6 +51,26 @@ and distribution archives remain preserved.
    an isolated estimate of the value of small-airport data.
 
 ## Verification versus research
+
+The 2026-09-05 repository alignment preserves the existing source/evidence layout
+and adds result lineage, a complete 26-record experiment index, architecture and
+acquisition guides, a conditional roadmap and manuscript claim mapping. The
+[source checks](../reports/validation/repository_alignment_source_checks_v1.json)
+record 320 passed tests, one skipped legacy app module, two deselected fixed-output
+tests, and three non-failing LightGBM deprecation warnings. Compilation, full
+source/test/tool lint, strict research typing, lock consistency, repository evidence,
+documentation and the experiment inventory passed.
+
+The [fresh-wheel check](../reports/validation/repository_alignment_clean_wheel_v1.json)
+installed the package in a new environment and passed isolated imports and
+historical-model inference on 128 inputs. The
+[archive check](../reports/validation/repository_alignment_bundle_v1.json) verified
+the current reader-facing files, manuscript crosswalk, inventory, bounded source
+probe and all 66 TAF-pilot files. These are software/preservation checks, not new
+model scores, corrected training or a publication decision. Later validation
+artifacts remain separately versioned in [validation records](../reports/validation).
+
+The following records describe earlier revisions and are retained for lineage.
 
 The presentation review's
 [source check](../reports/validation/repository_presentation_source_checks_v1.json)
@@ -75,8 +109,8 @@ could have known an outcome or which revision was available.
 
 Before new performance claims:
 
-1. Obtain reviewed availability evidence, or define a separate, explicitly labelled
-   event-time/latency-assumption study. Do not manufacture receipt timestamps.
+1. Obtain reviewed availability evidence, or obtain an explicit scope decision for
+   a separate event-time/latency-assumption study. Do not manufacture receipt timestamps.
 2. Pilot corrected feature construction at scale; record runtime and memory.
 3. Refit matched baselines and context ablations with equal estimator settings.
 4. Run sample-size, model-family, finalist-repeat and forward-stack comparisons.

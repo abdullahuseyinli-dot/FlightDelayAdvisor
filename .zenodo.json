@@ -30,5 +30,5 @@
       "scheme": "url"
     }
   ],
-  "notes": "Do not publish this release candidate. The v3 withdrawal and required follow-up are recorded in manifests/failures/flare24_release_candidate_v3_withdrawn_cutoff_audit.json and docs/CUTOFF_RESEARCH_PLAN.md. 2025 is development-informed retrospective evidence, not blind confirmation. The historical +0.05 and +0.10 accuracy gates failed. 2026 outcomes remain unopened. No external Zenodo deposit or DOI is claimed."
+  "notes": "Do not publish this release candidate. The v3 withdrawal and required follow-up are recorded in manifests/failures/flare24_release_candidate_v3_withdrawn_cutoff_audit.json and docs/CUTOFF_RESEARCH_PLAN.md. 2025 is development-informed retrospective evidence, not blind confirmation. The historical +0.05 and +0.10 accuracy gates failed. The 2026 confirmation dataset was not opened, but incidental aggregate search exposure was recorded in docs/RESEARCH_CONTINUATION_20260905.md; no zero-exposure claim is made. Corrected real-data training stopped at the evidence gate. No external Zenodo deposit or DOI is claimed."
 }

@@ -10,9 +10,12 @@ passes and package archives remain historical records, not current approval.
 - [x] Record the v3 withdrawal with a hash-bound reference to the old ledger.
 - [x] Separate historical proxy results, software checks and uncompleted experiments.
 - [x] Disclose the timing defect, boundary-study confounding and failed +5/+10-point gates.
-- [x] Keep 2025 development-informed and 2026 outcomes unopened.
+- [x] Keep 2025 development-informed; distinguish the unopened 2026 confirmation
+  dataset from the later recorded aggregate search exposure.
 - [x] Include benchmark/data/model cards, limitations, usage, artifact inventory,
   current results, source notices and citation metadata.
+- [x] Index the complete experiment history, stopped continuation and private
+  transfer; provide architecture, acquisition and conditional improvement guides.
 - [ ] Review a new final source/evidence inventory after all changes are complete.
 - [ ] Review the exact redistribution rights and contributor attribution for the
   proposed archive payload.

@@ -84,6 +84,20 @@ def validate_history_inputs(
         raise ValueError("observed values must be binary, without imputed missing labels")
     if e.duplicated(["sample_id", "outcome"]).any():
         raise ValueError("duplicate observation or unresolved label revision")
+    identities = e[["sample_id", "FlightDate", *_KEYS]].drop_duplicates()
+    if identities["sample_id"].duplicated().any():
+        raise ValueError("observation sample ID has conflicting operating dates or group keys")
+    delay_observed = e["outcome"].eq("delay")
+    cancelled_ids = e.loc[e["outcome"].eq("cancel") & e["value"].eq(1), "sample_id"]
+    if e.loc[delay_observed, "sample_id"].isin(cancelled_ids).any():
+        raise ValueError("cancelled flights cannot contribute conditional-delay observations")
+    if "Diverted" in e:
+        if not e["Diverted"].dropna().isin([0, 1]).all():
+            raise ValueError("represented diversion status must be binary when known")
+        if e.groupby("sample_id", sort=False)["Diverted"].nunique().gt(1).any():
+            raise ValueError("observation sample ID has conflicting diversion status")
+        if (delay_observed & ~e["Diverted"].eq(0).fillna(False)).any():
+            raise ValueError("conditional-delay observations require known nondiverted status when represented")
     if (e["source_published_at_utc"] < e["event_time_utc"]).any() or (
         e["available_at_utc"] < e["source_published_at_utc"]
     ).any():
@@ -97,6 +111,11 @@ def validate_history_inputs(
         )
         if not matched["FlightDate_target"].eq(matched["FlightDate_event"]).all():
             raise ValueError("target/observation sample ID has conflicting operating dates")
+        metadata = t[["sample_id", *_KEYS]].merge(
+            identities[["sample_id", *_KEYS]], on="sample_id", suffixes=("_target", "_event")
+        )
+        if any(not metadata[f"{key}_target"].eq(metadata[f"{key}_event"]).all() for key in _KEYS):
+            raise ValueError("target/observation sample ID has conflicting group keys")
     return t, e
 
 
